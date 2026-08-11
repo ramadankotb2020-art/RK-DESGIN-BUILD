@@ -680,7 +680,10 @@ const PROJECTS_FALLBACK = [
     "cover": "images/projects-by-name/interior/حمام عصري/01-cover.png",
     "before": null,
     "gallery": [
+      "images/projects-by-name/interior/حمام عصري/06-photo.png",
+      "images/projects-by-name/interior/حمام عصري/1.mp4",
       "images/projects-by-name/interior/حمام عصري/2.png",
+      "images/projects-by-name/interior/حمام عصري/20-photo.png",
       "images/projects-by-name/interior/حمام عصري/3.png"
     ],
     "excerpt": "تصميم حمام بخامات عصرية سهلة التنظيف، مع إضاءة هادئة تمنح المساحة إحساسًا فندقيًا مريحًا.",
@@ -723,9 +726,11 @@ const PROJECTS_FALLBACK = [
     "location": "",
     "area": null,
     "year": "2026",
-    "cover": "images/projects-by-name/interior/حمام ماستر الدقى/1.png",
+    "cover": "images/projects-by-name/interior/حمام ماستر الدقى/01-cover.png",
     "before": null,
     "gallery": [
+      "images/projects-by-name/interior/حمام ماستر الدقى/01-cover.mp4",
+      "images/projects-by-name/interior/حمام ماستر الدقى/1.png",
       "images/projects-by-name/interior/حمام ماستر الدقى/حمام ماستر عين الدقى (1).png",
       "images/projects-by-name/interior/حمام ماستر الدقى/حمام ماستر عين الدقى (2).png",
       "images/projects-by-name/interior/حمام ماستر الدقى/حمام ماستر عين الدقى (4).png"
@@ -738,28 +743,6 @@ const PROJECTS_FALLBACK = [
       "حمامات"
     ],
     "featured": false
-  },
-  {
-    "id": "حمام-محجوب-d8add985",
-    "discipline": "interior",
-    "category": "حمامات",
-    "title": "حمام محجوب",
-    "featured": false,
-    "year": "2024",
-    "cover": "images/projects-by-name/interior/حمام محجوب/01-cover.png",
-    "gallery": [
-      "images/projects-by-name/interior/حمام محجوب/1.mp4",
-      "images/projects-by-name/interior/حمام محجوب/2.png",
-      "images/projects-by-name/interior/حمام محجوب/3.png",
-      "images/projects-by-name/interior/حمام محجوب/06-photo.png",
-      "images/projects-by-name/interior/حمام محجوب/20-photo.png"
-    ],
-    "excerpt": "تصميم حمام بخامات عصرية سهلة التنظيف، مع إضاءة هادئة تمنح المساحة إحساسًا فندقيًا مريحًا.",
-    "description": "تصميم حمام بخامات عصرية سهلة التنظيف، مع إضاءة هادئة تمنح المساحة إحساسًا فندقيًا مريحًا.",
-    "idea": "",
-    "tags": [
-      "حمامات"
-    ]
   },
   {
     "id": "شقة-الشروق-d8b1d98a",
@@ -950,11 +933,11 @@ const PROJECTS_FALLBACK = [
     "cover": "images/projects-by-name/interior/شقة معاصرة — جسر السويس/01-cover.png",
     "before": null,
     "gallery": [
-      "images/projects-by-name/interior/شقة معاصرة — جسر السويس/1.mp4",
       "images/projects-by-name/interior/شقة معاصرة — جسر السويس/1 (1).png",
       "images/projects-by-name/interior/شقة معاصرة — جسر السويس/1 (4).png",
       "images/projects-by-name/interior/شقة معاصرة — جسر السويس/1 (5).png",
-      "images/projects-by-name/interior/شقة معاصرة — جسر السويس/1 (6).png"
+      "images/projects-by-name/interior/شقة معاصرة — جسر السويس/1 (6).png",
+      "images/projects-by-name/interior/شقة معاصرة — جسر السويس/1.mp4"
     ],
     "excerpt": "في هذا المشروع بمساحة 120 مترًا، صُمم ركن الميديا حول وحدة خشبية دافئة مؤطرة بإضاءة خطية مخفية، وقابلها حائط معرض للوحات",
     "description": "في هذا المشروع بمساحة 120 مترًا، صُمم ركن الميديا حول وحدة خشبية دافئة مؤطرة بإضاءة خطية مخفية، وقابلها حائط معرض للوحات فنية بالأبيض والأسود يمنح الصالة طابعًا معاصرًا يشبه صالات العرض.",
@@ -1045,6 +1028,7 @@ const PROJECTS_FALLBACK = [
     "cover": "images/projects-by-name/interior/غرفة أطفال - العاشر من رمضان/01-cover.png",
     "before": null,
     "gallery": [
+      "images/projects-by-name/interior/غرفة أطفال - العاشر من رمضان/1-photo.png",
       "images/projects-by-name/interior/غرفة أطفال - العاشر من رمضان/1.mp4",
       "images/projects-by-name/interior/غرفة أطفال - العاشر من رمضان/11-photo.png"
     ],
