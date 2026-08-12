@@ -41,8 +41,13 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet"></noscript>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/home.css">
+  <!-- Preload لصورة الهيرو الأولى = LCP فوري -->
+  <link rel="preload" as="image" fetchpriority="high" type="image/webp"
+        href="images/homepage/hero-slide-1-interior.webp">
+
+  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/home.css?v=2">
+  <link rel="stylesheet" href="css/rk-fx.css?v=2">
 </head>
 <body>
   <!-- Fixed parallax backgrounds -->
@@ -156,7 +161,7 @@
 
         <div class="reveal" style="position:relative;">
           <div class="about-img-wrap">
-            <img src="images/homepage/about-portrait.jpg" alt="رمضان قطب — مصمم داخلي وجرافيك" loading="lazy" decoding="async">
+            <img src="images/homepage/about-portrait.webp" alt="رمضان قطب — مصمم داخلي وجرافيك" width="1000" height="1250" loading="lazy" decoding="async">
           </div>
           <div class="about-stat-card">
             <div class="big">+150</div>
@@ -218,42 +223,42 @@
     </div>
     <div class="services-grid reveal">
       <a href="interior-design.html" class="service-card">
-        <img src="images/homepage/service-01-interior-residential.jpg" alt="التصميم الداخلي السكني" loading="lazy" decoding="async">
+        <img src="images/homepage/service-01-interior-residential.webp" alt="التصميم الداخلي السكني" width="1280" height="960" loading="lazy" decoding="async">
         <div class="service-overlay">
           <div class="service-num">01</div>
           <div class="service-title">التصميم الداخلي السكني</div>
         </div>
       </a>
       <a href="interior-design.html" class="service-card">
-        <img src="images/homepage/service-02-interior-commercial.jpg" alt="التصميم الداخلي التجاري" loading="lazy" decoding="async">
+        <img src="images/homepage/service-02-interior-commercial.webp" alt="التصميم الداخلي التجاري" width="1280" height="960" loading="lazy" decoding="async">
         <div class="service-overlay">
           <div class="service-num">02</div>
           <div class="service-title">التصميم الداخلي التجاري</div>
         </div>
       </a>
       <a href="exterior-design.html" class="service-card">
-        <img src="images/homepage/service-03-exterior-landscape.jpg" alt="الواجهات المعمارية واللاندسكيب" loading="lazy" decoding="async">
+        <img src="images/homepage/service-03-exterior-landscape.webp" alt="الواجهات المعمارية واللاندسكيب" width="1280" height="960" loading="lazy" decoding="async">
         <div class="service-overlay">
           <div class="service-num">03</div>
           <div class="service-title">الواجهات المعمارية واللاندسكيب</div>
         </div>
       </a>
       <a href="graphic-design.html" class="service-card">
-        <img src="images/homepage/service-04-graphic-identity.jpg" alt="الهوية البصرية والشعارات" loading="lazy" decoding="async">
+        <img src="images/homepage/service-04-graphic-identity.webp" alt="الهوية البصرية والشعارات" width="1280" height="960" loading="lazy" decoding="async">
         <div class="service-overlay">
           <div class="service-num">04</div>
           <div class="service-title">الهوية البصرية والشعارات</div>
         </div>
       </a>
       <a href="graphic-design.html" class="service-card">
-        <img src="images/homepage/service-05-graphic-print.jpg" alt="المطبوعات والتغليف" loading="lazy" decoding="async">
+        <img src="images/homepage/service-05-graphic-print.webp" alt="المطبوعات والتغليف" width="1280" height="960" loading="lazy" decoding="async">
         <div class="service-overlay">
           <div class="service-num">05</div>
           <div class="service-title">المطبوعات والتغليف</div>
         </div>
       </a>
       <a href="graphic-design.html" class="service-card">
-        <img src="images/homepage/service-06-graphic-social.jpg" alt="حملات السوشيال ميديا" loading="lazy" decoding="async">
+        <img src="images/homepage/service-06-graphic-social.webp" alt="حملات السوشيال ميديا" width="1280" height="960" loading="lazy" decoding="async">
         <div class="service-overlay">
           <div class="service-num">06</div>
           <div class="service-title">حملات السوشيال ميديا</div>
@@ -484,13 +489,14 @@
     </div>
   </footer>
 
-  <script src="js/projects-data.js" defer></script>
-  <script src="js/parallax.js" defer></script>
-  <script src="js/page-bg.js" defer></script>
-  <script src="js/projects.js" defer></script>
-  <script src="js/video-covers.js" defer></script>
-  <script src="js/main.js" defer></script>
-  <script src="js/slides.js" defer></script>
-  <script src="js/home.js" defer></script>
+  <script src="js/projects-data.js?v=2" defer></script>
+  <script src="js/parallax.js?v=2" defer></script>
+  <script src="js/page-bg.js?v=2" defer></script>
+  <script src="js/projects.js?v=2" defer></script>
+  <script src="js/video-covers.js?v=2" defer></script>
+  <script src="js/main.js?v=2" defer></script>
+  <script src="js/slides.js?v=2" defer></script>
+  <script src="js/home.js?v=2" defer></script>
+  <script src="js/rk-fx.js?v=2" defer></script>
 </body>
 </html>

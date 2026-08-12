@@ -1,0 +1,331 @@
+/* ================================================================
+   RK DESIGN STUDIO — FX Layer  (إبهار + حركة — خفيف على الـ GPU)
+   كل الحركة بـ transform / opacity فقط → 60fps من غير تقليل.
+================================================================ */
+
+/* ─── حماية: وقّف كل الحركة للي اختار reduced-motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  .rk-word-i,
+  #page-loader.rk-enhanced::before,
+  #page-loader.rk-enhanced::after,
+  #page-loader.rk-enhanced .loader-inner,
+  .rk-aurora,
+  .rk-sheen,
+  .rk-tilt,
+  .gold,
+  .hero-title em,
+  #rk-grain,
+  .rk-spotlight,
+  .services-grid.is-visible .service-card,
+  .about-grid.is-visible .about-img-wrap,
+  #rk-reel-modal {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+  #rk-grain { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   1) PRELOADER — ستارة سينمائية (curtain wipe)
+   بدل الـ fade البسيط: نصّين الشاشة نصفين بيتحركوا بعيد + المارك بيختفي
+═══════════════════════════════════════════════════════════════ */
+#page-loader.rk-enhanced {
+  background: transparent;
+  transition: none;
+}
+#page-loader.rk-enhanced .loader-inner {
+  position: relative;
+  z-index: 3;
+  transition: opacity .45s var(--ease-out), transform .6s var(--ease-out);
+}
+#page-loader.rk-enhanced.loaded .loader-inner {
+  opacity: 0;
+  transform: scale(1.12);
+}
+#page-loader.rk-enhanced::before,
+#page-loader.rk-enhanced::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 50.6%;
+  background: #0a0a0a;
+  z-index: 2;
+  transition: transform 1s var(--ease-out) .15s;
+  will-change: transform;
+}
+#page-loader.rk-enhanced::before { top: 0; }
+#page-loader.rk-enhanced::after  { bottom: 0; }
+#page-loader.rk-enhanced.loaded::before { transform: translateY(-101%); }
+#page-loader.rk-enhanced.loaded::after  { transform: translateY(101%); }
+/* أبقِ اللودر ظاهرًا أثناء فتح الستارة (القاعدة الأصلية بتخفيه بالـ opacity) */
+#page-loader.rk-enhanced.loaded {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: none;
+}
+/* لمسة ذهبية رفيعة في منتصف الفتح */
+#page-loader.rk-enhanced.loaded {
+  box-shadow: inset 0 0 0 0 transparent;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   2) SPLIT-TEXT HERO — كل كلمة تطلع من قناع (أقوى إفكت wow)
+═══════════════════════════════════════════════════════════════ */
+.hero-title.rk-split, .headline-xl.rk-split { animation: none; opacity: 1; }   /* نلغي fade القديم */
+.rk-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: .04em;     /* مساحة للحروف النازلة */
+}
+.rk-word-i {
+  display: inline-block;
+  transform: translateY(115%);
+  transition: transform .8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform;
+}
+.rk-split-in .rk-word-i { transform: translateY(0); }
+
+/* ═══════════════════════════════════════════════════════════════
+   3) AURORA — طبقة ضوء مخروطية بتدور ببطء (مود/إيموشن)
+═══════════════════════════════════════════════════════════════ */
+.rk-aurora {
+  position: absolute;
+  inset: -25%;
+  z-index: 6;                 /* فوق الـ overlay (z5) وتحت المحتوى (z10) */
+  background: conic-gradient(
+    from 0deg,
+    rgba(197,160,89,0.10),
+    rgba(197,160,89,0) 25%,
+    rgba(212,184,120,0.07) 50%,
+    rgba(197,160,89,0) 75%,
+    rgba(197,160,89,0.10)
+  );
+  filter: blur(70px);
+  opacity: 0.45;
+  mix-blend-mode: screen;     /* لمسة ضوء ذهبية دافية فوق الصور */
+  animation: rkAurora 24s linear infinite;
+  pointer-events: none;
+}
+@keyframes rkAurora { to { transform: rotate(360deg); } }
+
+/* ═══════════════════════════════════════════════════════════════
+   4) CUSTOM CURSOR — حلقة + نقطة ذهبية (desktop فقط)
+═══════════════════════════════════════════════════════════════ */
+@media (hover: hover) and (pointer: fine) {
+  body.rk-has-cursor,
+  body.rk-has-cursor a,
+  body.rk-has-cursor button { cursor: none; }
+
+  .rk-cursor-dot,
+  .rk-cursor-ring {
+    position: fixed;
+    top: 0; left: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 99998;
+    mix-blend-mode: normal;
+    will-change: transform;
+  }
+  .rk-cursor-dot {
+    width: 7px; height: 7px;
+    margin: -3.5px 0 0 -3.5px;
+    background: var(--gold);
+  }
+  .rk-cursor-ring {
+    width: 38px; height: 38px;
+    margin: -19px 0 0 -19px;
+    border: 1px solid rgba(197,160,89,0.55);
+    transition: width .25s var(--ease-out), height .25s var(--ease-out),
+                margin .25s var(--ease-out), border-color .25s, background .25s;
+  }
+  .rk-cursor-ring.rk-active {
+    width: 64px; height: 64px;
+    margin: -32px 0 0 -32px;
+    border-color: var(--gold);
+    background: rgba(197,160,89,0.08);
+  }
+  .rk-cursor-ring.rk-down { transform-origin: center; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   5) IMAGE SHEEN — لمعة ذهبية بتمرّ على الصورة عند الـ hover
+═══════════════════════════════════════════════════════════════ */
+.rk-sheen { position: relative; }
+.rk-sheen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 35%,
+    rgba(197,160,89,0.28) 50%,
+    transparent 65%
+  );
+  transform: translateX(-130%);
+  transition: transform .85s var(--ease-out);
+  pointer-events: none;
+  z-index: 4;
+}
+.rk-sheen:hover::after { transform: translateX(130%); }
+
+/* ═══════════════════════════════════════════════════════════════
+   6) TILT — ميلان 3D خفيف للكروت على حركة الماوس
+═══════════════════════════════════════════════════════════════ */
+.rk-tilt-wrap { perspective: 900px; }
+.rk-tilt {
+  transition: transform .12s var(--ease-out);
+  transform-style: preserve-3d;
+  will-change: transform;
+}
+
+   8) PARALLAX خفيف — عناصر بتتحرك أبطأ من السكرول (عمق سينمائي)
+═══════════════════════════════════════════════════════════════ */
+.rk-parallax { will-change: transform; }
+
+/* ═══════════════════════════════════════════════════════════════
+   9) صور مشاريع مكسورة → بديل أنيق (placeholder)
+═══════════════════════════════════════════════════════════════ */
+.rk-img-fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+  background:
+    radial-gradient(circle at 30% 25%, rgba(197,160,89,0.14), transparent 60%),
+    linear-gradient(135deg, var(--bg-3), var(--bg-4));
+}
+.rk-img-fallback::before {
+  content: 'RK';
+  position: absolute;
+  font-weight: 900;
+  font-size: 56px;
+  color: rgba(197,160,89,0.10);
+  letter-spacing: 3px;
+  font-family: var(--font-body);
+}
+.rk-img-fallback::after {
+  content: attr(data-text);
+  position: relative;
+  z-index: 1;
+  color: var(--ink-2);
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+  max-width: 80%;
+}
+
+/* عند اللمس (موبايل) ألغِ الإفكتات اللي مش بتجيب نتيجة */
+@media (hover: none) {
+  .rk-cursor-dot, .rk-cursor-ring { display: none !important; }
+  .rk-sheen::after { display: none; }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   10) GOLD SHIMMER — لمعان ذهبي متحرك على الكلمات المميّزة
+═══════════════════════════════════════════════════════════════ */
+.gold,
+.hero-title em {
+  background: linear-gradient(100deg, var(--gold-dim) 0%, var(--gold) 30%, #fff3d6 50%, var(--gold) 70%, var(--gold-dim) 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: rkShimmer 5s linear infinite;
+}
+@keyframes rkShimmer { to { background-position: -250% 0; } }
+
+/* ═══════════════════════════════════════════════════════════════
+   11) GRAIN — طبقة حبيبات سينمائية (إحساس فيلم فاخر)
+═══════════════════════════════════════════════════════════════ */
+#rk-grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 9990;
+  width: 200%; height: 200%;
+  pointer-events: none;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: rkGrain .5s steps(3) infinite;
+}
+@keyframes rkGrain {
+  0%   { transform: translate(0,0); }
+  33%  { transform: translate(-6%,4%); }
+  66%  { transform: translate(5%,-5%); }
+  100% { transform: translate(0,0); }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   12) HERO SPOTLIGHT — بقعة ضوء بتتبع الماوس
+═══════════════════════════════════════════════════════════════ */
+.rk-spotlight {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 40%),
+              rgba(197,160,89,0.16), transparent 62%);
+  transition: background-position .15s var(--ease-out);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   13) CLIP-PATH REVEAL — الصور بتكشف من تحت لفوق (سينمائي)
+═══════════════════════════════════════════════════════════════ */
+.services-grid.is-visible .service-card,
+.about-grid.is-visible .about-img-wrap {
+  animation: rkClipUp .9s var(--ease-out) both;
+}
+.services-grid.is-visible .service-card:nth-child(2){ animation-delay:.08s; }
+.services-grid.is-visible .service-card:nth-child(3){ animation-delay:.16s; }
+.services-grid.is-visible .service-card:nth-child(4){ animation-delay:.24s; }
+.services-grid.is-visible .service-card:nth-child(5){ animation-delay:.32s; }
+.services-grid.is-visible .service-card:nth-child(6){ animation-delay:.40s; }
+@keyframes rkClipUp {
+  from { clip-path: inset(100% 0 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+   15) لمسات نهائية — لون التحديد + smooth scroll
+═══════════════════════════════════════════════════════════════ */
+::selection { background: var(--gold); color: #0a0a0a; }
+
+/* ─── كروت المشاريع: صورة افتراضي + فيديو على الـ hover (fade ناعم) ─── */
+.project-card-media .project-img {
+  transition: opacity 0.45s ease, transform 0.65s var(--ease-out), filter 0.4s;
+}
+/* شارة الفيديو على الموبايل = زر تشغيل/إيقاف */
+@media (hover: none) {
+  .project-video-badge {
+    cursor: pointer;
+    padding: 8px 16px !important;
+    font-size: 12px !important;
+    user-select: none;
+  }
+  .project-video-badge.is-playing {
+    background: var(--gold) !important;
+    color: #0a0a0a !important;
+    border-color: var(--gold) !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   فيديو خلفية للبانر (يغطي البانر، fade فوق الصورة)
+═══════════════════════════════════════════════════════════════ */
+.rk-parallax-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 0;
+}

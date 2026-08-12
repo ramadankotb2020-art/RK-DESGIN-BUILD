@@ -92,13 +92,30 @@ function parseInfoTxt(filePath) {
 function buildProjectFromFolder(disciplineKey, folderName, folderPath) {
   const entries = fs.readdirSync(folderPath, { withFileTypes: true });
 
-  /* ─── Collect images sorted ─── */
-  const images = entries
+  /* ─── Collect images sorted — تفضيل WebP + تجاهل الصور الفاضية (0 بايت) ─── */
+  const allImg = entries
     .filter((e) => e.isFile() && IMAGE_EXT.includes(path.extname(e.name).toLowerCase()))
-    .map((e) => e.name)
-    .sort();
+    .map((e) => e.name);
+  const isEmpty = (name) => {
+    try { return fs.statSync(path.join(folderPath, name)).size === 0; }
+    catch { return true; }
+  };
+  const empties = allImg.filter(isEmpty);
+  if (empties.length) console.log("⚠️  \"" + folderName + "\" فيه " + empties.length + " صورة فاضية (0 بايت) — ارفعها تاني على git.");
+  const imgNames = allImg.filter((n) => !isEmpty(n));
+  const byBase = {};
+  for (const name of imgNames) {
+    const base = name.replace(/\.(jpe?g|png|webp|gif)$/i, "");
+    if (!byBase[base] || /\.webp$/i.test(name)) byBase[base] = name; // فضّل webp
+  }
+  const images = Object.values(byBase).sort();
 
-  if (!images.length) return null; // فولدر من غير صور = مش مشروع جاهز، اتجاهله
+  if (!images.length) {
+    /* فولدر فيديو بس = تنبيه واضح (محتاج صورة غلاف) */
+    const vids = entries.filter((e) => e.isFile() && VIDEO_EXT.includes(path.extname(e.name).toLowerCase()));
+    if (vids.length) console.log("⚠️  تخطّيت \"" + folderName + "\" — فيديو بس من غير صورة غلاف. ضيف صورة واحدة على الأقل جوّه الفولدر.");
+    return null;
+  }
 
   /* ─── Collect videos sorted ─── */
   const videos = entries
@@ -127,6 +144,12 @@ function buildProjectFromFolder(disciplineKey, folderName, folderPath) {
   const discipline = DISCIPLINE_FOLDERS[disciplineKey] || disciplineKey;
   const title = info.title || folderName;
 
+  /* ─── الفيديو الأساسي للمشروع (للعرض التلقائي على الكارت) ─── */
+  const primaryVideoName = hasCoverVideo ? "cover.mp4" : (videos[0] || null);
+  const video = primaryVideoName
+    ? "images/projects-by-name/" + disciplineKey + "/" + folderName + "/" + primaryVideoName
+    : null;
+
   return {
     id: slugify(title) + "-" + Buffer.from(folderName).toString("hex").slice(0, 8),
     discipline,
@@ -138,6 +161,7 @@ function buildProjectFromFolder(disciplineKey, folderName, folderPath) {
     cover,
     before: null,
     gallery,
+    video,
     excerpt: info.description ? info.description.slice(0, 120) : `مشروع ${title}`,
     description: info.description || `مشروع ${title}.`,
     idea: info.idea || "",

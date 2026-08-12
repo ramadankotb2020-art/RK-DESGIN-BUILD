@@ -58,12 +58,12 @@
     vid.setAttribute('disablepictureinpicture', '');
     vid.preload    = 'none';
     vid.loop       = false;
-    vid.poster     = s.poster || 'images/homepage/hero-slide-1-interior.jpg';
+    vid.poster     = s.poster || 'images/homepage/hero-slide-1-interior.webp';
 
     /* Poster div as fallback behind video */
     const poster = document.createElement('div');
     poster.className = 'hero-slide-img hero-video-poster';
-    poster.style.backgroundImage = `url('${s.poster || 'images/homepage/hero-slide-1-interior.jpg'}')`;
+    poster.style.backgroundImage = `url('${s.poster || 'images/homepage/hero-slide-1-interior.webp'}')`;
     wrap.appendChild(poster);
 
     const src = document.createElement('source');

@@ -19,7 +19,7 @@ window.HERO_SLIDES = [
   /* ── صورة ١ ── */
   {
     type:     'image',
-    image:    'images/homepage/hero-slide-1-interior.jpg',
+    image:    'images/homepage/hero-slide-1-interior.webp',
     tag:      'التصميم الداخلي والديكور',
     title:    'أحوّل مساحتك إلى <em>تحفة معمارية</em>',
     sub:      'تصميم داخلي سكني وتجاري — رندر 3D ومخططات تنفيذية بأعلى دقة',
@@ -31,7 +31,7 @@ window.HERO_SLIDES = [
   /* ── صورة ٢ ── */
   {
     type:     'image',
-    image:    'images/homepage/hero-slide-2-graphic.jpg',
+    image:    'images/homepage/hero-slide-2-graphic.webp',
     tag:      'الجرافيك والهوية البصرية',
     title:    'هوية تجارية <em>لا تُنسى</em>',
     sub:      'شعارات، هويات بصرية، مطبوعات، تغليف — كل عمل قصة بصرية تعيش مع علامتك',
@@ -43,7 +43,7 @@ window.HERO_SLIDES = [
   /* ── صورة ٣ ── */
   {
     type:     'image',
-    image:    'images/homepage/hero-slide-3-exterior.jpg',
+    image:    'images/homepage/hero-slide-3-exterior.webp',
     tag:      'التصميم الخارجي واللاندسكيب',
     title:    'واجهات <em>مبهرة</em> وحدائق راقية',
     sub:      'تصميم واجهات معمارية وتنسيق حدائق — رندر خارجي احترافي',

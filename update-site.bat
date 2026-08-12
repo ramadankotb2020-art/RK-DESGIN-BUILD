@@ -22,9 +22,22 @@ if %errorlevel% neq 0 (
 )
 
 echo بيحدّث بيانات المشاريع من الفولدرات اللي جوّه images\projects-by-name ...
+echo هحوّل كمان كل صورة جديدة لـ WebP خفيف تلقائيًا ...
 echo.
 
-node scripts\build-projects.js > update-log.txt 2>&1
+echo فحص مكتبات الضغط (sharp + ffmpeg-static) ...
+node -e "require('sharp'); require('ffmpeg-static')" 2>nul
+if %errorlevel% neq 0 (
+    echo المكتبات مش متثبتة — بتثبّتها تلقائيًا مرة واحدة ...
+    call npm install sharp ffmpeg-static
+    echo.
+)
+
+echo [1/2] ضغط الصور والفيديوهات ...
+node scripts\optimize-media.js > update-log.txt 2>&1
+
+echo [2/2] تحديث بيانات المشاريع ...
+node scripts\build-projects.js >> update-log.txt 2>&1
 set BUILD_RESULT=%errorlevel%
 
 type update-log.txt

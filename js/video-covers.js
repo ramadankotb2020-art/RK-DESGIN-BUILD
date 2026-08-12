@@ -1,18 +1,20 @@
 /**
- * RK Design Studio — Video Cover System
- * Lazy-loads, plays/pauses by viewport, respects autoplay policy.
- * Zero layout shift. Identical card dimensions preserved.
+ * RK DESIGN Studio — Video Cover System
+ * 🖥️  ديسكتوب: فيديو على الـ hover (صورة افتراضي).
+ * 📱  موبايل: اضغط شارة "▶ فيديو" لتشغيل/إيقاف الفيديو (أخف داتا).
+ * Lazy: الفيديو ما بيتحمّلش غير لما العميل يتفاعل. فيديو واحد بس في كل مرة.
  */
 (function () {
     'use strict';
 
-    /* ── Detect reduced-motion / save-data preference ── */
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const saveData = navigator.connection && navigator.connection.saveData;
-    const slowNet  = navigator.connection && ['slow-2g','2g'].includes(navigator.connection.effectiveType);
+    const slowNet  = navigator.connection && ['slow-2g','2g','3g'].includes(navigator.connection.effectiveType);
     const skipVideo = prefersReducedMotion || saveData || slowNet;
+    const canHover  = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
-    /* ── Helper: build <video> element ── */
+    let activeMobile = null;   // الفيديو الشغّال على الموبايل (واحد بس)
+
     function buildVideo(mp4, webm, poster, title) {
         const vid = document.createElement('video');
         vid.setAttribute('data-rk-video', '');
@@ -20,140 +22,98 @@
         vid.muted          = true;
         vid.loop           = true;
         vid.playsInline    = true;
-        vid.preload        = 'none';          // never preload until visible
+        vid.preload        = 'none';
         vid.setAttribute('aria-hidden', 'true');
         vid.setAttribute('tabindex', '-1');
         if (poster) vid.poster = poster;
         if (title)  vid.setAttribute('aria-label', title);
-
-        // Prefer WebM, fallback MP4
-        if (webm) {
-            const s = document.createElement('source');
-            s.src  = webm;
-            s.type = 'video/webm';
-            vid.appendChild(s);
-        }
-        if (mp4) {
-            const s = document.createElement('source');
-            s.src  = mp4;
-            s.type = 'video/mp4';
-            vid.appendChild(s);
-        }
-
+        if (webm) { const s = document.createElement('source'); s.src = webm; s.type = 'video/webm'; vid.appendChild(s); }
+        if (mp4)  { const s = document.createElement('source'); s.src = mp4;  s.type = 'video/mp4';  vid.appendChild(s); }
         return vid;
     }
 
-    /* ── IntersectionObserver: play/pause by viewport ── */
-    const playObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            const vid = entry.target;
-            if (entry.isIntersecting) {
-                // Start loading if not yet started
-                if (vid.preload === 'none') {
-                    vid.preload = 'metadata';
-                    vid.load();
-                }
-                const playPromise = vid.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(() => {
-                        // Autoplay blocked — poster stays visible, no error
-                    });
-                }
-            } else {
-                if (!vid.paused) vid.pause();
-            }
-        });
-    }, {
-        threshold: 0.15,         // start playing when 15% visible
-        rootMargin: '100px 0px'  // start loading slightly before entering viewport
-    });
-
-    /* ── Attach video to a card's media wrapper ── */
     function attachVideo(mediaEl, project) {
-        const mp4    = project.video_mp4  || project.video || null;
+        const mp4    = project.video_mp4 || project.video || null;
         const webm   = project.video_webm || null;
-        const poster = project.cover      || null;
+        const poster = project.cover || null;
+        if (!mp4 && !webm) return;
 
-        if (!mp4 && !webm) return;  // no video defined
-
-        // Build video element
-        const vid = buildVideo(mp4, webm, poster, project.title);
-
-        // Show video once it can play
-        vid.addEventListener('canplay', () => {
-            vid.classList.add('rk-video-ready');
-        }, { once: true });
-
-        // Fallback: if video errors, keep poster image visible
-        vid.addEventListener('error', () => {
-            vid.remove();
-        });
-
-        // Insert video BEFORE the existing img (same layer)
-        // Image stays as fallback underneath
-        const existingImg = mediaEl.querySelector('.project-img');
-        if (existingImg) {
-            mediaEl.insertBefore(vid, existingImg);
-            // Hide img once video is playing to save memory
-            vid.addEventListener('playing', () => {
-                if (existingImg) existingImg.style.opacity = '0';
-            }, { once: true });
-        } else {
-            mediaEl.prepend(vid);
-        }
-
-        // Add ▶ badge
+        /* شارة "▶ فيديو" */
         const badge = document.createElement('span');
         badge.className = 'project-video-badge';
         badge.setAttribute('aria-hidden', 'true');
         badge.textContent = '▶ فيديو';
         mediaEl.appendChild(badge);
 
-        // Register with observer
-        playObserver.observe(vid);
+        if (skipVideo) return;            /* reduced-motion / save-data / نت بطيء → صورة + شارة بس */
+
+        const vid = buildVideo(mp4, webm, poster, project.title);
+        vid.style.opacity = '0';
+        vid.style.transition = 'opacity 0.45s ease';
+        const img = mediaEl.querySelector('.project-img');
+        if (img) mediaEl.insertBefore(vid, img);
+        else mediaEl.prepend(vid);
+        vid.addEventListener('error', () => { vid.remove(); });
+
+        const card = mediaEl.closest('.project-card') || mediaEl;
+        let started = false;
+
+        function showVideo() { vid.style.opacity = '1'; if (img) img.style.opacity = '0'; }
+        function hideVideo() { vid.style.opacity = '0'; if (img) img.style.opacity = ''; }
+
+        function play() {
+            if (!started) { started = true; vid.preload = 'metadata'; vid.load(); }
+            const p = vid.play();
+            if (p && p.then) p.then(showVideo).catch(() => {});
+            else showVideo();
+        }
+        function pause() { vid.pause(); vid.currentTime = 0; hideVideo(); }
+
+        if (canHover) {
+            /* 🖥️ ديسكتوب: hover */
+            card.addEventListener('mouseenter', play);
+            card.addEventListener('mouseleave', pause);
+            card.addEventListener('focusin', play);
+            card.addEventListener('focusout', pause);
+        } else {
+            /* 📱 موبايل: اضغط الشارة لتشغيل/إيقاف */
+            badge.style.cursor = 'pointer';
+            let on = false;
+            function toggle(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (activeMobile && activeMobile !== stop) { activeMobile(); }   /* وقّف أي فيديو تاني شغّال */
+                if (!on) { on = true; play(); badge.textContent = '❚❚ إيقاف'; badge.classList.add('is-playing'); activeMobile = stop; }
+                else { stop(); }
+            }
+            function stop() { on = false; pause(); badge.textContent = '▶ فيديو'; badge.classList.remove('is-playing'); if (activeMobile === stop) activeMobile = null; }
+            badge.addEventListener('click', toggle);
+            /* وقّف الفيديو لو العميل سكرل بعيد */
+            new IntersectionObserver((es) => { es.forEach(en => { if (!en.isIntersecting && on) stop(); }); }, { threshold: 0.1 })
+                .observe(card);
+        }
     }
 
-    /* ── Main: scan all rendered cards ── */
     function initVideoCovers() {
-        if (skipVideo) return;  // respect user/device preferences
-
-        // Find all project cards in the DOM
+        if (typeof projectsData === 'undefined') return;
         document.querySelectorAll('.project-card').forEach(card => {
             const mediaEl = card.querySelector('.project-card-media');
-            if (!mediaEl) return;
-
-            // Get project id from the card's href
+            if (!mediaEl || mediaEl.dataset.rkVideoAttached) return;
             const href = card.getAttribute('href') || '';
             const idMatch = href.match(/[?&]id=([^&]+)/);
             if (!idMatch) return;
-            const pid = decodeURIComponent(idMatch[1]);
-
-            // Look up in projectsData
-            if (typeof projectsData === 'undefined') return;
-            const project = projectsData.find(p => String(p.id) === pid);
+            const project = projectsData.find(p => String(p.id) === decodeURIComponent(idMatch[1]));
             if (!project) return;
-
-            // Only attach if video field exists
             if (project.video || project.video_mp4 || project.video_webm) {
+                mediaEl.dataset.rkVideoAttached = '1';
                 attachVideo(mediaEl, project);
             }
         });
     }
 
-    /* ── Run after projects are rendered ── */
-    // projects.js renders cards synchronously on DOMContentLoaded
-    // so we wait for it then scan
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initVideoCovers);
-    } else {
-        // DOM already ready (deferred scripts)
-        initVideoCovers();
-    }
-
-    // Re-run if projects are dynamically re-rendered (filter clicks etc.)
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initVideoCovers);
+    else initVideoCovers();
     document.addEventListener('rk:projects-rendered', initVideoCovers);
-
-    /* ── Expose for manual trigger ── */
     window.rkInitVideoCovers = initVideoCovers;
 
 })();

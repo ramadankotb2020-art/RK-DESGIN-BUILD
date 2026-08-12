@@ -37,19 +37,10 @@ function renderProjects(filter, containerAttr) {
   }
 
   container.innerHTML = filtered.map((p, i) => {
-    /* ─── Cover: video if cover.mp4 exists beside cover image ─── */
-    const dir        = p.cover ? p.cover.substring(0, p.cover.lastIndexOf('/') + 1) : '';
-    const coverVideo = dir + 'cover.mp4';
-
-    const mediaHTML = p.cover ? `
-      <video
-        src="${coverVideo}"
-        class="project-img"
-        autoplay muted loop playsinline
-        poster="${p.cover}"
-        style="width:100%;height:100%;object-fit:cover;display:block;"
-        onerror="this.style.display='none';this.insertAdjacentHTML('afterend','<img src=\"${p.cover}\" class=\"project-img\" alt=\"${p.title}\" loading=\"lazy\" decoding=\"async\">')">
-      </video>` : '';
+    /* ─── صورة الغلاف مباشرة (موثوقة) — الصور المكسورة بيتحط ليها بديل أنيق تلقائيًا ─── */
+    const mediaHTML = p.cover
+      ? `<img src="${p.cover}" class="project-img" alt="${p.title}" loading="lazy" decoding="async">`
+      : '';
 
     return `
     <a href="project.html?id=${encodeURIComponent(p.id)}"
