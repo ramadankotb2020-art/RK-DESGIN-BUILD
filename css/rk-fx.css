@@ -58,10 +58,13 @@
 #page-loader.rk-enhanced::after  { bottom: 0; }
 #page-loader.rk-enhanced.loaded::before { transform: translateY(-101%); }
 #page-loader.rk-enhanced.loaded::after  { transform: translateY(101%); }
-/* أبقِ اللودر ظاهرًا أثناء فتح الستارة (القاعدة الأصلية بتخفيه بالـ opacity) */
+/* أبقِ اللودر ظاهرًا أثناء فتح الستارة بس بطفي بعد كده (fallback لو transform ماشتغلش) */
+#page-loader.rk-enhanced {
+  transition: opacity 0.4s ease 0.9s, visibility 0s 1.3s;
+}
 #page-loader.rk-enhanced.loaded {
-  opacity: 1;
-  visibility: visible;
+  opacity: 0;
+  visibility: hidden;
   pointer-events: none;
 }
 /* لمسة ذهبية رفيعة في منتصف الفتح */
@@ -304,15 +307,50 @@
 @media (hover: none) {
   .project-video-badge {
     cursor: pointer;
-    padding: 8px 16px !important;
-    font-size: 12px !important;
+    padding: 10px 20px !important;
+    font-size: 13px !important;
     user-select: none;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
   }
   .project-video-badge.is-playing {
     background: var(--gold) !important;
     color: #0a0a0a !important;
     border-color: var(--gold) !important;
   }
+}
+
+/* ═══ تحسينات الموبايل — محاذاة + أحجام لمس + مسافات ═══ */
+@media (max-width: 768px) {
+  .hero { min-height: 520px !important; height: 100svh !important; }
+  .hero-tag { font-size: 10px !important; padding: 6px 14px !important; margin-bottom: 16px !important; }
+  .hero-sub { font-size: 14px !important; margin-bottom: 24px !important; }
+  .btn { min-height: 44px !important; }
+  .btn-lg { min-height: 52px !important; padding: 14px 28px !important; }
+  .hero-btns .btn { width: 100%; max-width: 320px; }
+  .section { padding: 64px 0 !important; }
+  .section-sm { padding: 40px 0 !important; }
+  .section-label { margin-bottom: 40px !important; }
+  .site-header { padding: 12px 0 !important; }
+  .nav-actions .btn { display: none !important; }
+  .pillar { padding: 28px 22px !important; }
+  .feature { padding: 24px 20px !important; }
+  .headline-lg { font-size: clamp(26px,7vw,36px) !important; }
+  .headline-md { font-size: clamp(22px,6vw,28px) !important; }
+  .stat-cell { padding: 20px 12px !important; }
+  .stat-cell .num { font-size: 32px !important; }
+  .cta-banner { padding: 36px 20px !important; }
+  .planner-callout { padding: 28px 18px !important; }
+}
+@media (max-width: 400px) {
+  .hero-title { font-size: clamp(28px,9vw,36px) !important; }
+  .hero-sub { font-size: 13px !important; }
+  .section { padding: 48px 0 !important; }
+  .pillar { padding: 22px 18px !important; }
+}
+@media (hover: none) {
+  .pillar:hover,.feature:hover,.step:hover,.service-card:hover { transform: none !important; box-shadow: none !important; }
 }
 
 /* ═══════════════════════════════════════════════════════════════

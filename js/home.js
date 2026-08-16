@@ -24,8 +24,8 @@
   const RAW    = window.HERO_SLIDES || [];
   const SLIDES = RAW.filter(s => {
     if (s.type === 'image') return true;
-    if (reducedMotion || saveData) return false;
-    return true; /* فيديو يشتغل على الموبايل برضو */
+    if (reducedMotion) return false;  // بس reduced-motion — الفيديو يشتغل على الموبايل و Data Saver
+    return true;
   });
   if (!SLIDES.length) return;
 

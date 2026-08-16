@@ -21,7 +21,10 @@
        1) PRELOADER — فعّل ستارة الـ curtain
        ───────────────────────────────────────── */
     var loader = document.getElementById('page-loader');
-    if (loader) loader.classList.add('rk-enhanced');
+    if (loader) {
+      loader.classList.add('rk-enhanced');
+      setTimeout(function () { if (loader) { loader.style.opacity = '0'; loader.style.visibility = 'hidden'; } }, 2000);
+    }
 
     /* ─────────────────────────────────────────
        1.5) صور المشاريع المكسورة → بديل أنيق
@@ -71,8 +74,11 @@
 
     function revealEl(el) {
       el.classList.remove('rk-split-in');
-      void el.offsetWidth;                // إعادة flow عشان الـ transition يشتغل
+      void el.offsetWidth;
       el.classList.add('rk-split-in');
+      el.querySelectorAll('.rk-word-i').forEach(function (w) {
+        setTimeout(function () { w.style.transform = 'translateY(0)'; }, 1000);
+      });
     }
 
     var splitTargets = Array.prototype.slice.call(

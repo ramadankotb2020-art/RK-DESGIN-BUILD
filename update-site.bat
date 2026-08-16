@@ -33,10 +33,13 @@ if %errorlevel% neq 0 (
     echo.
 )
 
-echo [1/2] ضغط الصور والفيديوهات ...
-node scripts\optimize-media.js > update-log.txt 2>&1
+echo [1/3] توليد فيديوهات للمشاريع اللي ملهاش فيديو (من صورها) ...
+node scripts\generate-videos.js > update-log.txt 2>&1
 
-echo [2/2] تحديث بيانات المشاريع ...
+echo [2/3] ضغط الصور والفيديوهات ...
+node scripts\optimize-media.js >> update-log.txt 2>&1
+
+echo [3/3] تحديث بيانات المشاريع ...
 node scripts\build-projects.js >> update-log.txt 2>&1
 set BUILD_RESULT=%errorlevel%
 

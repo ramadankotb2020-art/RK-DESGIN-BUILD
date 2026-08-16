@@ -10,7 +10,7 @@
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const saveData = navigator.connection && navigator.connection.saveData;
     const slowNet  = navigator.connection && ['slow-2g','2g','3g'].includes(navigator.connection.effectiveType);
-    const skipVideo = prefersReducedMotion || saveData || slowNet;
+    const skipVideo = prefersReducedMotion;  // بس لـ reduced-motion (مش لـ 3G ولا saveData)
     const canHover  = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
     let activeMobile = null;   // الفيديو الشغّال على الموبايل (واحد بس)
