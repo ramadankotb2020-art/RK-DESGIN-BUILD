@@ -717,6 +717,35 @@ const PROJECTS_FALLBACK = [
     "featured": false
   },
   {
+    "id": "بنزية-توتال-سمنود-d8a8d986",
+    "discipline": "interior",
+    "category": "",
+    "title": "بنزية توتال سمنود",
+    "location": "",
+    "area": null,
+    "year": "",
+    "cover": "images/projects-by-name/interior/بنزية توتال سمنود/بنزية توتال سمنود (1).webp",
+    "before": null,
+    "gallery": [
+      "images/projects-by-name/interior/بنزية توتال سمنود/cover.mp4",
+      "images/projects-by-name/interior/بنزية توتال سمنود/بنزية توتال سمنود (2).webp",
+      "images/projects-by-name/interior/بنزية توتال سمنود/بنزية توتال سمنود (3).webp",
+      "images/projects-by-name/interior/بنزية توتال سمنود/بنزية توتال سمنود (4).webp",
+      "images/projects-by-name/interior/بنزية توتال سمنود/بنزية توتال سمنود (5).webp",
+      "images/projects-by-name/interior/بنزية توتال سمنود/بنزية توتال سمنود (6).webp",
+      "images/projects-by-name/interior/بنزية توتال سمنود/بنزية توتال سمنود (7).webp",
+      "images/projects-by-name/interior/بنزية توتال سمنود/بنزية توتال سمنود (8).webp",
+      "images/projects-by-name/interior/بنزية توتال سمنود/بنزية توتال سمنود (9).webp"
+    ],
+    "video": "images/projects-by-name/interior/بنزية توتال سمنود/cover.mp4",
+    "excerpt": "مشروع بنزية توتال سمنود",
+    "description": "مشروع بنزية توتال سمنود.",
+    "idea": "",
+    "materials": [],
+    "tags": [],
+    "featured": false
+  },
+  {
     "id": "حمام-عصري-d8add985",
     "discipline": "interior",
     "category": "حمامات",
