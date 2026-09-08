@@ -32,11 +32,11 @@ const PROJECTS_FALLBACK = [
   {
     "id": "alwaad-upvc-هوية-تجارية-414c5741",
     "discipline": "graphic",
-    "category": "",
+    "category": "هوية بصرية",
     "title": "ALWAAD UPVC — هوية تجارية",
-    "location": "",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2025",
     "cover": "images/projects-by-name/graphic/ALWAAD UPVC — هوية تجارية/01-cover.webp",
     "before": null,
     "gallery": [
@@ -49,21 +49,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/ALWAAD UPVC — هوية تجارية/7.webp"
     ],
     "video": "images/projects-by-name/graphic/ALWAAD UPVC — هوية تجارية/cover.mp4",
-    "excerpt": "مشروع ALWAAD UPVC — هوية تجارية",
-    "description": "مشروع ALWAAD UPVC — هوية تجارية.",
+    "excerpt": "تصميم هوية بصرية وشعار لشركة متخصصة في تصنيع نوافذ وأبواب الـ UPVC، بأسلوب يعكس الدقة الصناعية والثقة.",
+    "description": "تصميم هوية بصرية وشعار لشركة متخصصة في تصنيع نوافذ وأبواب الـ UPVC، بأسلوب يعكس الدقة الصناعية والثقة.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "هوية بصرية"
+    ],
     "featured": false
   },
   {
     "id": "aurion-x-born-from-imagination-41555249",
     "discipline": "graphic",
-    "category": "",
+    "category": "هوية بصرية",
     "title": "AURION X — Born from Imagination",
-    "location": "",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2026",
     "cover": "images/projects-by-name/graphic/AURION X — Born from Imagination/01-cover.webp",
     "before": null,
     "gallery": [
@@ -77,21 +79,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/AURION X — Born from Imagination/02.webp"
     ],
     "video": "images/projects-by-name/graphic/AURION X — Born from Imagination/cover.mp4",
-    "excerpt": "مشروع AURION X — Born from Imagination",
-    "description": "مشروع AURION X — Born from Imagination.",
+    "excerpt": "مشروع هوية بصرية بروح مستقبلية جريئة، يقدّم نظام ألوان وأشكال يعكس فكرة الابتكار والخيال بلا حدود.",
+    "description": "مشروع هوية بصرية بروح مستقبلية جريئة، يقدّم نظام ألوان وأشكال يعكس فكرة الابتكار والخيال بلا حدود.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "هوية بصرية"
+    ],
     "featured": false
   },
   {
-    "id": "catalytic-ckean-air-هوية-تجارية-43415441",
+    "id": "car-spare-parts-تصميم-إعلاني-43415441",
     "discipline": "graphic",
-    "category": "",
-    "title": "CATALYTIC CKEAN AIR  - هوية تجارية",
-    "location": "",
+    "category": "إعلانات",
+    "title": "Car Spare Parts — تصميم إعلاني",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2023",
     "cover": "images/projects-by-name/graphic/CATALYTIC CKEAN AIR  - هوية تجارية/01-cover.webp",
     "before": null,
     "gallery": [
@@ -104,11 +108,13 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/CATALYTIC CKEAN AIR  - هوية تجارية/PHOTO- (5).webp"
     ],
     "video": "images/projects-by-name/graphic/CATALYTIC CKEAN AIR  - هوية تجارية/cover.mp4",
-    "excerpt": "مشروع CATALYTIC CKEAN AIR  - هوية تجارية",
-    "description": "مشروع CATALYTIC CKEAN AIR  - هوية تجارية.",
+    "excerpt": "مجموعة تصميمات إعلانية لمتجر قطع غيار سيارات، ركّزت على وضوح المعلومة وسهولة قراءة العرض من أول نظرة.",
+    "description": "مجموعة تصميمات إعلانية لمتجر قطع غيار سيارات، ركّزت على وضوح المعلومة وسهولة قراءة العرض من أول نظرة.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "إعلانات"
+    ],
     "featured": false
   },
   {
@@ -140,13 +146,41 @@ const PROJECTS_FALLBACK = [
     "featured": false
   },
   {
+    "id": "شعار-شركة-4b4f5442",
+    "discipline": "graphic",
+    "category": "هوية بصرية",
+    "title": "شعار شركة",
+    "location": "القاهرة",
+    "area": null,
+    "year": "2025",
+    "cover": "images/projects-by-name/graphic/KOTB DECOR سوشيال ميديا/01-cover.webp",
+    "before": null,
+    "gallery": [
+      "images/projects-by-name/graphic/KOTB DECOR سوشيال ميديا/cover.mp4",
+      "images/projects-by-name/graphic/KOTB DECOR سوشيال ميديا/02-photo.webp",
+      "images/projects-by-name/graphic/KOTB DECOR سوشيال ميديا/03-photo.webp",
+      "images/projects-by-name/graphic/KOTB DECOR سوشيال ميديا/04-photo.webp",
+      "images/projects-by-name/graphic/KOTB DECOR سوشيال ميديا/05-photo.webp",
+      "images/projects-by-name/graphic/KOTB DECOR سوشيال ميديا/06-photo.webp"
+    ],
+    "video": "images/projects-by-name/graphic/KOTB DECOR سوشيال ميديا/cover.mp4",
+    "excerpt": "تصميم شعار مؤسسي مرن قابل للتطبيق على مختلف الوسائط، مبني على أشكال هندسية بسيطة تسهل تذكّره.",
+    "description": "تصميم شعار مؤسسي مرن قابل للتطبيق على مختلف الوسائط، مبني على أشكال هندسية بسيطة تسهل تذكّره.",
+    "idea": "",
+    "materials": [],
+    "tags": [
+      "هوية بصرية"
+    ],
+    "featured": false
+  },
+  {
     "id": "kotb-metal-upvc-حملة-اعلانية-للصيانه-4b4f5442",
     "discipline": "graphic",
-    "category": "",
+    "category": "سوشيال ميديا",
     "title": "KOTB METAL UPVC حملة اعلانية للصيانه",
-    "location": "",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2025",
     "cover": "images/projects-by-name/graphic/KOTB METAL UPVC حملة اعلانية للصيانه/01-cover.webp",
     "before": null,
     "gallery": [
@@ -158,21 +192,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/KOTB METAL UPVC حملة اعلانية للصيانه/2.webp"
     ],
     "video": "images/projects-by-name/graphic/KOTB METAL UPVC حملة اعلانية للصيانه/cover.mp4",
-    "excerpt": "مشروع KOTB METAL UPVC حملة اعلانية للصيانه",
-    "description": "مشروع KOTB METAL UPVC حملة اعلانية للصيانه.",
+    "excerpt": "مجموعة منشورات سوشيال ميديا لعملاء من قطاعات مختلفة، تعكس مرونة الأسلوب البصري حسب هوية كل عميل.",
+    "description": "مجموعة منشورات سوشيال ميديا لعملاء من قطاعات مختلفة، تعكس مرونة الأسلوب البصري حسب هوية كل عميل.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "سوشيال ميديا"
+    ],
     "featured": false
   },
   {
     "id": "kotb-metal-upvc-حملة-اعلانيه-4b4f5442",
     "discipline": "graphic",
-    "category": "",
+    "category": "سوشيال ميديا",
     "title": "KOTB METAL UPVC حملة اعلانيه",
-    "location": "",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2025",
     "cover": "images/projects-by-name/graphic/KOTB METAL UPVC حملة اعلانيه/01-cover.webp",
     "before": null,
     "gallery": [
@@ -185,21 +221,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/KOTB METAL UPVC حملة اعلانيه/2.webp"
     ],
     "video": "images/projects-by-name/graphic/KOTB METAL UPVC حملة اعلانيه/cover.mp4",
-    "excerpt": "مشروع KOTB METAL UPVC حملة اعلانيه",
-    "description": "مشروع KOTB METAL UPVC حملة اعلانيه.",
+    "excerpt": "مجموعة منشورات سوشيال ميديا لعملاء من قطاعات مختلفة، تعكس مرونة الأسلوب البصري حسب هوية كل عميل.",
+    "description": "مجموعة منشورات سوشيال ميديا لعملاء من قطاعات مختلفة، تعكس مرونة الأسلوب البصري حسب هوية كل عميل.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "سوشيال ميديا"
+    ],
     "featured": false
   },
   {
-    "id": "kotb-metal-upvc-سوشيال-ميديا-4b4f5442",
+    "id": "تصميمات-سوشيال-ميديا-4b4f5442",
     "discipline": "graphic",
-    "category": "",
-    "title": "KOTB METAL UPVC سوشيال ميديا",
-    "location": "",
+    "category": "سوشيال ميديا",
+    "title": "تصميمات سوشيال ميديا",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2026",
     "cover": "images/projects-by-name/graphic/KOTB METAL UPVC سوشيال ميديا/01-cover.webp",
     "before": null,
     "gallery": [
@@ -213,21 +251,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/KOTB METAL UPVC سوشيال ميديا/7.webp"
     ],
     "video": "images/projects-by-name/graphic/KOTB METAL UPVC سوشيال ميديا/cover.mp4",
-    "excerpt": "مشروع KOTB METAL UPVC سوشيال ميديا",
-    "description": "مشروع KOTB METAL UPVC سوشيال ميديا.",
+    "excerpt": "مجموعة تصميمات منشورات سوشيال ميديا لعملاء مختلفين، بأسلوب بصري موحّد يراعي هوية كل علامة.",
+    "description": "مجموعة تصميمات منشورات سوشيال ميديا لعملاء مختلفين، بأسلوب بصري موحّد يراعي هوية كل علامة.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "سوشيال ميديا"
+    ],
     "featured": false
   },
   {
-    "id": "kotb-metal-upvc-هوية-تجارية-4b4f5442",
+    "id": "home-comfort-حملة-سوشيال-ميديا-4b4f5442",
     "discipline": "graphic",
-    "category": "",
-    "title": "KOTB METAL UPVC — هوية تجارية",
-    "location": "",
+    "category": "سوشيال ميديا",
+    "title": "Home Comfort — حملة سوشيال ميديا",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2025",
     "cover": "images/projects-by-name/graphic/KOTB METAL UPVC — هوية تجارية/01-cover.webp",
     "before": null,
     "gallery": [
@@ -242,21 +282,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/KOTB METAL UPVC — هوية تجارية/2.webp"
     ],
     "video": "images/projects-by-name/graphic/KOTB METAL UPVC — هوية تجارية/cover.mp4",
-    "excerpt": "مشروع KOTB METAL UPVC — هوية تجارية",
-    "description": "مشروع KOTB METAL UPVC — هوية تجارية.",
+    "excerpt": "حملة تصميمات سوشيال ميديا متكاملة لعلامة أثاث ومفروشات منزلية، تغطي منشورات متنوعة بهوية بصرية موحّدة.",
+    "description": "حملة تصميمات سوشيال ميديا متكاملة لعلامة أثاث ومفروشات منزلية، تغطي منشورات متنوعة بهوية بصرية موحّدة.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "سوشيال ميديا"
+    ],
     "featured": false
   },
   {
-    "id": "lecce-هوية-تجارية-4c454343",
+    "id": "local-brand-lecce-4c454343",
     "discipline": "graphic",
-    "category": "",
-    "title": "LECCE-هوية تجارية",
-    "location": "",
+    "category": "هوية بصرية",
+    "title": "Local Brand Lecce",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2023",
     "cover": "images/projects-by-name/graphic/LECCE-هوية تجارية/01-cover.webp",
     "before": null,
     "gallery": [
@@ -269,21 +311,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/LECCE-هوية تجارية/2.webp"
     ],
     "video": "images/projects-by-name/graphic/LECCE-هوية تجارية/cover.mp4",
-    "excerpt": "مشروع LECCE-هوية تجارية",
-    "description": "مشروع LECCE-هوية تجارية.",
+    "excerpt": "تصميم هوية بصرية لعلامة أزياء محلية، بأسلوب عصري يوازن بين البساطة والحضور القوي.",
+    "description": "تصميم هوية بصرية لعلامة أزياء محلية، بأسلوب عصري يوازن بين البساطة والحضور القوي.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "هوية بصرية"
+    ],
     "featured": false
   },
   {
-    "id": "milano-footwear-industries-adidas-هوية-تجارية-4d494c41",
+    "id": "milano-footwear-industries-هوية-تجارية-4d494c41",
     "discipline": "graphic",
-    "category": "",
-    "title": "MILANO FOOTWEAR INDUSTRIES- ADIDAS - هوية تجارية",
-    "location": "",
+    "category": "إعلانات",
+    "title": "MILANO FOOTWEAR INDUSTRIES - هوية تجارية",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2025",
     "cover": "images/projects-by-name/graphic/MILANO FOOTWEAR INDUSTRIES- ADIDAS - هوية تجارية/01-cover.webp",
     "before": null,
     "gallery": [
@@ -297,21 +341,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/MILANO FOOTWEAR INDUSTRIES- ADIDAS - هوية تجارية/7.webp"
     ],
     "video": "images/projects-by-name/graphic/MILANO FOOTWEAR INDUSTRIES- ADIDAS - هوية تجارية/cover.mp4",
-    "excerpt": "مشروع MILANO FOOTWEAR INDUSTRIES- ADIDAS - هوية تجارية",
-    "description": "مشروع MILANO FOOTWEAR INDUSTRIES- ADIDAS - هوية تجارية.",
+    "excerpt": "تصميم إعلاني مفاهيمي بأسلوب حملات الأداء الرياضي، يعتمد على الحركة والتباين اللوني القوي لإبراز طاقة المنتج.",
+    "description": "تصميم إعلاني مفاهيمي بأسلوب حملات الأداء الرياضي، يعتمد على الحركة والتباين اللوني القوي لإبراز طاقة المنتج.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "إعلانات"
+    ],
     "featured": false
   },
   {
     "id": "milano-footwear-industries-nike-lifestyle-mockups-4d494c41",
     "discipline": "graphic",
-    "category": "",
+    "category": "هوية بصرية",
     "title": "MILANO FOOTWEAR INDUSTRIES- Nike - Lifestyle Mockups",
-    "location": "",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2025",
     "cover": "images/projects-by-name/graphic/MILANO FOOTWEAR INDUSTRIES- Nike - Lifestyle Mockups/01-cover.webp",
     "before": null,
     "gallery": [
@@ -323,21 +369,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/MILANO FOOTWEAR INDUSTRIES- Nike - Lifestyle Mockups/5.webp"
     ],
     "video": "images/projects-by-name/graphic/MILANO FOOTWEAR INDUSTRIES- Nike - Lifestyle Mockups/cover.mp4",
-    "excerpt": "مشروع MILANO FOOTWEAR INDUSTRIES- Nike - Lifestyle Mockups",
-    "description": "مشروع MILANO FOOTWEAR INDUSTRIES- Nike - Lifestyle Mockups.",
+    "excerpt": "تصميمات موك أب (Mockup) تعرض المنتج في سياق أسلوب حياة، ضمن مشروع Nike Milano المفاهيمي.",
+    "description": "تصميمات موك أب (Mockup) تعرض المنتج في سياق أسلوب حياة، ضمن مشروع Nike Milano المفاهيمي.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "هوية بصرية"
+    ],
     "featured": false
   },
   {
-    "id": "milano-footwear-industries-nike-air-4d494c41",
+    "id": "nike-airstep-bloom-edition-concept-4d494c41",
     "discipline": "graphic",
-    "category": "",
-    "title": "MILANO FOOTWEAR INDUSTRIES- Nike Air",
-    "location": "",
+    "category": "هوية بصرية",
+    "title": "Nike AirStep Bloom Edition — Concept",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2026",
     "cover": "images/projects-by-name/graphic/MILANO FOOTWEAR INDUSTRIES- Nike Air/01-cover.webp",
     "before": null,
     "gallery": [
@@ -356,21 +404,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/MILANO FOOTWEAR INDUSTRIES- Nike Air/photo-1 (6).webp"
     ],
     "video": "images/projects-by-name/graphic/MILANO FOOTWEAR INDUSTRIES- Nike Air/cover.mp4",
-    "excerpt": "مشروع MILANO FOOTWEAR INDUSTRIES- Nike Air",
-    "description": "مشروع MILANO FOOTWEAR INDUSTRIES- Nike Air.",
+    "excerpt": "مشروع مفاهيمي لتصميم هوية إصدار أحذية رياضية نسائية بإلهام زهري، لأغراض العرض في البورتفوليو.",
+    "description": "مشروع مفاهيمي لتصميم هوية إصدار أحذية رياضية نسائية بإلهام زهري، لأغراض العرض في البورتفوليو.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "هوية بصرية"
+    ],
     "featured": false
   },
   {
-    "id": "milano-footwear-industries-nike-air-2-4d494c41",
+    "id": "nike-air-milano-edition-concept-4d494c41",
     "discipline": "graphic",
-    "category": "",
-    "title": "MILANO FOOTWEAR INDUSTRIES- Nike Air 2",
-    "location": "",
+    "category": "هوية بصرية",
+    "title": "Nike Air Milano Edition — Concept",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2025",
     "cover": "images/projects-by-name/graphic/MILANO FOOTWEAR INDUSTRIES- Nike Air 2/01-cover.webp",
     "before": null,
     "gallery": [
@@ -382,21 +432,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/MILANO FOOTWEAR INDUSTRIES- Nike Air 2/1.webp"
     ],
     "video": "images/projects-by-name/graphic/MILANO FOOTWEAR INDUSTRIES- Nike Air 2/cover.mp4",
-    "excerpt": "مشروع MILANO FOOTWEAR INDUSTRIES- Nike Air 2",
-    "description": "مشروع MILANO FOOTWEAR INDUSTRIES- Nike Air 2.",
+    "excerpt": "مشروع تصميم مفاهيمي (Concept) لهوية إصدار خاص من نايك بإلهام مدينة ميلانو، لأغراض العرض في البورتفوليو.",
+    "description": "مشروع تصميم مفاهيمي (Concept) لهوية إصدار خاص من نايك بإلهام مدينة ميلانو، لأغراض العرض في البورتفوليو.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "هوية بصرية"
+    ],
     "featured": false
   },
   {
     "id": "morgan-coffee-سوشيال-ميديا-4d6f7267",
     "discipline": "graphic",
-    "category": "",
+    "category": "سوشيال ميديا",
     "title": "Morgan Coffee — سوشيال ميديا",
-    "location": "",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2024",
     "cover": "images/projects-by-name/graphic/Morgan Coffee — سوشيال ميديا/01-cover.webp",
     "before": null,
     "gallery": [
@@ -408,21 +460,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/Morgan Coffee — سوشيال ميديا/1 (5).webp"
     ],
     "video": "images/projects-by-name/graphic/Morgan Coffee — سوشيال ميديا/cover.mp4",
-    "excerpt": "مشروع Morgan Coffee — سوشيال ميديا",
-    "description": "مشروع Morgan Coffee — سوشيال ميديا.",
+    "excerpt": "تصميم منشور دعائي لعلامة قهوة، بألوان دافئة وتكوين بصري يبرز المنتج بأسلوب جذاب.",
+    "description": "تصميم منشور دعائي لعلامة قهوة، بألوان دافئة وتكوين بصري يبرز المنتج بأسلوب جذاب.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "سوشيال ميديا"
+    ],
     "featured": false
   },
   {
     "id": "nike-milano-lifestyle-mockups-4e696b65",
     "discipline": "graphic",
-    "category": "",
+    "category": "هوية بصرية",
     "title": "Nike Milano — Lifestyle Mockups",
-    "location": "",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2026",
     "cover": "images/projects-by-name/graphic/Nike Milano — Lifestyle Mockups/01-cover.webp",
     "before": null,
     "gallery": [
@@ -433,21 +487,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/Nike Milano — Lifestyle Mockups/5.webp"
     ],
     "video": "images/projects-by-name/graphic/Nike Milano — Lifestyle Mockups/cover.mp4",
-    "excerpt": "مشروع Nike Milano — Lifestyle Mockups",
-    "description": "مشروع Nike Milano — Lifestyle Mockups.",
+    "excerpt": "تصميمات موك أب (Mockup) تعرض المنتج في سياق أسلوب حياة، ضمن مشروع Nike Milano المفاهيمي.",
+    "description": "تصميمات موك أب (Mockup) تعرض المنتج في سياق أسلوب حياة، ضمن مشروع Nike Milano المفاهيمي.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "هوية بصرية"
+    ],
     "featured": false
   },
   {
     "id": "pharaohs-fc-شعار-وقميص-فريق-50686172",
     "discipline": "graphic",
-    "category": "",
+    "category": "هوية بصرية",
     "title": "Pharaohs FC — شعار وقميص فريق",
-    "location": "",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2024",
     "cover": "images/projects-by-name/graphic/Pharaohs FC — شعار وقميص فريق/01-cover.webp",
     "before": null,
     "gallery": [
@@ -458,21 +514,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/Pharaohs FC — شعار وقميص فريق/05-photo.webp"
     ],
     "video": "images/projects-by-name/graphic/Pharaohs FC — شعار وقميص فريق/cover.mp4",
-    "excerpt": "مشروع Pharaohs FC — شعار وقميص فريق",
-    "description": "مشروع Pharaohs FC — شعار وقميص فريق.",
+    "excerpt": "تصميم هوية رياضية كاملة لفريق كرة قدم، شملت الشعار وتصميم القميص الرسمي بروح فرعونية مستلهمة من التاريخ المصري.",
+    "description": "تصميم هوية رياضية كاملة لفريق كرة قدم، شملت الشعار وتصميم القميص الرسمي بروح فرعونية مستلهمة من التاريخ المصري.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "هوية بصرية"
+    ],
     "featured": false
   },
   {
     "id": "ألبوم-راب-الأدغال-cover-design-d8a3d984",
     "discipline": "graphic",
-    "category": "",
+    "category": "مطبوعات",
     "title": "ألبوم راب الأدغال — Cover Design",
-    "location": "",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2025",
     "cover": "images/projects-by-name/graphic/ألبوم راب الأدغال — Cover Design/01-cover.webp",
     "before": null,
     "gallery": [
@@ -483,21 +541,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/ألبوم راب الأدغال — Cover Design/photo- (5).webp"
     ],
     "video": "images/projects-by-name/graphic/ألبوم راب الأدغال — Cover Design/cover.mp4",
-    "excerpt": "مشروع ألبوم راب الأدغال — Cover Design",
-    "description": "مشروع ألبوم راب الأدغال — Cover Design.",
+    "excerpt": "تصميم غلاف ألبوم موسيقي من نوع الراب، بأسلوب بصري خام وقوي يتماشى مع طابع الموسيقى.",
+    "description": "تصميم غلاف ألبوم موسيقي من نوع الراب، بأسلوب بصري خام وقوي يتماشى مع طابع الموسيقى.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "مطبوعات"
+    ],
     "featured": false
   },
   {
     "id": "إعلانات-السوشيال-ميديا-التعليمية-d8a5d8b9",
     "discipline": "graphic",
-    "category": "",
+    "category": "إعلانات",
     "title": "إعلانات السوشيال ميديا التعليمية",
-    "location": "",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2025",
     "cover": "images/projects-by-name/graphic/إعلانات السوشيال ميديا التعليمية/01-cover.webp",
     "before": null,
     "gallery": [
@@ -508,21 +568,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/إعلانات السوشيال ميديا التعليمية/05-photo.webp"
     ],
     "video": "images/projects-by-name/graphic/إعلانات السوشيال ميديا التعليمية/cover.mp4",
-    "excerpt": "مشروع إعلانات السوشيال ميديا التعليمية",
-    "description": "مشروع إعلانات السوشيال ميديا التعليمية.",
+    "excerpt": "تصميم إعلاني لمجموعة دروس خصوصية، ركّز على وضوح المعلومة بشكل جذاب.",
+    "description": "تصميم إعلاني لمجموعة دروس خصوصية، ركّز على وضوح المعلومة بشكل جذاب.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "إعلانات"
+    ],
     "featured": false
   },
   {
     "id": "تصميم-ابداعى-لمنتج-mahgoub-d8aad8b5",
     "discipline": "graphic",
-    "category": "",
+    "category": "سوشيال ميديا",
     "title": "تصميم ابداعى لمنتج-MAHGOUB",
-    "location": "",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2024",
     "cover": "images/projects-by-name/graphic/تصميم ابداعى لمنتج-MAHGOUB/01-cover.webp",
     "before": null,
     "gallery": [
@@ -532,21 +594,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/تصميم ابداعى لمنتج-MAHGOUB/04-photo.webp"
     ],
     "video": "images/projects-by-name/graphic/تصميم ابداعى لمنتج-MAHGOUB/cover.mp4",
-    "excerpt": "مشروع تصميم ابداعى لمنتج-MAHGOUB",
-    "description": "مشروع تصميم ابداعى لمنتج-MAHGOUB.",
+    "excerpt": "تصميم بصري مفاهيمي يلعب على فكرة 'تخيّل'، بأسلوب فني حر بعيد عن قوالب التصميم التجاري المعتادة.",
+    "description": "تصميم بصري مفاهيمي يلعب على فكرة 'تخيّل'، بأسلوب فني حر بعيد عن قوالب التصميم التجاري المعتادة.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "سوشيال ميديا"
+    ],
     "featured": false
   },
   {
     "id": "حكاية-الخبز-المصري-تصميم-هوية-وتغليف-منتج-d8add983",
     "discipline": "graphic",
-    "category": "",
-    "title": "حكاية الخبز المصري  تصميم هوية وتغليف منتج",
-    "location": "",
+    "category": "مطبوعات",
+    "title": "حكاية الخبز المصري | تصميم هوية وتغليف منتج",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2023",
     "cover": "images/projects-by-name/graphic/حكاية الخبز المصري  تصميم هوية وتغليف منتج/01-cover.webp",
     "before": null,
     "gallery": [
@@ -558,21 +622,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/حكاية الخبز المصري  تصميم هوية وتغليف منتج/06-photo.webp"
     ],
     "video": "images/projects-by-name/graphic/حكاية الخبز المصري  تصميم هوية وتغليف منتج/cover.mp4",
-    "excerpt": "مشروع حكاية الخبز المصري  تصميم هوية وتغليف منتج",
-    "description": "مشروع حكاية الخبز المصري  تصميم هوية وتغليف منتج.",
+    "excerpt": "تصميم تغليف لمنتج استهلاكي، يجمع بين وضوح المعلومة على العبوة وجاذبية بصرية تميّزه على الرف.",
+    "description": "تصميم تغليف لمنتج استهلاكي، يجمع بين وضوح المعلومة على العبوة وجاذبية بصرية تميّزه على الرف.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "مطبوعات"
+    ],
     "featured": false
   },
   {
     "id": "خيمة-وناسة-رمضان-2025-d8aed98a",
     "discipline": "graphic",
-    "category": "",
+    "category": "سوشيال ميديا",
     "title": "خيمة وناسة رمضان 2025",
-    "location": "",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2025",
     "cover": "images/projects-by-name/graphic/خيمة وناسة رمضان 2025/01-cover.webp",
     "before": null,
     "gallery": [
@@ -584,11 +650,13 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/خيمة وناسة رمضان 2025/1 (5).webp"
     ],
     "video": "images/projects-by-name/graphic/خيمة وناسة رمضان 2025/cover.mp4",
-    "excerpt": "مشروع خيمة وناسة رمضان 2025",
-    "description": "مشروع خيمة وناسة رمضان 2025.",
+    "excerpt": "تصميم منشور احتفالي بمناسبة شهر رمضان المبارك، بطابع بصري دافئ يليق بروح المناسبة.",
+    "description": "تصميم منشور احتفالي بمناسبة شهر رمضان المبارك، بطابع بصري دافئ يليق بروح المناسبة.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "سوشيال ميديا"
+    ],
     "featured": false
   },
   {
@@ -623,11 +691,11 @@ const PROJECTS_FALLBACK = [
   {
     "id": "هوية-تجارية-المصرية-الهندسيه-upvc-d987d988",
     "discipline": "graphic",
-    "category": "",
+    "category": "إعلانات",
     "title": "هوية تجارية  المصرية الهندسيه UPVC",
-    "location": "",
+    "location": "القاهرة",
     "area": null,
-    "year": "",
+    "year": "2023",
     "cover": "images/projects-by-name/graphic/هوية تجارية  المصرية الهندسيه UPVC/01-cover.webp",
     "before": null,
     "gallery": [
@@ -639,21 +707,23 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/graphic/هوية تجارية  المصرية الهندسيه UPVC/06-photo.webp"
     ],
     "video": "images/projects-by-name/graphic/هوية تجارية  المصرية الهندسيه UPVC/cover.mp4",
-    "excerpt": "مشروع هوية تجارية  المصرية الهندسيه UPVC",
-    "description": "مشروع هوية تجارية  المصرية الهندسيه UPVC.",
+    "excerpt": "مجموعة تصميمات منشورات دعائية بصياغة بصرية قوية ورسالة مباشرة، مناسبة لحملات التوعية والترويج.",
+    "description": "مجموعة تصميمات منشورات دعائية بصياغة بصرية قوية ورسالة مباشرة، مناسبة لحملات التوعية والترويج.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "إعلانات"
+    ],
     "featured": false
   },
   {
     "id": "حمام-عصري-d8add985",
     "discipline": "interior",
-    "category": "",
+    "category": "حمامات",
     "title": "حمام عصري",
     "location": "",
     "area": null,
-    "year": "",
+    "year": "2024",
     "cover": "images/projects-by-name/interior/حمام عصري/01-cover.webp",
     "before": null,
     "gallery": [
@@ -665,11 +735,13 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/interior/حمام عصري/3.webp"
     ],
     "video": "images/projects-by-name/interior/حمام عصري/cover.mp4",
-    "excerpt": "مشروع حمام عصري",
-    "description": "مشروع حمام عصري.",
+    "excerpt": "تصميم حمام بخامات عصرية سهلة التنظيف، مع إضاءة هادئة تمنح المساحة إحساسًا فندقيًا مريحًا.",
+    "description": "تصميم حمام بخامات عصرية سهلة التنظيف، مع إضاءة هادئة تمنح المساحة إحساسًا فندقيًا مريحًا.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "حمامات"
+    ],
     "featured": false
   },
   {
@@ -698,13 +770,13 @@ const PROJECTS_FALLBACK = [
     "featured": false
   },
   {
-    "id": "حمام-ماستر-الدقى-d8add985",
+    "id": "حمام-ماستر-عين-الدقى-d8add985",
     "discipline": "interior",
-    "category": "",
-    "title": "حمام ماستر الدقى",
+    "category": "حمامات",
+    "title": "حمام ماستر عين الدقى",
     "location": "",
     "area": null,
-    "year": "",
+    "year": "2026",
     "cover": "images/projects-by-name/interior/حمام ماستر الدقى/01-cover.webp",
     "before": null,
     "gallery": [
@@ -716,54 +788,75 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/interior/حمام ماستر الدقى/حمام ماستر عين الدقى (4).webp"
     ],
     "video": "images/projects-by-name/interior/حمام ماستر الدقى/cover.mp4",
-    "excerpt": "مشروع حمام ماستر الدقى",
-    "description": "مشروع حمام ماستر الدقى.",
+    "excerpt": "تصميم حمام بخامات عصرية سهلة التنظيف، مع كابينة شاور مع بديل الخشب مع إضاءة هادئة تمنح المساحة إحساسًا فندقيًا مريحًا.",
+    "description": "تصميم حمام بخامات عصرية سهلة التنظيف، مع كابينة شاور مع بديل الخشب مع إضاءة هادئة تمنح المساحة إحساسًا فندقيًا مريحًا.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "حمامات"
+    ],
     "featured": false
   },
   {
-    "id": "ريبسشن-الشروق-d8b1d98a",
+    "id": "شقة-الشروق-d8b1d98a",
     "discipline": "interior",
-    "category": "",
-    "title": "ريبسشن الشروق",
-    "location": "",
-    "area": null,
-    "year": "",
+    "category": "شقق سكنية",
+    "title": "شقة الشروق",
+    "location": "الشروق",
+    "area": "120م²",
+    "year": "2023",
     "cover": "images/projects-by-name/interior/ريبسشن الشروق/ريبسشن الشروق (1).webp",
     "before": null,
     "gallery": [
-      "images/projects-by-name/interior/ريبسشن الشروق/cover.mp4"
+      "images/projects-by-name/interior/ريبسشن الشروق/cover.mp4",
+      "images/projects-by-name/interior/ريبسشن الشروق/ريبسشن الشروق (2).webp",
+      "images/projects-by-name/interior/ريبسشن الشروق/ريبسشن الشروق (3).webp",
+      "images/projects-by-name/interior/ريبسشن الشروق/ريبسشن الشروق (4).webp"
     ],
     "video": "images/projects-by-name/interior/ريبسشن الشروق/cover.mp4",
-    "excerpt": "مشروع ريبسشن الشروق",
-    "description": "مشروع ريبسشن الشروق.",
-    "idea": "",
-    "materials": [],
-    "tags": [],
-    "featured": false
+    "excerpt": "شقة بمساحة 80 مترًا سُلّمت على المسطح، وكان الهدف تصميم صالة استقبال تجمع بين البساطة والدفء دون إثقال المساحة. اعتمدنا ",
+    "description": "شقة بمساحة 80 مترًا سُلّمت على المسطح، وكان الهدف تصميم صالة استقبال تجمع بين البساطة والدفء دون إثقال المساحة. اعتمدنا على تناغم الألوان المحايدة، إضاءة مخفية بالأسقف الجبسية، وقطع أثاث مختارة بعناية لتمنح إحساسًا بالرحابة رغم المساحة المحدودة.",
+    "idea": "الفكرة التصميمية قامت على تبسيط الخطوط وتوزيع الإضاءة بشكل يخلق طبقات بصرية هادئة، مع لوحات ديكورية هندسية تكسر رتابة الحائط الرئيسي وتمنح الصالة طابعًا مميزًا.",
+    "materials": [
+      "دهانات مطفية فاخرة",
+      "أرضيات باركيه",
+      "أسقف جبسية بإضاءة مخفية",
+      "أثاث تنجيد قماش"
+    ],
+    "tags": [
+      "صالة استقبال",
+      "120 متر",
+      "تسليم كامل"
+    ],
+    "featured": true
   },
   {
-    "id": "ريسبشن-مطبخ-امريكا-مدينة-بدر-d8b1d98a",
+    "id": "ريسبشن-مع-مطبخ-امريكا-مدينة-بدر-d8b1d98a",
     "discipline": "interior",
-    "category": "",
-    "title": "ريسبشن & مطبخ امريكا مدينة  بدر",
-    "location": "",
-    "area": null,
-    "year": "",
+    "category": "شقق سكنية & مطابخ",
+    "title": "ريسبشن  مع مطبخ امريكا مدينة  بدر",
+    "location": "مدينة بدر",
+    "area": "100م²",
+    "year": "2023",
     "cover": "images/projects-by-name/interior/ريسبشن & مطبخ امريكا مدينة  بدر/ريسبشن  مع مطبخ امريكا مدينة  بدر (1).webp",
     "before": null,
     "gallery": [
-      "images/projects-by-name/interior/ريسبشن & مطبخ امريكا مدينة  بدر/cover.mp4"
+      "images/projects-by-name/interior/ريسبشن & مطبخ امريكا مدينة  بدر/ريسبشن  مع مطبخ امريكا مدينة  بدر (2).webp",
+      "images/projects-by-name/interior/ريسبشن & مطبخ امريكا مدينة  بدر/ريسبشن  مع مطبخ امريكا مدينة  بدر (3).webp",
+      "images/projects-by-name/interior/ريسبشن & مطبخ امريكا مدينة  بدر/ريسبشن  مع مطبخ امريكا مدينة  بدر (4).webp",
+      "images/projects-by-name/interior/ريسبشن & مطبخ امريكا مدينة  بدر/ريسبشن  مع مطبخ امريكا مدينة  بدر (5).webp"
     ],
-    "video": "images/projects-by-name/interior/ريسبشن & مطبخ امريكا مدينة  بدر/cover.mp4",
-    "excerpt": "مشروع ريسبشن & مطبخ امريكا مدينة  بدر",
-    "description": "مشروع ريسبشن & مطبخ امريكا مدينة  بدر.",
+    "video": null,
+    "excerpt": "شقة بمساحة 80 مترًا سُلّمت على المسطح، وكان",
+    "description": "شقة بمساحة 80 مترًا سُلّمت على المسطح، وكان",
     "idea": "",
     "materials": [],
-    "tags": [],
-    "featured": false
+    "tags": [
+      "صالة استقبال",
+      "100متر",
+      "تسليم كامل"
+    ],
+    "featured": true
   },
   {
     "id": "شقة-طنطا-d8b1d98a",
@@ -792,6 +885,33 @@ const PROJECTS_FALLBACK = [
     "tags": [
       "صالة استقبال",
       "80 متر",
+      "تسليم كامل"
+    ],
+    "featured": true
+  },
+  {
+    "id": "شركة-meem-مكاتب-اداريه-d8b4d8b1",
+    "discipline": "interior",
+    "category": "مكاتب ادارية",
+    "title": "شركة MEEM مكاتب اداريه",
+    "location": "المنصورة",
+    "area": "140م²",
+    "year": "2026",
+    "cover": "images/projects-by-name/interior/شركة MEEM مكاتب اداريه/01-cover.webp",
+    "before": null,
+    "gallery": [
+      "images/projects-by-name/interior/شركة MEEM مكاتب اداريه/شركة ميم (1).webp",
+      "images/projects-by-name/interior/شركة MEEM مكاتب اداريه/شركة ميم (2).webp",
+      "images/projects-by-name/interior/شركة MEEM مكاتب اداريه/شركة ميم (3).webp"
+    ],
+    "video": null,
+    "excerpt": "شقة بمساحة 80 مترًا سُلّمت على المسطح، وكان الهدف تصميم دور اداري يشمل مكاتب ادارية وغرفة اجتماعات",
+    "description": "شقة بمساحة 80 مترًا سُلّمت على المسطح، وكان الهدف تصميم دور اداري يشمل مكاتب ادارية وغرفة اجتماعات",
+    "idea": "",
+    "materials": [],
+    "tags": [
+      "صالة استقبال",
+      "140متر",
       "تسليم كامل"
     ],
     "featured": true
@@ -862,22 +982,35 @@ const PROJECTS_FALLBACK = [
   {
     "id": "شقة-معاصرة-جسر-السويس-d8b4d982",
     "discipline": "interior",
-    "category": "",
+    "category": "شقق سكنية",
     "title": "شقة معاصرة — جسر السويس",
-    "location": "",
-    "area": null,
-    "year": "",
+    "location": "جسر السويس",
+    "area": "120 م²",
+    "year": "2023",
     "cover": "images/projects-by-name/interior/شقة معاصرة — جسر السويس/01-cover.webp",
     "before": null,
     "gallery": [
+      "images/projects-by-name/interior/شقة معاصرة — جسر السويس/1 (1).webp",
+      "images/projects-by-name/interior/شقة معاصرة — جسر السويس/1 (4).webp",
+      "images/projects-by-name/interior/شقة معاصرة — جسر السويس/1 (5).webp",
+      "images/projects-by-name/interior/شقة معاصرة — جسر السويس/1 (6).webp",
       "images/projects-by-name/interior/شقة معاصرة — جسر السويس/1.mp4"
     ],
     "video": "images/projects-by-name/interior/شقة معاصرة — جسر السويس/1.mp4",
-    "excerpt": "مشروع شقة معاصرة — جسر السويس",
-    "description": "مشروع شقة معاصرة — جسر السويس.",
-    "idea": "",
-    "materials": [],
-    "tags": [],
+    "excerpt": "في هذا المشروع بمساحة 120 مترًا، صُمم ركن الميديا حول وحدة خشبية دافئة مؤطرة بإضاءة خطية مخفية، وقابلها حائط معرض للوحات",
+    "description": "في هذا المشروع بمساحة 120 مترًا، صُمم ركن الميديا حول وحدة خشبية دافئة مؤطرة بإضاءة خطية مخفية، وقابلها حائط معرض للوحات فنية بالأبيض والأسود يمنح الصالة طابعًا معاصرًا يشبه صالات العرض.",
+    "idea": "الفكرة الأساسية هي معالجة حائط التلفزيون كنقطة جذب بصرية عبر الإضاءة الخطية، مع موازنته بحائط لوحات هادئ يمنح الفراغ عمقًا وثقافة بصرية دون تشتيت.",
+    "materials": [
+      "خشب قشرة طبيعي",
+      "إضاءة LED خطية",
+      "دهانات نيدل بيج",
+      "ستائر كتان فاتحة"
+    ],
+    "tags": [
+      "ميديا وول",
+      "120 متر",
+      "تسليم كامل"
+    ],
     "featured": false
   },
   {
@@ -945,63 +1078,88 @@ const PROJECTS_FALLBACK = [
     "featured": false
   },
   {
-    "id": "غرفة-أطفال-العاشر-من-رمضان-d8bad8b1",
+    "id": "غرفة-أطفال-d8bad8b1",
     "discipline": "interior",
-    "category": "",
-    "title": "غرفة أطفال - العاشر من رمضان",
+    "category": "غرف أطفال",
+    "title": "غرفة أطفال",
     "location": "",
     "area": null,
-    "year": "",
+    "year": "2024",
     "cover": "images/projects-by-name/interior/غرفة أطفال - العاشر من رمضان/01-cover.webp",
     "before": null,
     "gallery": [
-      "images/projects-by-name/interior/غرفة أطفال - العاشر من رمضان/1.mp4"
+      "images/projects-by-name/interior/غرفة أطفال - العاشر من رمضان/1-photo.webp",
+      "images/projects-by-name/interior/غرفة أطفال - العاشر من رمضان/1.mp4",
+      "images/projects-by-name/interior/غرفة أطفال - العاشر من رمضان/11-photo.webp"
     ],
     "video": "images/projects-by-name/interior/غرفة أطفال - العاشر من رمضان/1.mp4",
-    "excerpt": "مشروع غرفة أطفال - العاشر من رمضان",
-    "description": "مشروع غرفة أطفال - العاشر من رمضان.",
+    "excerpt": "تصميم غرفة نوم أطفال يجمع بين الطابع المرح والعملية، مع مساحات تخزين مدروسة.",
+    "description": "تصميم غرفة نوم أطفال يجمع بين الطابع المرح والعملية، مع مساحات تخزين مدروسة.",
     "idea": "",
     "materials": [],
-    "tags": [],
-    "featured": false
+    "tags": [
+      "غرف أطفال"
+    ],
+    "featured": true
   },
   {
-    "id": "غرفة-نوم-رئيسية-شبابي-d8bad8b1",
+    "id": "غرفة-نوم-رئيسية-نسخة-أخرى-d8bad8b1",
     "discipline": "interior",
-    "category": "",
-    "title": "غرفة نوم رئيسية  شبابي",
+    "category": "غرف نوم",
+    "title": "غرفة نوم رئيسية — نسخة أخرى",
     "location": "",
     "area": null,
-    "year": "",
+    "year": "2024",
     "cover": "images/projects-by-name/interior/غرفة نوم رئيسية  شبابي/01-cover.webp",
     "before": null,
-    "gallery": [],
+    "gallery": [
+      "images/projects-by-name/interior/غرفة نوم رئيسية  شبابي/02-photo.webp",
+      "images/projects-by-name/interior/غرفة نوم رئيسية  شبابي/03-photo.webp",
+      "images/projects-by-name/interior/غرفة نوم رئيسية  شبابي/22-photo.webp",
+      "images/projects-by-name/interior/غرفة نوم رئيسية  شبابي/23-photo.webp"
+    ],
     "video": null,
-    "excerpt": "مشروع غرفة نوم رئيسية  شبابي",
-    "description": "مشروع غرفة نوم رئيسية  شبابي.",
+    "excerpt": "مقترح تصميمي آخر لغرفة نوم رئيسية، بتوزيع مختلف للأثاث ولمسة ألوان عصرية تمنح الغرفة طابعًا مختلفًا.",
+    "description": "مقترح تصميمي آخر لغرفة نوم رئيسية، بتوزيع مختلف للأثاث ولمسة ألوان عصرية تمنح الغرفة طابعًا مختلفًا.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "غرف نوم"
+    ],
     "featured": false
   },
   {
-    "id": "غرفة-نوم-ماستر-بنها-d8bad8b1",
+    "id": "غرفة-نوم-رئيسية-بنها-d8bad8b1",
     "discipline": "interior",
-    "category": "",
-    "title": "غرفة نوم ماستر - بنها",
-    "location": "",
-    "area": null,
-    "year": "",
+    "category": "غرف نوم",
+    "title": "غرفة نوم رئيسية — بنها",
+    "location": "بنها",
+    "area": "150 م²",
+    "year": "2023",
     "cover": "images/projects-by-name/interior/غرفة نوم ماستر - بنها/01-cover.webp",
     "before": null,
-    "gallery": [],
+    "gallery": [
+      "images/projects-by-name/interior/غرفة نوم ماستر - بنها/1 (1).webp",
+      "images/projects-by-name/interior/غرفة نوم ماستر - بنها/1 (3).webp",
+      "images/projects-by-name/interior/غرفة نوم ماستر - بنها/1 (4).webp",
+      "images/projects-by-name/interior/غرفة نوم ماستر - بنها/1 (6.webp"
+    ],
     "video": null,
-    "excerpt": "مشروع غرفة نوم ماستر - بنها",
-    "description": "مشروع غرفة نوم ماستر - بنها.",
-    "idea": "",
-    "materials": [],
-    "tags": [],
-    "featured": false
+    "excerpt": "غرفة نوم رئيسية ضمن شقة بمساحة 150 مترًا، صُممت بلمسة كلاسيكية معاصرة تجمع بين الخشب الداكن والتفاصيل الذهبية الخفيفة. ط",
+    "description": "غرفة نوم رئيسية ضمن شقة بمساحة 150 مترًا، صُممت بلمسة كلاسيكية معاصرة تجمع بين الخشب الداكن والتفاصيل الذهبية الخفيفة. طاولة تسريحة مطلة على النافذة، وستائر مزدوجة تمنح الغرفة خصوصية وإحساسًا فندقيًا.",
+    "idea": "التصميم يوازن بين الطابع الكلاسيكي في القطع الخشبية المفرّغة والإحساس المعاصر في اختيار الألوان الترابية والإضاءة المخفية أعلى تجهيزة السرير.",
+    "materials": [
+      "خشب زان مصمت",
+      "قماش مخمل للستائر",
+      "أرضيات باركيه",
+      "إضاءة مخفية علوية"
+    ],
+    "tags": [
+      "غرفة نوم",
+      "150 متر",
+      "تسليم كامل"
+    ],
+    "featured": true
   },
   {
     "id": "غرفة-نوم-ماستر-الرحاب-d8bad8b1",
@@ -1036,58 +1194,87 @@ const PROJECTS_FALLBACK = [
   {
     "id": "غرفة-نوم-ومعيشة-التجمع-d8bad8b1",
     "discipline": "interior",
-    "category": "",
+    "category": "غرف نوم",
     "title": "غرفة نوم ومعيشة التجمع",
-    "location": "",
-    "area": null,
-    "year": "",
+    "location": "التجمع الخامس",
+    "area": "150 م²",
+    "year": "2024",
     "cover": "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/غرفة نوم ومعيشة التجمع (5).webp",
     "before": null,
-    "gallery": [],
+    "gallery": [
+      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/غرفة نوم ومعيشة التجمع (6).webp",
+      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/غرفة نوم ومعيشة التجمع (7).webp",
+      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/غرفة نوم ومعيشة التجمع (8).webp",
+      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/غرفة نوم ومعيشة التجمع (9).webp"
+    ],
     "video": null,
-    "excerpt": "مشروع غرفة نوم ومعيشة التجمع",
-    "description": "مشروع غرفة نوم ومعيشة التجمع.",
-    "idea": "",
-    "materials": [],
-    "tags": [],
-    "featured": false
+    "excerpt": "غرفة نوم رئيسية ضمن شقة بمساحة 150 مترًا، صُممت بلمسة مودرن معاصرة تجمع بين الخشب الداكن والتفاصيل الذهبية الخفيفة. طاول",
+    "description": "غرفة نوم رئيسية ضمن شقة بمساحة 150 مترًا، صُممت بلمسة مودرن معاصرة تجمع بين الخشب الداكن والتفاصيل الذهبية الخفيفة. طاولة تسريحة مطلة على النافذة، وستائر مزدوجة تمنح الغرفة خصوصية وإحساسًا فندقيًا.",
+    "idea": "التصميم يوازن بين الطابع الكلاسيكي في القطع الخشبية المفرّغة والإحساس المعاصر في اختيار الألوان الترابية والإضاءة المخفية أعلى تجهيزة السرير.",
+    "materials": [
+      "خشب زان مصمت",
+      "قماش مخمل للستائر",
+      "أرضيات باركيه",
+      "إضاءة مخفية علوية"
+    ],
+    "tags": [
+      "غرفة نوم",
+      "150 متر",
+      "تسليم كامل"
+    ],
+    "featured": true
   },
   {
     "id": "كتالوج-حمام-ماستر-d983d8aa",
     "discipline": "interior",
-    "category": "",
+    "category": "حمامات",
     "title": "كتالوج حمام ماستر",
     "location": "",
     "area": null,
-    "year": "",
+    "year": "2026",
     "cover": "images/projects-by-name/interior/كتالوج حمام ماستر/حمام ماستر  (1).webp",
     "before": null,
-    "gallery": [],
+    "gallery": [
+      "images/projects-by-name/interior/كتالوج حمام ماستر/حمام ماستر  (2).webp",
+      "images/projects-by-name/interior/كتالوج حمام ماستر/حمام ماستر  (3).webp",
+      "images/projects-by-name/interior/كتالوج حمام ماستر/حمام ماستر  (4).webp",
+      "images/projects-by-name/interior/كتالوج حمام ماستر/حمام ماستر  (5).webp"
+    ],
     "video": null,
-    "excerpt": "مشروع كتالوج حمام ماستر",
-    "description": "مشروع كتالوج حمام ماستر.",
+    "excerpt": "تصميم حمام بخامات عصرية سهلة التنظيف، مع كابينة شاور مع بديل الخشب مع إضاءة هادئة تمنح المساحة إحساسًا فندقيًا مريحًا.",
+    "description": "تصميم حمام بخامات عصرية سهلة التنظيف، مع كابينة شاور مع بديل الخشب مع إضاءة هادئة تمنح المساحة إحساسًا فندقيًا مريحًا.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "حمامات"
+    ],
     "featured": false
   },
   {
-    "id": "كيدز-أريا-السعوديه-d983d98a",
+    "id": "kids-area-d983d98a",
     "discipline": "interior",
-    "category": "",
-    "title": "كيدز أريا السعوديه",
-    "location": "",
-    "area": null,
-    "year": "",
+    "category": "غرف أطفال",
+    "title": "Kids Area",
+    "location": "السعوديه الرياض",
+    "area": "130 متر",
+    "year": "2023",
     "cover": "images/projects-by-name/interior/كيدز أريا السعوديه/01-cover.webp",
     "before": null,
-    "gallery": [],
+    "gallery": [
+      "images/projects-by-name/interior/كيدز أريا السعوديه/04-photo.webp",
+      "images/projects-by-name/interior/كيدز أريا السعوديه/06-photo.webp",
+      "images/projects-by-name/interior/كيدز أريا السعوديه/07-photo.webp",
+      "images/projects-by-name/interior/كيدز أريا السعوديه/08-photo.webp",
+      "images/projects-by-name/interior/كيدز أريا السعوديه/12-photo.webp"
+    ],
     "video": null,
-    "excerpt": "مشروع كيدز أريا السعوديه",
-    "description": "مشروع كيدز أريا السعوديه.",
+    "excerpt": "تصميم ركن أطفال مخصص للعب والأنشطة، بألوان مبهجة وعناصر آمنة تراعي طبيعة استخدام الأطفال للمساحة.",
+    "description": "تصميم ركن أطفال مخصص للعب والأنشطة، بألوان مبهجة وعناصر آمنة تراعي طبيعة استخدام الأطفال للمساحة.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "غرف أطفال"
+    ],
     "featured": false
   },
   {
@@ -1142,20 +1329,27 @@ const PROJECTS_FALLBACK = [
   {
     "id": "مطبخ-صغير-d985d8b7",
     "discipline": "interior",
-    "category": "",
+    "category": "مطابخ",
     "title": "مطبخ صغير",
-    "location": "",
+    "location": "المرج",
     "area": null,
-    "year": "",
+    "year": "2026",
     "cover": "images/projects-by-name/interior/مطبخ صغير/01-cover.webp",
     "before": null,
-    "gallery": [],
+    "gallery": [
+      "images/projects-by-name/interior/مطبخ صغير/PHOTO- (1).webp",
+      "images/projects-by-name/interior/مطبخ صغير/PHOTO- (2).webp",
+      "images/projects-by-name/interior/مطبخ صغير/PHOTO- (3).webp",
+      "images/projects-by-name/interior/مطبخ صغير/PHOTO- (4).webp"
+    ],
     "video": null,
-    "excerpt": "مشروع مطبخ صغير",
-    "description": "مشروع مطبخ صغير.",
+    "excerpt": "تصميم مطبخ كلاسيكى يركّز على العملية في التوزيع، مع وحدات تخزين مدروسة وخامات سهلة الصيانة.",
+    "description": "تصميم مطبخ كلاسيكى يركّز على العملية في التوزيع، مع وحدات تخزين مدروسة وخامات سهلة الصيانة.",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "مطابخ"
+    ],
     "featured": false
   },
   {
@@ -1253,6 +1447,77 @@ const PROJECTS_FALLBACK = [
       "مطابخ",
       "Modern Kitchen"
     ],
+    "featured": false
+  },
+  {
+    "id": "مطعم-الحياة-d985d8b7",
+    "discipline": "interior",
+    "category": "مطاعم",
+    "title": "مطعم الحياة",
+    "location": "العراق",
+    "area": "150م",
+    "year": "2024",
+    "cover": "images/projects-by-name/interior/مطعم الحياة/1.webp",
+    "before": null,
+    "gallery": [
+      "images/projects-by-name/interior/مطعم الحياة/2.webp",
+      "images/projects-by-name/interior/مطعم الحياة/3.webp",
+      "images/projects-by-name/interior/مطعم الحياة/4.webp",
+      "images/projects-by-name/interior/مطعم الحياة/5.webp"
+    ],
+    "video": null,
+    "excerpt": "مشروع مطعم الحياة",
+    "description": "مشروع مطعم الحياة.",
+    "idea": "",
+    "materials": [],
+    "tags": [],
+    "featured": false
+  },
+  {
+    "id": "مطعم-برجر-ستار-d985d8b7",
+    "discipline": "interior",
+    "category": "مطاعم",
+    "title": "مطعم برجر ستار",
+    "location": "الفيوم",
+    "area": "80م",
+    "year": "2024",
+    "cover": "images/projects-by-name/interior/مطعم برجر ستار/1.webp",
+    "before": null,
+    "gallery": [
+      "images/projects-by-name/interior/مطعم برجر ستار/2.webp",
+      "images/projects-by-name/interior/مطعم برجر ستار/3.webp",
+      "images/projects-by-name/interior/مطعم برجر ستار/4.webp"
+    ],
+    "video": null,
+    "excerpt": "مشروع مطعم برجر ستار",
+    "description": "مشروع مطعم برجر ستار.",
+    "idea": "",
+    "materials": [],
+    "tags": [],
+    "featured": false
+  },
+  {
+    "id": "مطعم-هابي-داي-d985d8b7",
+    "discipline": "interior",
+    "category": "مطاعم",
+    "title": "مطعم هابي داي",
+    "location": "الشرقية",
+    "area": "300 م",
+    "year": "2023",
+    "cover": "images/projects-by-name/interior/مطعم هابي داي/1.webp",
+    "before": null,
+    "gallery": [
+      "images/projects-by-name/interior/مطعم هابي داي/2.webp",
+      "images/projects-by-name/interior/مطعم هابي داي/3.webp",
+      "images/projects-by-name/interior/مطعم هابي داي/4.webp",
+      "images/projects-by-name/interior/مطعم هابي داي/5.webp"
+    ],
+    "video": null,
+    "excerpt": "مشروع مطعم هابي داي",
+    "description": "مشروع مطعم هابي داي.",
+    "idea": "",
+    "materials": [],
+    "tags": [],
     "featured": false
   },
   {

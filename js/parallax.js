@@ -98,26 +98,13 @@
     }, { passive: true });
   }
 
-  /* ─── فيديوهات مشاريع التخصص (للدوران التلقائي كل ساعة) ─── */
-  function getProjectVideos(discipline) {
-    const all = window.projectsData || window.PROJECTS_FALLBACK || [];
-    return all.filter(p => p.discipline === discipline && p.video).map(p => p.video);
-  }
-
   /* ─── تهيئة بانر واحد ─── */
   function setupBanner(el, discipline, offset) {
     if (!el) return;
     /* 1) صورة فورية (بتبان أول، وبتفضل كـ fallback لو الفيديو فشل) */
     loadFirstAvailable(el, orderedCovers(discipline, offset), false);
-    /* 2) فيديو فوقها على الديسكتوب — يدور على فيديوهات المشاريع تلقائيًا،
-          ولو لسه مفيش → بيستخدم الفيديو الثابت من VIDEOS */
-    if (useVideo) {
-      const vids = getProjectVideos(discipline);
-      let src = null;
-      if (vids.length) src = vids[(Math.floor(Date.now() / HOUR) + offset) % vids.length];
-      if (!src) src = VIDEOS[discipline];
-      buildVideo(el, src);
-    }
+    /* Banner videos are explicitly assigned; never borrow project videos. */
+    if (useVideo) buildVideo(el, VIDEOS[discipline]);
   }
 
   /* ─── Mobile JS Parallax (للصور بس) ─── */

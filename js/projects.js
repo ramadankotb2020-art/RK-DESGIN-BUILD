@@ -194,23 +194,8 @@ buildFilterBar(null);
       return /\.(mp4|webm|ogg)(\?.*)?$/i.test(src);
     }
 
-    /* ─── Build cover video path from cover image path ─── */
-    /* e.g. images/.../01-cover.jpg  →  images/.../cover.mp4  */
-    function getCoverVideo(coverSrc) {
-      if (!coverSrc) return null;
-      const dir = coverSrc.substring(0, coverSrc.lastIndexOf('/') + 1);
-      return dir + 'cover.mp4';
-    }
-
-    /* ─── Merge: images + any video files in gallery ─── */
-    /* Also check if cover.mp4 exists by trying to load it */
+    /* Only use media explicitly listed for this project; never guess cover.mp4. */
     const allItems = [...rawItems];
-
-    /* Add cover.mp4 at the start if not already in list */
-    const coverVideoPath = getCoverVideo(project.cover);
-    if (coverVideoPath && !allItems.some(s => isVideo(s))) {
-      allItems.unshift(coverVideoPath);
-    }
 
     /* Separate into images and videos, keep original order */
     /* Videos go at their natural position (cover.mp4 first, numbered videos in place) */
