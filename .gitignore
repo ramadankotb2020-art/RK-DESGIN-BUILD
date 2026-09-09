@@ -1,0 +1,10 @@
+node_modules/
+.env
+.env.*
+.dev.vars
+.wrangler/
+.cache/
+test-results/
+playwright-report/
+
+dist/

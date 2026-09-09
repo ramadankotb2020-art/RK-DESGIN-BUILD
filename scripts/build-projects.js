@@ -28,6 +28,7 @@
 
 const fs = require("fs");
 const path = require("path");
+const { createHash } = require("crypto");
 
 const ROOT = path.join(__dirname, "..");
 const IMAGES_ROOT = path.join(ROOT, "images", "projects-by-name");
@@ -39,7 +40,7 @@ const DISCIPLINE_FOLDERS = {
   "تصميم-جرافيك": "graphic"
 };
 
-const IMAGE_EXT = [".jpg", ".jpeg", ".png", ".webp", ".gif"];
+const IMAGE_EXT = [".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"];
 const VIDEO_EXT = [".mp4", ".webm"];
 
 function slugify(str) {
@@ -68,7 +69,16 @@ function parseInfoTxt(filePath) {
     "الفكرة": "idea",
     "الخامات": "materials",
     "الوسوم": "tags",
-    "مميز": "featured"
+    "مميز": "featured",
+    "الخدمات": "services",
+    "عنوان SEO": "seoTitle",
+    "وصف SEO": "seoDescription",
+    "وصف الصورة": "alt",
+    "الرابط": "slug",
+    "الحالة": "status",
+    "نوع المشروع": "categoryKey",
+    "فيسبوك": "facebook",
+    "status": "status", "slug": "slug", "facebook": "facebook"
   };
   const out = {};
   for (const line of text.split("\n")) {
@@ -78,7 +88,7 @@ function parseInfoTxt(filePath) {
     const value = line.slice(idx + 1).trim();
     const field = map[key];
     if (!field || !value) continue;
-    if (field === "materials" || field === "tags") {
+    if (field === "materials" || field === "tags" || field === "services") {
       out[field] = value.split(",").map((s) => s.trim()).filter(Boolean);
     } else if (field === "featured") {
       out[field] = ["نعم", "yes", "true", "y"].includes(value.toLowerCase());
@@ -151,10 +161,19 @@ function buildProjectFromFolder(disciplineKey, folderName, folderPath) {
     : null;
 
   return {
-    id: slugify(title) + "-" + Buffer.from(folderName).toString("hex").slice(0, 8),
+    id: "project-" + createHash("sha256").update(disciplineKey + "/" + folderName).digest("hex").slice(0,16),
+    legacyId: slugify(title) + "-" + Buffer.from(folderName).toString("hex").slice(0, 8),
     discipline,
-    category: info.category || "",
+    category: info.category || ({interior:"تصميم داخلي",exterior:"تصميم خارجي ولاندسكيب",graphic:"جرافيك وهوية بصرية"}[discipline] || discipline),
+    categoryKey: info.categoryKey || discipline,
     title,
+    slug: info.slug ? slugify(info.slug) : slugify(title) + "-" + createHash("sha256").update(disciplineKey + "/" + folderName).digest("hex").slice(0, 10),
+    status: /^(draft|مسودة)$/i.test(info.status || "") ? "draft" : "published",
+    facebook: /^(yes|true|نعم)$/i.test(info.facebook || ""),
+    services: info.services || [],
+    seoTitle: info.seoTitle || `${title}${info.location ? " — " + info.location : ""} | RK Design Studio`,
+    seoDescription: info.seoDescription || info.description || `شاهد صور وتفاصيل مشروع ${title} من أعمال رمضان قطب — RK Design Studio.`,
+    alt: info.alt || `${title}${info.location ? " — " + info.location : ""}`,
     location: info.location || "",
     area: info.area || null,
     year: info.year || "",
@@ -171,7 +190,7 @@ function buildProjectFromFolder(disciplineKey, folderName, folderPath) {
   };
 }
 
-function main() {
+async function main() {
   const projects = [];
 
   if (!fs.existsSync(IMAGES_ROOT)) {
@@ -188,10 +207,43 @@ function main() {
       if (!fs.statSync(projectPath).isDirectory()) continue;
 
       const project = buildProjectFromFolder(disciplineFolder, projectFolder, projectPath);
-      if (project) projects.push(project);
+      if (project && project.status === "published") projects.push(project);
     }
   }
 
+  // The same named project may legitimately exist in two service folders.
+  const titleCounts = new Map();
+  for (const p of projects) titleCounts.set(p.seoTitle, (titleCounts.get(p.seoTitle) || 0) + 1);
+  for (const p of projects) {
+    if (titleCounts.get(p.seoTitle) > 1) {
+      const label = { interior: "التصميم الداخلي", exterior: "التصميم الخارجي", graphic: "الجرافيك" }[p.discipline] || p.discipline;
+      p.seoTitle += " — " + label;
+    }
+  }
+  const slugs = new Set();
+  const sharp = require("sharp");
+  for (const project of projects) {
+    if (slugs.has(project.slug)) throw new Error("Duplicate project slug: " + project.slug);
+    slugs.add(project.slug);
+    project.url = "projects/" + encodeURIComponent(project.slug) + "/";
+    project.imageMeta = {};
+    const coverPath = path.join(ROOT, project.cover);
+    const hash = createHash("sha256").update(fs.readFileSync(coverPath)).digest("hex").slice(0,16);
+    const responsiveDir = path.join(ROOT, "images", "responsive");
+    fs.mkdirSync(responsiveDir, { recursive: true });
+    project.coverSources = [];
+    const coverMeta = await sharp(coverPath).metadata();
+    for (const width of [480, 800]) {
+      if ((coverMeta.orientation >= 5 ? coverMeta.height : coverMeta.width) < width) continue;
+      const dest = `images/responsive/${hash}-${width}.webp`;
+      if (!fs.existsSync(path.join(ROOT, dest))) await sharp(coverPath).rotate().resize({ width, withoutEnlargement:true }).webp({ quality:84 }).toFile(path.join(ROOT, dest));
+      project.coverSources.push({ src:dest, width });
+    }
+    for (const src of [project.cover, ...project.gallery].filter(src => IMAGE_EXT.includes(path.extname(src).toLowerCase()))) {
+      const { width, height, orientation } = await sharp(path.join(ROOT, src)).metadata();
+      project.imageMeta[src] = orientation >= 5 ? { width: height, height: width } : { width, height };
+    }
+  }
   const fileContent =
     "/* الملف ده بيتولّد تلقائيًا من مجلدات المشاريع — متعدّلوش يدويًا. */\n" +
     "const PROJECTS_FALLBACK = " +
@@ -202,7 +254,10 @@ function main() {
   fs.mkdirSync(path.dirname(OUTPUT_FILE), { recursive: true });
   fs.writeFileSync(OUTPUT_FILE, fileContent, "utf8");
 
+  await require("./enhance-pages.js")();
+  await require("./build-pages.js")(projects);
+
   console.log(`تم توليد ${projects.length} مشروع في js/projects-data.js`);
 }
 
-main();
+main().catch(error => { console.error(error.message); process.exitCode = 1; });

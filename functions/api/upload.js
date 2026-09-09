@@ -54,7 +54,8 @@ export async function onRequestPost({ request, env }) {
   const resourceType = isVideo ? "video" : "image";
 
   // إنشاء الـ signature
-  const strToSign  = `folder=${folder}&timestamp=${timestamp}${apiSecret}`;
+  const transformation = isImage ? "q_auto,f_auto,w_1600" : null;
+  const strToSign = `folder=${folder}&timestamp=${timestamp}${transformation ? "&transformation=" + transformation : ""}${apiSecret}`;
   const msgBuffer  = new TextEncoder().encode(strToSign);
   const hashBuffer = await crypto.subtle.digest("SHA-1", msgBuffer);
   const signature  = Array.from(new Uint8Array(hashBuffer))

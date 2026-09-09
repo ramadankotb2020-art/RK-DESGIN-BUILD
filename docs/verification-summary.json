@@ -1,0 +1,40 @@
+{
+  "environment": "Local Chromium after merging origin/main 398c0a0; external Google Fonts blocked; no live APIs invoked",
+  "routes": 69,
+  "viewports": [
+    320,
+    360,
+    375,
+    390,
+    414,
+    430,
+    480,
+    768,
+    820,
+    1024,
+    1280,
+    1440,
+    1920,
+    2560
+  ],
+  "layoutChecks": 966,
+  "horizontalOverflow": 0,
+  "javascriptErrors": 0,
+  "localHTTPFailures": 0,
+  "interactionChecks": 123,
+  "failedInteractions": [],
+  "axe": [
+    {
+      "route": "/",
+      "violations": []
+    },
+    {
+      "route": "/interior-design.html",
+      "violations": []
+    },
+    {
+      "route": "/contact.html",
+      "violations": []
+    }
+  ]
+}

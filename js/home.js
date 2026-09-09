@@ -24,13 +24,24 @@
   const RAW    = window.HERO_SLIDES || [];
   const SLIDES = RAW.filter(s => {
     if (s.type === 'image') return true;
-    if (reducedMotion) return false;  // بس reduced-motion — الفيديو يشتغل على الموبايل و Data Saver
+    if (reducedMotion || saveData) return false;  // بس reduced-motion — الفيديو يشتغل على الموبايل و Data Saver
     return true;
   });
   if (!SLIDES.length) return;
 
   let current = 0;
   let timer   = null;
+  let paused = reducedMotion || saveData;
+  const schedule = (fn, delay) => { if (!paused) timer = setTimeout(fn, delay); };
+  const pauseButton = document.createElement('button');
+  pauseButton.type = 'button'; pauseButton.className = 'hero-pause';
+  const syncPause = () => { pauseButton.textContent = paused ? '▶' : '❚❚'; pauseButton.setAttribute('aria-label', paused ? 'تشغيل العرض التلقائي' : 'إيقاف العرض التلقائي'); };
+  syncPause(); heroEl.appendChild(pauseButton);
+  pauseButton.addEventListener('click', () => {
+    paused = !paused; syncPause(); clearTimeout(timer); timer = null;
+    if (paused) allEls()[current]?.querySelector('video')?.pause();
+    else goTo(current);
+  });
 
   /* ─── Build image slide ─── */
   function buildImageEl(s) {
@@ -38,7 +49,7 @@
     wrap.className = 'hero-slide';
     const img = document.createElement('div');
     img.className = 'hero-slide-img';
-    img.style.backgroundImage = `url('${s.image}')`;
+    img.dataset.background = s.image;
     wrap.appendChild(img);
     return wrap;
   }
@@ -127,6 +138,8 @@
     const prev = current;
     current    = ((idx % SLIDES.length) + SLIDES.length) % SLIDES.length;
     const s    = SLIDES[current];
+    const bg = els[current]?.querySelector('[data-background]');
+    if (bg) bg.style.backgroundImage = `url('${bg.dataset.background}')`;
 
     els[prev]?.classList.remove('active');
     els[current]?.classList.add('active');
@@ -144,12 +157,12 @@
         playVideo(vid);
         vid.onended = () => goTo(current + 1);
         /* Safety: max 30s */
-        timer = setTimeout(() => goTo(current + 1), 30000);
+        schedule(() => goTo(current + 1), 30000);
       } else {
-        timer = setTimeout(() => goTo(current + 1), 8000);
+        schedule(() => goTo(current + 1), 8000);
       }
     } else {
-      timer = setTimeout(() => goTo(current + 1), (s.dur || 6) * 1000);
+      schedule(() => goTo(current + 1), (s.dur || 6) * 1000);
     }
   }
 
@@ -179,8 +192,8 @@
     const els = allEls();
     if (entries[0].isIntersecting) {
       const vid = els[current]?.querySelector('video');
-      if (SLIDES[current]?.type === 'video' && vid?.paused) playVideo(vid);
-      if (!timer) goTo(current);
+      if (!paused && SLIDES[current]?.type === 'video' && vid?.paused) playVideo(vid);
+      if (!timer && !paused) goTo(current);
     } else {
       clearTimeout(timer); timer = null;
       els[current]?.querySelector('video')?.pause();
@@ -195,12 +208,12 @@
       clearTimeout(timer); timer = null;
       vid?.pause();
     } else {
-      if (SLIDES[current]?.type === 'video' && vid) {
+      if (!paused && SLIDES[current]?.type === 'video' && vid) {
         playVideo(vid);
         vid.onended = () => goTo(current + 1);
-        timer = setTimeout(() => goTo(current + 1), 30000);
+        schedule(() => goTo(current + 1), 30000);
       } else {
-        timer = setTimeout(() => goTo(current + 1), (SLIDES[current]?.dur || 6) * 1000);
+        schedule(() => goTo(current + 1), (SLIDES[current]?.dur || 6) * 1000);
       }
     }
   }, { passive: true });
@@ -217,11 +230,11 @@
   const els = allEls();
   els[0]?.classList.add('active');
   const firstImg = els[0]?.querySelector('.hero-slide-img');
-  if (firstImg) firstImg.style.transform = 'scale(1)';
+  if (firstImg) { firstImg.style.transform = 'scale(1)'; firstImg.style.backgroundImage = `url('${SLIDES[0].image}')`; }
 
   updateContent(SLIDES[0]);
   updateDots(0);
   observer.observe(heroEl);
-  timer = setTimeout(() => goTo(1), (SLIDES[0].dur || 6) * 1000);
+  if (!reducedMotion && !saveData) schedule(() => goTo(1), (SLIDES[0].dur || 6) * 1000);
 
 })();

@@ -1,5 +1,6 @@
 (function () {
   'use strict';
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
   /* ─── Page Loader ─── */
   const loader = document.getElementById('page-loader');
@@ -30,31 +31,7 @@
       onHeaderScroll();
     }
 
-    /* ─── Mobile Nav ─── */
-    const navToggle = document.querySelector('.nav-toggle');
-    const navLinks  = document.getElementById('nav-links');
-    if (navToggle && navLinks) {
-      navToggle.addEventListener('click', () => {
-        const isOpen = navLinks.classList.toggle('is-open');
-        navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-        document.body.style.overflow = isOpen ? 'hidden' : '';
-      });
-      navLinks.querySelectorAll('a').forEach(link => {
-        link.addEventListener('click', () => {
-          navLinks.classList.remove('is-open');
-          navToggle.setAttribute('aria-expanded', 'false');
-          document.body.style.overflow = '';
-        });
-      });
-      document.addEventListener('click', e => {
-        if (navLinks.classList.contains('is-open') &&
-            !navLinks.contains(e.target) && !navToggle.contains(e.target)) {
-          navLinks.classList.remove('is-open');
-          navToggle.setAttribute('aria-expanded', 'false');
-          document.body.style.overflow = '';
-        }
-      });
-    }
+    /* Mobile menu behavior lives in accessibility.js. */
 
     /* ─── Scroll Progress Bar ─── */
     const progressBar = document.createElement('div');
@@ -126,10 +103,10 @@
         const service = contactForm.querySelector('input[name="service"]:checked')?.value || '';
         const message = contactForm.querySelector('#message')?.value.trim() || '';
 
-        if (!name || !phone || !message) {
+        if (!name || !phone || !message || !service || !/^[+\d\s()-]{7,22}$/.test(phone)) {
           if (status) {
             status.style.color = '#e57373';
-            status.textContent = '⚠ يرجى ملء الحقول المطلوبة.';
+            status.textContent = 'يرجى ملء الحقول، اختيار الخدمة، وكتابة رقم هاتف صالح.';
           }
           return;
         }
@@ -147,9 +124,7 @@
           status.textContent = '✓ جاري تحويلك للواتساب...';
         }
 
-        setTimeout(() => {
-          window.open(`https://wa.me/${wa}?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
-        }, 300);
+        window.location.assign(`https://wa.me/${wa}?text=${encodeURIComponent(text)}`);
       });
     }
 
@@ -165,7 +140,7 @@
         'display:none', 'position:fixed', 'inset:0',
         'background:rgba(0,0,0,0.94)', 'z-index:9999',
         'align-items:flex-start', 'justify-content:center',
-        'padding-top:140px', 'backdrop-filter:blur(16px)'
+        'padding-top:clamp(24px,12dvh,140px)', 'backdrop-filter:blur(16px)'
       ].join(';');
       overlay.innerHTML = `
         <div style="width:100%;max-width:600px;padding:0 24px;">
@@ -184,7 +159,7 @@
       document.body.appendChild(overlay);
 
       const openSearch  = () => { overlay.style.display = 'flex'; document.getElementById('search-input').focus(); };
-      const closeSearch = () => { overlay.style.display = 'none'; };
+      const closeSearch = () => { const wasOpen = overlay.style.display !== 'none'; overlay.style.display = 'none'; if (wasOpen) searchTrigger.focus(); };
 
       searchTrigger.addEventListener('click', openSearch);
       document.getElementById('search-close').addEventListener('click', closeSearch);
@@ -198,13 +173,13 @@
         const q = this.value.trim().toLowerCase();
         const results = document.getElementById('search-results');
         if (!q || typeof projectsData === 'undefined') { results.innerHTML = ''; return; }
-        const found = (window.projectsData || []).filter(p =>
+        const found = (window.projectsData || projectsData || []).filter(p =>
           (p.title || '').toLowerCase().includes(q) ||
           (p.category || '').toLowerCase().includes(q)
         ).slice(0, 6);
         results.innerHTML = found.length
           ? found.map(p => `
-              <a href="project.html?id=${p.id}"
+              <a href="${p.url || `project.html?id=${encodeURIComponent(p.id)}`}"
                 onclick="document.getElementById('search-overlay').style.display='none'"
                 style="display:flex;align-items:center;gap:16px;padding:14px 16px;
                 margin-bottom:8px;background:#161616;border:1px solid rgba(255,255,255,0.08);
@@ -212,8 +187,8 @@
                 direction:rtl;transition:border-color 0.2s;"
                 onmouseover="this.style.borderColor='#c5a059'"
                 onmouseout="this.style.borderColor='rgba(255,255,255,0.08)'">
-                <span style="color:#c5a059;font-size:10px;font-weight:700;white-space:nowrap;letter-spacing:1px;">${p.category || p.discipline || ''}</span>
-                <span style="font-size:14px;">${p.title}</span>
+                <span style="color:#c5a059;font-size:10px;font-weight:700;white-space:nowrap;letter-spacing:1px;">${esc(p.category || p.discipline || '')}</span>
+                <span style="font-size:14px;">${esc(p.title)}</span>
               </a>`).join('')
           : '<p style="color:#aaa;font-family:Cairo,sans-serif;padding:16px 0;font-size:14px;">لا توجد نتائج مطابقة</p>';
       });

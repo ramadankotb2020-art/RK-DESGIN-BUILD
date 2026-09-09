@@ -40,6 +40,8 @@ echo Open index.html to check your projects.
 echo If already open, refresh with Ctrl+Shift+R.
 echo.
 echo This tool does NOT upload or publish your website.
+echo Upload ALL changed files, including projects/ and sitemap.xml.
+REM Generated project HTML is required for SEO and social sharing.
 echo Upload the changed media AND js/projects-data.js
 echo to GitHub, then wait for hosting deployment.
 echo ================================================
