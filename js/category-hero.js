@@ -16,7 +16,7 @@
   /* ─── Wait for projectsData ─── */
   function init() {
     const allProjects = window.projectsData || window.PROJECTS_FALLBACK || [];
-    const projects    = allProjects.filter(p => p.discipline === discipline);
+    const projects    = allProjects.filter(p => p.discipline === discipline).slice(0, 4);
     if (!projects.length) return;
 
     /* ─── Collect one unique image per project ─── */

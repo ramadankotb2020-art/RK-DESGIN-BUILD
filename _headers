@@ -1,0 +1,16 @@
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+/admin.html
+  X-Robots-Tag: noindex, nofollow
+/project.html
+  X-Robots-Tag: noindex, follow
+/3d-view.html
+  X-Robots-Tag: noindex, follow
+/admin
+  X-Robots-Tag: noindex, nofollow
+/project
+  X-Robots-Tag: noindex, follow
+/3d-view
+  X-Robots-Tag: noindex, follow

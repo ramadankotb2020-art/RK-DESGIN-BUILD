@@ -2,9 +2,10 @@
 """سيرفر بسيط بمنع الكاش خالص — عشان الـ preview دايماً يجيب أحدث نسخة."""
 import http.server
 import socketserver
+from pathlib import Path
 
 PORT = 8000
-DIRECTORY = "/home/user/rk-design"
+DIRECTORY = str(Path(__file__).resolve().parent)
 
 
 class NoCacheHandler(http.server.SimpleHTTPRequestHandler):

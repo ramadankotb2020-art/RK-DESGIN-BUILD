@@ -30,8 +30,9 @@ export function slugify(str) {
 }
 
 export async function isAuthenticated(request, env) {
+  if (!env.ADMIN_PASSWORD) return false;
   const cookie = request.headers.get("Cookie") || "";
-  const match = cookie.match(/rk_session=([a-f0-9]+)/);
+  const match = cookie.match(/(?:^|;\s*)rk_session=([a-f0-9]{64})(?:;|$)/);
   if (!match) return false;
   const expected = await sessionToken(env.ADMIN_PASSWORD);
   return match[1] === expected;
