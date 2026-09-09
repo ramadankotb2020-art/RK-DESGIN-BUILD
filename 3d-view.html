@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>معاينة 3D — RK Design</title>
+<title>معاينة مخطط الغرفة ثلاثي الأبعاد | RK Design Studio</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#0e1117;overflow:hidden;font-family:Cairo,-apple-system,sans-serif}
@@ -24,6 +24,19 @@ body{background:#0e1117;overflow:hidden;font-family:Cairo,-apple-system,sans-ser
 #err p{color:rgba(255,255,255,.45);font-size:14px;line-height:1.7;margin-bottom:20px}
 #err a{display:inline-block;padding:12px 28px;border-radius:10px;background:#c5a059;color:#0a0a0a;font-weight:700;text-decoration:none}
 </style>
+<link rel="canonical" href="https://rk-desgin-build-2an.pages.dev/3d-view">
+<meta name="description" content="اعرض مخطط غرفتك في معاينة ثلاثية الأبعاد باستخدام أدوات RK Design Studio.">
+<meta property="og:title" content="معاينة مخطط الغرفة ثلاثي الأبعاد | RK Design Studio">
+<meta property="og:description" content="اعرض مخطط غرفتك في معاينة ثلاثية الأبعاد باستخدام أدوات RK Design Studio.">
+<meta property="og:url" content="https://rk-desgin-build-2an.pages.dev/3d-view">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ar_EG">
+<meta property="og:image" content="https://rk-desgin-build-2an.pages.dev/images/homepage/hero-slide-1-interior.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="معاينة مخطط الغرفة ثلاثي الأبعاد | RK Design Studio">
+<meta name="twitter:description" content="اعرض مخطط غرفتك في معاينة ثلاثية الأبعاد باستخدام أدوات RK Design Studio.">
+<meta name="twitter:image" content="https://rk-desgin-build-2an.pages.dev/images/homepage/hero-slide-1-interior.webp">
+<meta name="robots" content="noindex, follow">
 </head>
 <body>
 <div id="bar">
@@ -42,8 +55,6 @@ body{background:#0e1117;overflow:hidden;font-family:Cairo,-apple-system,sans-ser
 (function(){
 'use strict';
 var R; try{R=localStorage.getItem('rkdesign_planner_v2')}catch(e){}
-if(!R){R='{"walls":[{"x1":1,"y1":1,"x2":8,"y2":1,"t":0.2},{"x1":8,"y1":1,"x2":8,"y2":6,"t":0.2},{"x1":8,"y1":6,"x2":1,"y2":6,"t":0.2},{"x1":1,"y1":6,"x2":1,"y2":1,"t":0.2},{"x1":4.5,"y1":1,"x2":4.5,"y2":3.5},{"x1":1,"y1":3.5,"x2":4.5,"y2":3.5}],"items":[{"id":1,"kind":"sofa3","x":6.2,"y":2.5,"w":2.1,"h":0.9,"rot":0,"flip":1},{"id":2,"kind":"coffee-table","x":6.2,"y":3.8,"w":1.1,"h":0.6,"rot":0,"flip":1},{"id":3,"kind":"tv-unit","x":6.2,"y":5.2,"w":1.8,"h":0.45,"rot":0,"flip":1},{"id":4,"kind":"bed-double","x":2.7,"y":2.2,"w":1.8,"h":2,"rot":0,"flip":1},{"id":5,"kind":"wardrobe-bed","x":1.6,"y":5,"w":1.8,"h":0.6,"rot":0,"flip":1}],"rooms":[],"nextId":6,"notes":"","roomMeta":{}}'}
-}
 if(!R)return; var P; try{P=JSON.parse(R)}catch(e){return}
 var W=P.walls||[],I=P.items||[],RM=P.rooms||[];
 if(!W.length&&!I.length)return;
@@ -120,7 +131,9 @@ function drawFloor(){
   // room fills
   if(RM.length)RM.forEach(function(r){if(r.pts&&r.pts.length>=3){
     var pts=r.pts.map(function(p){return P3(p.x,p.y,0.01)});
-    face(pts,'rgba(197,160,89,0.04)')})}
+    face(pts,'rgba(197,160,89,0.04)');
+  }});
+}
 
 function render(){
   x.fillStyle='#0e1117';x.fillRect(0,0,cv.width,cv.height);

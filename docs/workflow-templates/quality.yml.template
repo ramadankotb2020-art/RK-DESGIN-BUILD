@@ -1,0 +1,27 @@
+name: Portfolio quality checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run build
+      - run: npm test
+      - run: python3 tests/link-audit.py
+      - run: npx playwright install --with-deps chromium
+      - name: Responsive routes and interactions
+        run: |
+          python3 -u -m http.server 8090 --bind 127.0.0.1 > /tmp/rk-preview.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID"' EXIT
+          curl --retry 10 --retry-connrefused --retry-delay 1 http://127.0.0.1:8090/ > /dev/null
+          node tests/browser-audit.cjs
+      - run: node scripts/prepare-deploy.js

@@ -10,7 +10,7 @@
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const saveData = navigator.connection && navigator.connection.saveData;
     const slowNet  = navigator.connection && ['slow-2g','2g','3g'].includes(navigator.connection.effectiveType);
-    const skipVideo = prefersReducedMotion;  // بس لـ reduced-motion (مش لـ 3G ولا saveData)
+    const skipVideo = prefersReducedMotion || saveData || slowNet;  // بس لـ reduced-motion (مش لـ 3G ولا saveData)
     const canHover  = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
 
     let activeMobile = null;   // الفيديو الشغّال على الموبايل (واحد بس)
@@ -33,8 +33,8 @@
     }
 
     function attachVideo(mediaEl, project) {
-        const mp4    = project.video_mp4 || project.video || null;
-        const webm   = project.video_webm || null;
+        const mp4    = project.video_mp4 || (/\.mp4$/i.test(project.video || '') ? project.video : null);
+        const webm   = project.video_webm || (/\.webm$/i.test(project.video || '') ? project.video : null);
         const poster = project.cover || null;
         if (!mp4 && !webm) return;
 
@@ -101,8 +101,7 @@
             if (!mediaEl || mediaEl.dataset.rkVideoAttached) return;
             const href = card.getAttribute('href') || '';
             const idMatch = href.match(/[?&]id=([^&]+)/);
-            if (!idMatch) return;
-            const project = projectsData.find(p => String(p.id) === decodeURIComponent(idMatch[1]));
+            const project = projectsData.find(p => p.url === href || (idMatch && String(p.id) === decodeURIComponent(idMatch[1])));
             if (!project) return;
             if (project.video || project.video_mp4 || project.video_webm) {
                 mediaEl.dataset.rkVideoAttached = '1';

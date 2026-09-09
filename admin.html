@@ -16,8 +16,10 @@
     .form-group label { display: block; font-weight: 700; font-size: 14px; margin-bottom: 8px; color: var(--gold); }
     .form-control { width: 100%; padding: 14px 18px; border: 1px solid var(--line); background: var(--bg); color: var(--white); font-family: inherit; }
   </style>
+<meta name="robots" content="noindex, nofollow">
 </head>
 <body>
+<aside style="padding:16px;background:#15120c;color:#eee;text-align:center;line-height:1.8">تنبيه: هذه لوحة KV القديمة. طريقة نشر الموقع الحالية تعتمد على فولدرات المشاريع وتشغيل update-site.bat ثم رفع التغييرات إلى GitHub. الحفظ هنا لا ينشر صفحات الموقع الجديدة.</aside>
 
   <header class="site-header">
     <div class="container nav">
@@ -33,12 +35,12 @@
   </header>
 
   <main class="admin-container">
-    
+
     <!-- LOGIN FORM -->
     <div class="admin-card" id="loginSection">
       <h2 style="font-size: 26px; color: var(--gold); margin-bottom: 12px;">تسجيل الدخول للوحة التحكم</h2>
       <p style="color: var(--ink-soft); margin-bottom: 24px;">أدخل كلمة السر المحددة في Cloudflare Environment Variables.</p>
-      
+
       <form id="loginForm">
         <div class="form-group">
           <label for="password">كلمة السر</label>
@@ -67,7 +69,7 @@
 
       <form id="projectForm" style="display: flex; flex-direction: column; gap: 20px;">
         <h3 style="font-size: 20px; color: var(--white);">إضافة / تعديل مشروع</h3>
-        
+
         <div class="form-group">
           <label>عنوان المشروع *</label>
           <input type="text" id="pTitle" class="form-control" required placeholder="عنوان المشروع">

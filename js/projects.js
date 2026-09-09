@@ -1,4 +1,7 @@
-'use strict';
+ 'use strict';
+function rkEscapeHTML(value) {
+  return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
 
 /* ─── Fallback to PROJECTS_FALLBACK if no projectsData global ─── */
 if (typeof projectsData === 'undefined' && typeof PROJECTS_FALLBACK !== 'undefined') {
@@ -39,21 +42,21 @@ function renderProjects(filter, containerAttr) {
   container.innerHTML = filtered.map((p, i) => {
     /* ─── صورة الغلاف مباشرة (موثوقة) — الصور المكسورة بيتحط ليها بديل أنيق تلقائيًا ─── */
     const mediaHTML = p.cover
-      ? `<img src="${p.cover}" class="project-img" alt="${p.title}" loading="lazy" decoding="async">`
+      ? `<img src="${rkEscapeHTML(p.cover)}" class="project-img" ${p.coverSources?.length ? `srcset="${p.coverSources.map(s=>`${s.src} ${s.width}w`).join(", ")}" sizes="(min-width:900px) 33vw, (min-width:600px) 50vw, 100vw"` : ""} alt="${rkEscapeHTML(p.alt || p.title)}" ${p.imageMeta?.[p.cover] ? `width="${p.imageMeta[p.cover].width}" height="${p.imageMeta[p.cover].height}"` : ""} loading="lazy" decoding="async">`
       : '';
 
     return `
-    <a href="project.html?id=${encodeURIComponent(p.id)}"
+    <a href="${p.url || `project.html?id=${encodeURIComponent(p.id)}`}"
        class="project-card reveal"
        style="animation-delay:${(i % 6) * 60}ms">
       <div class="project-card-media">
         ${mediaHTML}
-        ${p.category ? `<span class="project-category-badge">${p.category}</span>` : ''}
+        ${p.category ? `<span class="project-category-badge">${rkEscapeHTML(p.category)}</span>` : ''}
         <span class="project-card-cta">عرض المشروع ←</span>
       </div>
       <div class="project-info">
-        ${p.category ? `<p>${p.category}</p>` : ''}
-        <h3>${p.title}</h3>
+        ${p.category ? `<p>${rkEscapeHTML(p.category)}</p>` : ''}
+        <h3>${rkEscapeHTML(p.title)}</h3>
       </div>
     </a>`;
   }).join('');
@@ -89,9 +92,9 @@ function buildFilterBar(discipline) {
 
     bar.innerHTML = items.map((item, i) => `
       <button class="${i === 0 ? 'active' : ''}"
-        data-filter="${item.val}"
+        data-filter="${rkEscapeHTML(item.val)}"
         aria-pressed="${i === 0 ? 'true' : 'false'}">
-        ${item.label}
+        ${rkEscapeHTML(item.label)}
       </button>
     `).join('');
 
@@ -129,8 +132,17 @@ buildFilterBar(null);
   if (!page) return;
 
   const id      = new URLSearchParams(window.location.search).get('id');
-  const project = (window.projectsData || []).find(p => String(p.id) === String(id));
-  if (!project) return;
+  const project = (window.projectsData || []).find(p => (String(p.id) === String(id) || String(p.legacyId) === String(id)));
+  if (!project) {
+    page.innerHTML = '<div class="container"><h1>المشروع غير موجود</h1><p>ربما تغير الرابط أو تم إلغاء نشر المشروع.</p><a class="btn btn-primary" href="projects/">تصفح المشاريع</a></div>';
+    const robots = document.querySelector('meta[name="robots"]');
+    if (robots) robots.content = 'noindex, follow';
+    return;
+  }
+  if (project.url && location.protocol !== 'file:') {
+    location.replace(new URL(project.url, document.baseURI).href);
+    return;
+  }
 
   const disciplineLabels = {
     interior: 'تصميم داخلي',
@@ -139,7 +151,7 @@ buildFilterBar(null);
   };
 
   /* Update page title */
-  document.title = `${project.title} — رمضان قطب | RK Design Studio`;
+  document.title = `${rkEscapeHTML(project.title)} — رمضان قطب | RK Design Studio`;
 
   /* Eyebrow */
   const eyebrow = page.querySelector('[data-p-eyebrow]');
@@ -175,7 +187,7 @@ buildFilterBar(null);
   const coverEl = page.querySelector('[data-p-cover]');
   if (coverEl && project.cover) {
     coverEl.innerHTML = `
-      <img src="${project.cover}" alt="${project.title}"
+      <img src="${rkEscapeHTML(project.cover)}" alt="${rkEscapeHTML(project.title)}"
         style="width:100%;display:block;max-height:70vh;object-fit:cover;"
         loading="eager">`;
   }
@@ -214,7 +226,7 @@ buildFilterBar(null);
           <div style="break-inside:avoid;margin-bottom:16px;overflow:hidden;
             border:1px solid var(--line);border-radius:8px;background:var(--bg-3);">
             <video
-              src="${src}"
+              src="${rkEscapeHTML(src)}"
               style="width:100%;height:auto;display:block;"
               autoplay muted loop playsinline
               onerror="this.closest('div').style.display='none'">
@@ -229,7 +241,7 @@ buildFilterBar(null);
             onmouseenter="this.style.borderColor='var(--gold)'"
             onmouseleave="this.style.borderColor='var(--line)'"
             onclick="window.__openLightbox && window.__openLightbox(${lbIndex})">
-            <img src="${src}" alt="${project.title} — ${i + 1}"
+            <img src="${rkEscapeHTML(src)}" alt="${rkEscapeHTML(project.title)} — ${i + 1}"
               loading="${i < 4 ? 'eager' : 'lazy'}"
               style="width:100%;height:auto;display:block;
                 transition:transform 0.5s,filter 0.35s;filter:brightness(0.88);"
@@ -361,7 +373,7 @@ buildFilterBar(null);
 
   function setImage(el, src) {
     if (!el || !src) return;
-    el.style.backgroundImage = `url('${src}')`;
+    el.style.backgroundImage = `url('${rkEscapeHTML(src)}')`;
   }
 
   function fadeToImage(el, src) {
@@ -369,7 +381,7 @@ buildFilterBar(null);
     el.style.transition = 'opacity 1.2s ease-in-out';
     el.style.opacity = '0';
     setTimeout(() => {
-      el.style.backgroundImage = `url('${src}')`;
+      el.style.backgroundImage = `url('${rkEscapeHTML(src)}')`;
       el.style.opacity = '1';
     }, 1200);
   }

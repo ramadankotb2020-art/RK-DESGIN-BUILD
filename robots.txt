@@ -1,6 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /admin
 Disallow: /admin.html
+Disallow: /api/
 Disallow: /functions/
 
-Sitemap: https://rk-design.com/sitemap.xml
+Sitemap: https://rk-desgin-build-2an.pages.dev/sitemap.xml
