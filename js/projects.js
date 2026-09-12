@@ -153,6 +153,34 @@ buildFilterBar(null);
   /* Update page title */
   document.title = `${rkEscapeHTML(project.title)} — رمضان قطب | RK Design Studio`;
 
+  /* ── Update OG & Twitter meta tags for Facebook sharing ── */
+  const baseUrl = 'https://rk-desgin-build-2an.pages.dev';
+  const projectUrl = `${baseUrl}/project?id=${project.id}`;
+  const coverUrl = project.cover ? `${baseUrl}/${project.cover}` : `${baseUrl}/images/homepage/hero-slide-1-interior.webp`;
+  const desc = project.excerpt || project.description || `تصميم ${project.title} — رمضان قطب RK Design Studio`;
+
+  function setMeta(sel, attr, val) {
+    let el = document.querySelector(sel);
+    if (!el) { el = document.createElement('meta'); document.head.appendChild(el); }
+    el.setAttribute(attr, val);
+  }
+
+  setMeta('meta[property="og:title"]',       'content', `${project.title} — RK Design Studio`);
+  setMeta('meta[property="og:description"]', 'content', desc);
+  setMeta('meta[property="og:image"]',       'content', coverUrl);
+  setMeta('meta[property="og:url"]',         'content', projectUrl);
+  setMeta('meta[property="og:type"]',        'content', 'article');
+  setMeta('meta[name="twitter:title"]',      'content', `${project.title} — RK Design Studio`);
+  setMeta('meta[name="twitter:description"]','content', desc);
+  setMeta('meta[name="twitter:image"]',      'content', coverUrl);
+  setMeta('link[rel="canonical"]',           'href',    projectUrl);
+
+  /* Remove noindex so Facebook crawler can read the page */
+  const robotsMeta = document.querySelector('meta[name="robots"]');
+  if (robotsMeta) robotsMeta.content = 'index, follow';
+
+
+
   /* Eyebrow */
   const eyebrow = page.querySelector('[data-p-eyebrow]');
   if (eyebrow) eyebrow.textContent = project.category || disciplineLabels[project.discipline] || '';

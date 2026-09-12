@@ -401,21 +401,20 @@
         </div>
       </div>
 
-      <!-- Token Setup -->
-      <div class="card" style="margin-bottom:24px;">
-        <div class="settings-title">🔑 إعداد الصفحة</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:700px;">
-          <div class="form-group">
-            <label class="form-label">Page Access Token</label>
-            <input class="form-input" type="password" id="fb-token-input" placeholder="EAAxxxxxxxxxxxx">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Page ID</label>
-            <input class="form-input" id="fb-page-id-input" placeholder="1218558817997248" value="1218558817997248">
+      <!-- How it works -->
+      <div class="card" style="margin-bottom:24px;border-color:rgba(197,160,89,0.3);background:rgba(197,160,89,0.05);">
+        <div style="display:flex;gap:16px;align-items:flex-start;">
+          <div style="font-size:28px;">💡</div>
+          <div>
+            <div style="font-weight:700;font-size:15px;margin-bottom:8px;">كيف يشتغل؟</div>
+            <div style="color:var(--ink2);font-size:14px;line-height:1.8;">
+              ١. اضغط <strong style="color:var(--gold);">📤 نشر</strong> على أي مشروع<br>
+              ٢. بيتفتح فيسبوك تلقائياً مع رابط المشروع<br>
+              ٣. النص بيتنسخ تلقائياً — الصقه في البوست<br>
+              ٤. اضغط نشر على فيسبوك ✓
+            </div>
           </div>
         </div>
-        <button class="btn btn-primary" style="margin-top:16px;" onclick="saveFbSettings()">💾 حفظ وتحقق</button>
-        <div id="fb-verify-result" style="margin-top:12px;font-size:13px;"></div>
       </div>
 
       <!-- Post Composer -->
@@ -423,9 +422,12 @@
         <div class="settings-title">✍️ بوست مخصص</div>
         <div class="form-group" style="margin-bottom:16px;">
           <label class="form-label">نص البوست</label>
-          <textarea class="form-textarea" id="fb-custom-msg" style="min-height:120px;" placeholder="اكتب نص البوست هنا..."></textarea>
+          <textarea class="form-textarea" id="fb-custom-msg" style="min-height:120px;" placeholder="اكتب نص البوست هنا...&#10;مثال: 🆕 مشروع جديد من RK Design Studio!&#10;تفضل شوف أحدث أعمالنا 👇&#10;https://rk-desgin-build-2an.pages.dev"></textarea>
         </div>
-        <button class="btn btn-primary" onclick="postCustomFb()">📤 نشر على فيسبوك</button>
+        <div style="display:flex;gap:12px;">
+          <button class="btn btn-primary" onclick="postCustomFb()">📤 افتح فيسبوك + انسخ النص</button>
+          <button class="btn btn-secondary" onclick="copyCustomMsg()">📋 نسخ النص فقط</button>
+        </div>
       </div>
 
       <!-- Projects List for Sharing -->
@@ -1025,41 +1027,60 @@ async function verifyFbToken() {
   }
 }
 
-async function postToFacebook(message) {
-  const pageId = getFbPageId();
-  const token  = getFbToken();
-  if (!token) { toast('حط الـ Token الأول في إعداد الصفحة', 'error'); return false; }
-  const res = await fetch(`https://graph.facebook.com/${pageId}/feed`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ message, access_token: token })
-  });
-  const data = await res.json();
-  if (data.error) { toast('خطأ: ' + data.error.message, 'error'); return false; }
-  return true;
+function openFbPage() {
+  window.open('https://www.facebook.com/profile.php?id=61590444884849', '_blank', 'width=900,height=700');
 }
 
-async function postCustomFb() {
+function postCustomFb() {
   const msg = document.getElementById('fb-custom-msg').value.trim();
   if (!msg) { toast('اكتب نص البوست الأول', 'error'); return; }
-  const ok = await postToFacebook(msg);
-  if (ok) {
-    toast('✓ تم النشر على فيسبوك!', 'success');
-    document.getElementById('fb-custom-msg').value = '';
-  }
+  navigator.clipboard.writeText(msg).then(() => {
+    toast('✓ تم نسخ النص — افتح فيسبوك والصقه في البوست!', 'success');
+    openFbPage();
+  }).catch(() => {
+    toast('النص: ' + msg.slice(0,50) + '...', 'success');
+    openFbPage();
+  });
 }
 
-async function shareProject(id) {
+function shareProject(id) {
   const p = projectsData.find(x => x.id === id);
   if (!p) return;
   const projectUrl = `https://rk-desgin-build-2an.pages.dev/project?id=${p.id}`;
-  const msg = `🆕 مشروع جديد: ${p.title}\n\n${p.excerpt || p.description || ''}\n\nتفضل شوف المشروع كاملاً 👇\n${projectUrl}\n\n#RKDesignStudio #تصميم_داخلي #ديكور`;
-  const ok = await postToFacebook(msg);
-  if (ok) {
-    markPosted(id);
-    toast(`✓ تم نشر "${p.title}" على فيسبوك!`, 'success');
-    renderFbProjects();
-  }
+  const msg = `🆕 مشروع جديد: ${p.title}
+
+${p.excerpt || p.description || ''}
+
+تفضل شوف المشروع كاملاً 👇
+${projectUrl}
+
+#RKDesignStudio #تصميم_داخلي #ديكور`;
+
+  navigator.clipboard.writeText(msg).then(() => {
+    showFbOverlay(msg, id);
+  }).catch(() => {
+    showFbOverlay(msg, id);
+  });
+}
+
+function showFbOverlay(msg, projectId) {
+  // عرض popup داخلي بالنص مع زرار فتح فيسبوك
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:flex;align-items:center;justify-content:center;padding:24px;';
+  overlay.innerHTML = `
+    <div style="background:var(--bg2);border:1px solid var(--line);border-radius:16px;padding:32px;max-width:560px;width:100%;">
+      <div style="font-size:18px;font-weight:800;margin-bottom:8px;">📋 نص البوست جاهز</div>
+      <div style="color:var(--ink2);font-size:13px;margin-bottom:16px;">النص اتنسخ تلقائياً — افتح صفحتك على فيسبوك والصقه في منشور جديد</div>
+      <textarea style="width:100%;background:var(--bg3);border:1px solid var(--line);border-radius:8px;padding:12px;color:var(--ink);font-family:'Cairo',sans-serif;font-size:13px;min-height:140px;outline:none;resize:none;direction:rtl;" readonly>${msg}</textarea>
+      <div style="display:flex;gap:12px;margin-top:16px;justify-content:flex-end;">
+        <button onclick="this.closest('div[style*=fixed]').remove()" style="background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:10px 20px;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;">إغلاق</button>
+        <button onclick="navigator.clipboard.writeText(document.querySelector('textarea[readonly]').value)" style="background:var(--bg3);border:1px solid var(--line);color:var(--ink);border-radius:8px;padding:10px 20px;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;">📋 نسخ تاني</button>
+        <button onclick="window.open('https://www.facebook.com/profile.php?id=61590444884849','_blank','width=900,height=700')" style="background:#1877f2;border:none;color:#fff;border-radius:8px;padding:10px 20px;font-family:'Cairo',sans-serif;font-weight:700;cursor:pointer;">📘 افتح الصفحة</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if(e.target === overlay) overlay.remove(); });
+  if (projectId) { markPosted(projectId); renderFbProjects(); }
 }
 
 function renderFbProjects() {
@@ -1085,6 +1106,12 @@ function renderFbProjects() {
   }).join('') || '<div style="color:var(--ink2);padding:20px;text-align:center;">لا توجد مشاريع</div>';
 }
 
+
+function copyCustomMsg() {
+  const msg = document.getElementById('fb-custom-msg').value.trim();
+  if (!msg) { toast('اكتب النص الأول', 'error'); return; }
+  navigator.clipboard.writeText(msg).then(() => toast('✓ تم نسخ النص!', 'success'));
+}
 // Auto-load FB token if saved
 window.addEventListener('DOMContentLoaded', () => {
   const savedToken = localStorage.getItem(FB_TOKEN_KEY);
