@@ -1,4 +1,4 @@
-RK Design update started: Sat 09/12/2026 14:43:44.49
+RK Design update started: Sat 09/12/2026 14:51:27.04
 node:internal/modules/cjs/loader:1520
   throw err;
   ^
@@ -21,9 +21,29 @@ Require stack:
 }
 
 Node.js v24.18.0
-npm error code 3221225786
-npm error path C:\Users\R\Downloads\RK-DESGIN-BUILD\WEBSITE\node_modules\ffmpeg-static
-npm error command failed
-npm error command C:\Windows\system32\cmd.exe /d /s /c node install.js
-npm error ^C
-npm error A complete log of this run can be found in: C:\Users\R\AppData\Local\npm-cache\_logs\2026-09-12T11_43_44_987Z-debug-0.log
+
+added 30 packages, and audited 31 packages in 19s
+
+3 packages are looking for funding
+  run `npm fund` for details
+
+1 high severity vulnerability
+
+To address all issues, run:
+  npm audit fix
+
+Run `npm audit` for details.
+npm warn allow-scripts 1 package has install scripts not yet covered by allowScripts:
+npm warn allow-scripts   ffmpeg-static@5.3.0 (install: node install.js)
+npm warn allow-scripts
+npm warn allow-scripts Run `npm approve-scripts --allow-scripts-pending` to review, or `npm approve-scripts <pkg>` to allow.
+
+🎬🖼️  ضغط وتخفيف الصور والفيديوهات ...
+
+
+✅ صور: 1 اتعملت | 6 اتخطّت
+✅ فيديو: 3 اتعمل | 32 اتخطّوا
+🖼️  صور: 2.0MB → 128KB  (−94%)
+🎬 فيديو: 11.2MB → 3.4MB  (−70%)
+
+تم توليد 58 مشروع في js/projects-data.js

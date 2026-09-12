@@ -262,6 +262,26 @@ buildFilterBar(null);
     const countBadge = document.getElementById('gallery-count');
     if (countBadge) countBadge.textContent = `${imageItems.length} صورة`;
 
+    /* ─── Facebook Share Button ─── */
+    const fbShare = document.createElement('div');
+    fbShare.style.cssText = 'text-align:center;margin-top:48px;margin-bottom:32px;';
+    fbShare.innerHTML = `
+      <p style="margin-bottom:16px;color:var(--ink-3);font-size:15px;">أعجبك المشروع؟ شاركه مع أصدقائك!</p>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}"
+         target="_blank" rel="noopener noreferrer"
+         style="display:inline-flex;align-items:center;gap:10px;background:#1877f2;color:#fff;
+                font-family:'Cairo',sans-serif;font-size:15px;font-weight:700;
+                padding:14px 28px;border-radius:8px;text-decoration:none;
+                transition:background 0.2s,transform 0.2s;"
+         onmouseover="this.style.background='#1464d8';this.style.transform='translateY(-2px)'"
+         onmouseout="this.style.background='#1877f2';this.style.transform='translateY(0)'">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+          <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.268h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+        </svg>
+        شارك على فيسبوك
+      </a>`;
+    galleryEl.parentElement.after(fbShare);
+
     /* ─── Lightbox — images only ─── */
     const images = imageItems;
     window.__galleryImages = images;

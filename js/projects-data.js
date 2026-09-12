@@ -11,7 +11,7 @@ const PROJECTS_FALLBACK = [
     "status": "published",
     "facebook": false,
     "services": [],
-    "seoTitle": "بنزية توتال سمنود | RK Design Studio — التصميم الخارجي",
+    "seoTitle": "بنزية توتال سمنود | RK Design Studio",
     "seoDescription": "شاهد صور وتفاصيل مشروع بنزية توتال سمنود من أعمال رمضان قطب — RK Design Studio.",
     "alt": "بنزية توتال سمنود",
     "location": "",
@@ -1946,23 +1946,23 @@ const PROJECTS_FALLBACK = [
     "id": "project-914225e47c5630f9",
     "legacyId": "بنزية-توتال-سمنود-d8a8d986",
     "discipline": "interior",
-    "category": "تصميم داخلي",
+    "category": "تصميم خارجي",
     "categoryKey": "interior",
     "title": "بنزية توتال سمنود",
     "slug": "بنزية-توتال-سمنود-914225e47c",
     "status": "published",
     "facebook": false,
     "services": [],
-    "seoTitle": "بنزية توتال سمنود | RK Design Studio — التصميم الداخلي",
-    "seoDescription": "شاهد صور وتفاصيل مشروع بنزية توتال سمنود من أعمال رمضان قطب — RK Design Studio.",
-    "alt": "بنزية توتال سمنود",
-    "location": "",
-    "area": null,
-    "year": "",
+    "seoTitle": "بنزية توتال سمنود — سمنود | RK Design Studio",
+    "seoDescription": "تصميم خارجي لمحطة بنزين توتال سمنود  اعتمدنا على الانسابيه فى الحركة بين التصميم الجمالى والعملى لجعل العملاء يشعرون بالراحه فالتحرك وتقديم خدمات كثيره من بين خدمات الصيانه والبنزين للسيارات وبين استخدام المطاعم والسوبر ماركت",
+    "alt": "بنزية توتال سمنود — سمنود",
+    "location": "سمنود",
+    "area": "1250 م",
+    "year": "2024",
     "cover": "images/projects-by-name/interior/بنزية توتال سمنود/بنزية توتال سمنود (1).webp",
     "before": null,
     "gallery": [
-      "images/projects-by-name/interior/بنزية توتال سمنود/cover.mp4",
+      "images/projects-by-name/interior/بنزية توتال سمنود/1.mp4",
       "images/projects-by-name/interior/بنزية توتال سمنود/بنزية توتال سمنود (2).webp",
       "images/projects-by-name/interior/بنزية توتال سمنود/بنزية توتال سمنود (3).webp",
       "images/projects-by-name/interior/بنزية توتال سمنود/بنزية توتال سمنود (4).webp",
@@ -1972,12 +1972,14 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/interior/بنزية توتال سمنود/بنزية توتال سمنود (8).webp",
       "images/projects-by-name/interior/بنزية توتال سمنود/بنزية توتال سمنود (9).webp"
     ],
-    "video": "images/projects-by-name/interior/بنزية توتال سمنود/cover.mp4",
-    "excerpt": "مشروع بنزية توتال سمنود",
-    "description": "مشروع بنزية توتال سمنود.",
+    "video": "images/projects-by-name/interior/بنزية توتال سمنود/1.mp4",
+    "excerpt": "تصميم خارجي لمحطة بنزين توتال سمنود  اعتمدنا على الانسابيه فى الحركة بين التصميم الجمالى والعملى لجعل العملاء يشعرون بال",
+    "description": "تصميم خارجي لمحطة بنزين توتال سمنود  اعتمدنا على الانسابيه فى الحركة بين التصميم الجمالى والعملى لجعل العملاء يشعرون بالراحه فالتحرك وتقديم خدمات كثيره من بين خدمات الصيانه والبنزين للسيارات وبين استخدام المطاعم والسوبر ماركت",
     "idea": "",
     "materials": [],
-    "tags": [],
+    "tags": [
+      "تصميم خارجي"
+    ],
     "featured": false,
     "url": "projects/%D8%A8%D9%86%D8%B2%D9%8A%D8%A9-%D8%AA%D9%88%D8%AA%D8%A7%D9%84-%D8%B3%D9%85%D9%86%D9%88%D8%AF-914225e47c/",
     "imageMeta": {
@@ -2118,10 +2120,11 @@ const PROJECTS_FALLBACK = [
     "cover": "images/projects-by-name/interior/حمام ماستر الاسكندريه/حمام ماستر الاسكندريه (1).webp",
     "before": null,
     "gallery": [
+      "images/projects-by-name/interior/حمام ماستر الاسكندريه/1.mp4",
       "images/projects-by-name/interior/حمام ماستر الاسكندريه/حمام ماستر الاسكندريه (2).webp",
       "images/projects-by-name/interior/حمام ماستر الاسكندريه/حمام ماستر الاسكندريه (3).webp"
     ],
-    "video": null,
+    "video": "images/projects-by-name/interior/حمام ماستر الاسكندريه/1.mp4",
     "excerpt": "تصميم حمام بخامات عصرية سهلة التنظيف، مع إضاءة هادئة تمنح المساحة إحساسًا فندقيًا مريحًا.",
     "description": "تصميم حمام بخامات عصرية سهلة التنظيف، مع إضاءة هادئة تمنح المساحة إحساسًا فندقيًا مريحًا.",
     "idea": "",
@@ -2158,18 +2161,18 @@ const PROJECTS_FALLBACK = [
   },
   {
     "id": "project-18c92464708bd515",
-    "legacyId": "حمام-ماستر-عين-الدقى-d8add985",
+    "legacyId": "حمام-ماستر-لدقى-d8add985",
     "discipline": "interior",
     "category": "حمامات",
     "categoryKey": "interior",
-    "title": "حمام ماستر عين الدقى",
-    "slug": "حمام-ماستر-عين-الدقى-18c9246470",
+    "title": "حمام ماستر  لدقى",
+    "slug": "حمام-ماستر-لدقى-18c9246470",
     "status": "published",
     "facebook": false,
     "services": [],
-    "seoTitle": "حمام ماستر عين الدقى | RK Design Studio",
+    "seoTitle": "حمام ماستر  لدقى | RK Design Studio",
     "seoDescription": "تصميم حمام بخامات عصرية سهلة التنظيف، مع كابينة شاور مع بديل الخشب مع إضاءة هادئة تمنح المساحة إحساسًا فندقيًا مريحًا.",
-    "alt": "حمام ماستر عين الدقى",
+    "alt": "حمام ماستر  لدقى",
     "location": "",
     "area": null,
     "year": "2026",
@@ -2178,9 +2181,9 @@ const PROJECTS_FALLBACK = [
     "gallery": [
       "images/projects-by-name/interior/حمام ماستر الدقى/01-cover.mp4",
       "images/projects-by-name/interior/حمام ماستر الدقى/1.webp",
-      "images/projects-by-name/interior/حمام ماستر الدقى/حمام ماستر عين الدقى (1).webp",
-      "images/projects-by-name/interior/حمام ماستر الدقى/حمام ماستر عين الدقى (2).webp",
-      "images/projects-by-name/interior/حمام ماستر الدقى/حمام ماستر عين الدقى (4).webp"
+      "images/projects-by-name/interior/حمام ماستر الدقى/حمام ماستر الدقى (1).webp",
+      "images/projects-by-name/interior/حمام ماستر الدقى/حمام ماستر الدقى (2).webp",
+      "images/projects-by-name/interior/حمام ماستر الدقى/حمام ماستر الدقى (3).webp"
     ],
     "video": "images/projects-by-name/interior/حمام ماستر الدقى/01-cover.mp4",
     "excerpt": "تصميم حمام بخامات عصرية سهلة التنظيف، مع كابينة شاور مع بديل الخشب مع إضاءة هادئة تمنح المساحة إحساسًا فندقيًا مريحًا.",
@@ -2191,7 +2194,7 @@ const PROJECTS_FALLBACK = [
       "حمامات"
     ],
     "featured": false,
-    "url": "projects/%D8%AD%D9%85%D8%A7%D9%85-%D9%85%D8%A7%D8%B3%D8%AA%D8%B1-%D8%B9%D9%8A%D9%86-%D8%A7%D9%84%D8%AF%D9%82%D9%89-18c9246470/",
+    "url": "projects/%D8%AD%D9%85%D8%A7%D9%85-%D9%85%D8%A7%D8%B3%D8%AA%D8%B1-%D9%84%D8%AF%D9%82%D9%89-18c9246470/",
     "imageMeta": {
       "images/projects-by-name/interior/حمام ماستر الدقى/01-cover.webp": {
         "width": 1600,
@@ -2201,15 +2204,15 @@ const PROJECTS_FALLBACK = [
         "width": 1600,
         "height": 900
       },
-      "images/projects-by-name/interior/حمام ماستر الدقى/حمام ماستر عين الدقى (1).webp": {
+      "images/projects-by-name/interior/حمام ماستر الدقى/حمام ماستر الدقى (1).webp": {
         "width": 1600,
         "height": 900
       },
-      "images/projects-by-name/interior/حمام ماستر الدقى/حمام ماستر عين الدقى (2).webp": {
+      "images/projects-by-name/interior/حمام ماستر الدقى/حمام ماستر الدقى (2).webp": {
         "width": 1600,
         "height": 900
       },
-      "images/projects-by-name/interior/حمام ماستر الدقى/حمام ماستر عين الدقى (4).webp": {
+      "images/projects-by-name/interior/حمام ماستر الدقى/حمام ماستر الدقى (3).webp": {
         "width": 1600,
         "height": 900
       }
@@ -2245,11 +2248,12 @@ const PROJECTS_FALLBACK = [
     "cover": "images/projects-by-name/interior/ريبسشن الشروق/ريبسشن الشروق (1).webp",
     "before": null,
     "gallery": [
+      "images/projects-by-name/interior/ريبسشن الشروق/1.mp4",
       "images/projects-by-name/interior/ريبسشن الشروق/ريبسشن الشروق (2).webp",
       "images/projects-by-name/interior/ريبسشن الشروق/ريبسشن الشروق (3).webp",
       "images/projects-by-name/interior/ريبسشن الشروق/ريبسشن الشروق (4).webp"
     ],
-    "video": null,
+    "video": "images/projects-by-name/interior/ريبسشن الشروق/1.mp4",
     "excerpt": "شقة بمساحة 80 مترًا سُلّمت على المسطح، وكان الهدف تصميم صالة استقبال تجمع بين البساطة والدفء دون إثقال المساحة. اعتمدنا ",
     "description": "شقة بمساحة 80 مترًا سُلّمت على المسطح، وكان الهدف تصميم صالة استقبال تجمع بين البساطة والدفء دون إثقال المساحة. اعتمدنا على تناغم الألوان المحايدة، إضاءة مخفية بالأسقف الجبسية، وقطع أثاث مختارة بعناية لتمنح إحساسًا بالرحابة رغم المساحة المحدودة.",
     "idea": "الفكرة التصميمية قامت على تبسيط الخطوط وتوزيع الإضاءة بشكل يخلق طبقات بصرية هادئة، مع لوحات ديكورية هندسية تكسر رتابة الحائط الرئيسي وتمنح الصالة طابعًا مميزًا.",
@@ -2296,29 +2300,29 @@ const PROJECTS_FALLBACK = [
     ]
   },
   {
-    "id": "project-c464ad570de62868",
-    "legacyId": "ريسبشن-مع-مطبخ-امريكا-مدينة-بدر-d8b1d98a",
+    "id": "project-b10704783869858f",
+    "legacyId": "ريسبشن-مطبخ-مفتوح-مدينة-بدر-d8b1d98a",
     "discipline": "interior",
     "category": "شقق سكنية & مطابخ",
     "categoryKey": "interior",
-    "title": "ريسبشن  مع مطبخ امريكا مدينة  بدر",
-    "slug": "ريسبشن-مع-مطبخ-امريكا-مدينة-بدر-c464ad570d",
+    "title": "ريسبشن & مطبخ مفتوح مدينة  بدر",
+    "slug": "ريسبشن-مطبخ-مفتوح-مدينة-بدر-b107047838",
     "status": "published",
     "facebook": false,
     "services": [],
-    "seoTitle": "ريسبشن  مع مطبخ امريكا مدينة  بدر — مدينة بدر | RK Design Studio",
+    "seoTitle": "ريسبشن & مطبخ مفتوح مدينة  بدر — مدينة بدر | RK Design Studio",
     "seoDescription": "شقة بمساحة 80 مترًا سُلّمت على المسطح، وكان",
-    "alt": "ريسبشن  مع مطبخ امريكا مدينة  بدر — مدينة بدر",
+    "alt": "ريسبشن & مطبخ مفتوح مدينة  بدر — مدينة بدر",
     "location": "مدينة بدر",
     "area": "100م²",
     "year": "2023",
-    "cover": "images/projects-by-name/interior/ريسبشن & مطبخ امريكا مدينة  بدر/ريسبشن  مع مطبخ امريكا مدينة  بدر (1).webp",
+    "cover": "images/projects-by-name/interior/ريسبشن & مطبخ مفتوح مدينة  بدر/ريسبشن & مطبخ مفتوح مدينة  بدر (1).webp",
     "before": null,
     "gallery": [
-      "images/projects-by-name/interior/ريسبشن & مطبخ امريكا مدينة  بدر/ريسبشن  مع مطبخ امريكا مدينة  بدر (2).webp",
-      "images/projects-by-name/interior/ريسبشن & مطبخ امريكا مدينة  بدر/ريسبشن  مع مطبخ امريكا مدينة  بدر (3).webp",
-      "images/projects-by-name/interior/ريسبشن & مطبخ امريكا مدينة  بدر/ريسبشن  مع مطبخ امريكا مدينة  بدر (4).webp",
-      "images/projects-by-name/interior/ريسبشن & مطبخ امريكا مدينة  بدر/ريسبشن  مع مطبخ امريكا مدينة  بدر (5).webp"
+      "images/projects-by-name/interior/ريسبشن & مطبخ مفتوح مدينة  بدر/ريسبشن & مطبخ مفتوح مدينة  بدر (2).webp",
+      "images/projects-by-name/interior/ريسبشن & مطبخ مفتوح مدينة  بدر/ريسبشن & مطبخ مفتوح مدينة  بدر (3).webp",
+      "images/projects-by-name/interior/ريسبشن & مطبخ مفتوح مدينة  بدر/ريسبشن & مطبخ مفتوح مدينة  بدر (4).webp",
+      "images/projects-by-name/interior/ريسبشن & مطبخ مفتوح مدينة  بدر/ريسبشن & مطبخ مفتوح مدينة  بدر (5).webp"
     ],
     "video": null,
     "excerpt": "شقة بمساحة 80 مترًا سُلّمت على المسطح، وكان",
@@ -2331,36 +2335,36 @@ const PROJECTS_FALLBACK = [
       "تسليم كامل"
     ],
     "featured": true,
-    "url": "projects/%D8%B1%D9%8A%D8%B3%D8%A8%D8%B4%D9%86-%D9%85%D8%B9-%D9%85%D8%B7%D8%A8%D8%AE-%D8%A7%D9%85%D8%B1%D9%8A%D9%83%D8%A7-%D9%85%D8%AF%D9%8A%D9%86%D8%A9-%D8%A8%D8%AF%D8%B1-c464ad570d/",
+    "url": "projects/%D8%B1%D9%8A%D8%B3%D8%A8%D8%B4%D9%86-%D9%85%D8%B7%D8%A8%D8%AE-%D9%85%D9%81%D8%AA%D9%88%D8%AD-%D9%85%D8%AF%D9%8A%D9%86%D8%A9-%D8%A8%D8%AF%D8%B1-b107047838/",
     "imageMeta": {
-      "images/projects-by-name/interior/ريسبشن & مطبخ امريكا مدينة  بدر/ريسبشن  مع مطبخ امريكا مدينة  بدر (1).webp": {
+      "images/projects-by-name/interior/ريسبشن & مطبخ مفتوح مدينة  بدر/ريسبشن & مطبخ مفتوح مدينة  بدر (1).webp": {
         "width": 1600,
         "height": 900
       },
-      "images/projects-by-name/interior/ريسبشن & مطبخ امريكا مدينة  بدر/ريسبشن  مع مطبخ امريكا مدينة  بدر (2).webp": {
+      "images/projects-by-name/interior/ريسبشن & مطبخ مفتوح مدينة  بدر/ريسبشن & مطبخ مفتوح مدينة  بدر (2).webp": {
         "width": 1600,
         "height": 900
       },
-      "images/projects-by-name/interior/ريسبشن & مطبخ امريكا مدينة  بدر/ريسبشن  مع مطبخ امريكا مدينة  بدر (3).webp": {
+      "images/projects-by-name/interior/ريسبشن & مطبخ مفتوح مدينة  بدر/ريسبشن & مطبخ مفتوح مدينة  بدر (3).webp": {
         "width": 1600,
         "height": 900
       },
-      "images/projects-by-name/interior/ريسبشن & مطبخ امريكا مدينة  بدر/ريسبشن  مع مطبخ امريكا مدينة  بدر (4).webp": {
+      "images/projects-by-name/interior/ريسبشن & مطبخ مفتوح مدينة  بدر/ريسبشن & مطبخ مفتوح مدينة  بدر (4).webp": {
         "width": 1600,
         "height": 900
       },
-      "images/projects-by-name/interior/ريسبشن & مطبخ امريكا مدينة  بدر/ريسبشن  مع مطبخ امريكا مدينة  بدر (5).webp": {
+      "images/projects-by-name/interior/ريسبشن & مطبخ مفتوح مدينة  بدر/ريسبشن & مطبخ مفتوح مدينة  بدر (5).webp": {
         "width": 1600,
         "height": 900
       }
     },
     "coverSources": [
       {
-        "src": "images/responsive/a972084397f9253e-480.webp",
+        "src": "images/responsive/27012a4992dfa72b-480.webp",
         "width": 480
       },
       {
-        "src": "images/responsive/a972084397f9253e-800.webp",
+        "src": "images/responsive/27012a4992dfa72b-800.webp",
         "width": 800
       }
     ]
@@ -2451,8 +2455,8 @@ const PROJECTS_FALLBACK = [
     "before": null,
     "gallery": [
       "images/projects-by-name/interior/شركة MEEM مكاتب اداريه/شركة ميم (1).webp",
-      "images/projects-by-name/interior/شركة MEEM مكاتب اداريه/شركة ميم (2).webp",
-      "images/projects-by-name/interior/شركة MEEM مكاتب اداريه/شركة ميم (3).webp"
+      "images/projects-by-name/interior/شركة MEEM مكاتب اداريه/شركة ميم (4).webp",
+      "images/projects-by-name/interior/شركة MEEM مكاتب اداريه/شركة ميم (5).webp"
     ],
     "video": null,
     "excerpt": "شقة بمساحة 80 مترًا سُلّمت على المسطح، وكان الهدف تصميم دور اداري يشمل مكاتب ادارية وغرفة اجتماعات",
@@ -2468,29 +2472,29 @@ const PROJECTS_FALLBACK = [
     "url": "projects/%D8%B4%D8%B1%D9%83%D8%A9-meem-%D9%85%D9%83%D8%A7%D8%AA%D8%A8-%D8%A7%D8%AF%D8%A7%D8%B1%D9%8A%D9%87-2fe1f9c086/",
     "imageMeta": {
       "images/projects-by-name/interior/شركة MEEM مكاتب اداريه/01-cover.webp": {
-        "width": 1344,
-        "height": 768
+        "width": 1600,
+        "height": 900
       },
       "images/projects-by-name/interior/شركة MEEM مكاتب اداريه/شركة ميم (1).webp": {
         "width": 1600,
         "height": 900
       },
-      "images/projects-by-name/interior/شركة MEEM مكاتب اداريه/شركة ميم (2).webp": {
+      "images/projects-by-name/interior/شركة MEEM مكاتب اداريه/شركة ميم (4).webp": {
         "width": 1600,
         "height": 900
       },
-      "images/projects-by-name/interior/شركة MEEM مكاتب اداريه/شركة ميم (3).webp": {
+      "images/projects-by-name/interior/شركة MEEM مكاتب اداريه/شركة ميم (5).webp": {
         "width": 1600,
         "height": 724
       }
     },
     "coverSources": [
       {
-        "src": "images/responsive/6894ef58549825a4-480.webp",
+        "src": "images/responsive/7e10319329c7e4af-480.webp",
         "width": 480
       },
       {
-        "src": "images/responsive/6894ef58549825a4-800.webp",
+        "src": "images/responsive/7e10319329c7e4af-800.webp",
         "width": 800
       }
     ]
@@ -3747,10 +3751,10 @@ const PROJECTS_FALLBACK = [
     "title": "مطعم الحياة",
     "slug": "مطعم-الحياة-e22126e2de",
     "status": "published",
-    "facebook": false,
+    "facebook": true,
     "services": [],
     "seoTitle": "مطعم الحياة — العراق | RK Design Studio",
-    "seoDescription": "شاهد صور وتفاصيل مشروع مطعم الحياة من أعمال رمضان قطب — RK Design Studio.",
+    "seoDescription": "من أعمال RK Design Studio: التصميم الداخلي لمطعم الحياة في العراق، بمساحة 150 مترًا مربعًا، عام 2024. شاهد صور وتفاصيل المشروع على موقعنا.",
     "alt": "مطعم الحياة — العراق",
     "location": "العراق",
     "area": "150م",
@@ -3764,8 +3768,8 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/interior/مطعم الحياة/5.webp"
     ],
     "video": null,
-    "excerpt": "مشروع مطعم الحياة",
-    "description": "مشروع مطعم الحياة.",
+    "excerpt": "من أعمال RK Design Studio: التصميم الداخلي لمطعم الحياة في العراق، بمساحة 150 مترًا مربعًا، عام 2024. شاهد صور وتفاصيل ا",
+    "description": "من أعمال RK Design Studio: التصميم الداخلي لمطعم الحياة في العراق، بمساحة 150 مترًا مربعًا، عام 2024. شاهد صور وتفاصيل المشروع على موقعنا.",
     "idea": "",
     "materials": [],
     "tags": [],
