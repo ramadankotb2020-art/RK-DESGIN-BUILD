@@ -1,0 +1,45 @@
+name: Optional Facebook project publishing
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'images/projects-by-name/**'
+      - 'scripts/build-projects.js'
+      - 'scripts/build-pages.js'
+      - 'site.config.json'
+      - '.github/workflows/facebook.yml'
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: rk-facebook-publishing
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: vars.FACEBOOK_ENABLED == 'true' && github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+
+      - run: npm ci --ignore-scripts
+
+      - run: npm run build
+
+      - name: Publish opted-in projects
+        run: node scripts/facebook-publish.cjs
+        env:
+          FACEBOOK_ENABLED: ${{ vars.FACEBOOK_ENABLED }}
+          FACEBOOK_PAGE_ID: ${{ vars.FACEBOOK_PAGE_ID }}
+          FACEBOOK_API_VERSION: ${{ vars.FACEBOOK_API_VERSION }}
+          FACEBOOK_PAGE_TOKEN: ${{ secrets.FACEBOOK_PAGE_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}

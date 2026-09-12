@@ -2,6 +2,8 @@
 /* Optional server-side publisher. NEVER import this file from browser code.
    Each project's permanent GitHub issue is a reservation / publication ledger.
    Ambiguous requests are deliberately not retried automatically. */
+// Temporary safety mode: diagnose only. No publishing or GitHub ledger writes.
+const DIAGNOSTIC_ONLY = true;
 const fs=require('fs');
 const config=require('../site.config.json');
 const posts=JSON.parse(fs.readFileSync('social-posts.json','utf8'));
@@ -10,6 +12,68 @@ async function main(){
  if(dryRun){console.log(`Facebook disabled. ${posts.length} opt-in published posts prepared; no network requests sent.`);return;}
  const {FACEBOOK_PAGE_TOKEN:token,FACEBOOK_PAGE_ID:page,FACEBOOK_API_VERSION:version,GITHUB_TOKEN:github,GITHUB_REPOSITORY:repo}=process.env;
  if(!token||!/^\d+$/.test(page||'')||!/^v\d+\.\d+$/.test(version||'')||!github||!repo)throw Error('Missing or invalid Facebook/GitHub configuration. See docs/FACEBOOK-SETUP.md.');
+ if (DIAGNOSTIC_ONLY) {
+  let diagnosticToken = token;
+  console.log('DIAGNOSTIC ONLY: no posts sent; no reservation changed.');
+  const check = async (label, endpoint) => {
+   try {
+    const response = await fetch(`https://graph.facebook.com/${version}/${endpoint}`, {
+     headers: { Authorization: `Bearer ${diagnosticToken}` }, signal: AbortSignal.timeout(20000)
+    });
+    const data = await response.json();
+    if (!response.ok || data.error) {
+     const code = Number.isInteger(data.error?.code) ? data.error.code : null;
+     const subcode = Number.isInteger(data.error?.error_subcode) ? data.error.error_subcode : null;
+     console.log(JSON.stringify({ check:label, ok:false, http:response.status, code, subcode }));
+     // Do not print arbitrary API messages: they may contain tokens or private content.
+     if (code === 190) console.log('TOKEN CHECK: invalid/expired/revoked token; inspect expiry in Meta privately.');
+     if (code === 10 || code === 200) console.log('PERMISSION CHECK: inspect app access and Page permissions in Meta.');
+     return null;
+    }
+    console.log(JSON.stringify({ check:label, ok:true, http:response.status }));
+    return data;
+   } catch {
+    console.log(JSON.stringify({ check:label, ok:false, reason:'Network timeout or invalid JSON; no raw error logged.' }));
+    return null;
+   }
+  };
+  let identity = await check('PAGE_TOKEN_IDENTITY', 'me?fields=id');
+  if (identity && String(identity.id) !== page) {
+   console.log('Resolving configured Page token server-side; credentials will not be printed or saved.');
+   const resolved = await check('RESOLVE_PAGE_TOKEN', `${page}?fields=id,access_token`);
+   if (!resolved || String(resolved.id) !== page || typeof resolved.access_token !== 'string' || !resolved.access_token.trim()) {
+    console.log('STOP: Meta did not provide a token for the configured Page. Check Page access/permissions.');
+    process.exitCode = 1;
+    return;
+   }
+   diagnosticToken = resolved.access_token;
+   identity = await check('RESOLVED_PAGE_IDENTITY', 'me?fields=id');
+  }
+  const matches = identity && String(identity.id) === page;
+  if (identity) console.log('TOKEN_MATCHES_CONFIGURED_PAGE=' + Boolean(matches));
+  if (!matches) {
+   console.log('STOP: could not confirm that the saved secret is a token for the configured Page.');
+   process.exitCode = 1;
+   return;
+  }
+  const feed = await check('PAGE_FEED_READ', `${page}/feed?fields=id&limit=1`);
+  // Read permission does NOT prove publish permission. Never perform a test POST here.
+  const debug = await check('TOKEN_DETAILS_OPTIONAL', `debug_token?input_token=${encodeURIComponent(diagnosticToken)}`);
+  if (debug?.data) {
+   const d=debug.data;
+   const scopes=['pages_show_list','pages_read_engagement','pages_manage_posts'];
+   const details={check:'TOKEN_DETAILS_SAFE'};
+   if(typeof d.is_valid==='boolean') details.is_valid=d.is_valid;
+   if(['PAGE','USER','APP','SYSTEM_USER'].includes(d.type)) details.type=d.type;
+   for(const key of ['expires_at','data_access_expires_at']) if(Number.isFinite(d[key])) details[key]=d[key];
+   if(Array.isArray(d.scopes)) details.requiredScopes=Object.fromEntries(scopes.map(scope=>[scope,d.scopes.includes(scope)]));
+   console.log(JSON.stringify(details));
+  }
+  console.log('DONE: read-only diagnostics. Optional token introspection may require another credential; its failure alone does not prove token invalidity.');
+  console.log('Read checks cannot establish why the earlier publish failed. Existing reservation is preserved.');
+  if(!feed) process.exitCode=1;
+  return;
+ }
  const gh=async(route,method='GET',body)=>{
   const r=await fetch(`https://api.github.com/repos/${repo}${route}`,{method,headers:{Authorization:`Bearer ${github}`,Accept:'application/vnd.github+json','X-GitHub-Api-Version':'2022-11-28','Content-Type':'application/json'},...(body?{body:JSON.stringify(body)}:{}),signal:AbortSignal.timeout(30000)});
   if(!r.ok)throw Error(`GitHub ledger request failed (${r.status}). No retry performed.`);
