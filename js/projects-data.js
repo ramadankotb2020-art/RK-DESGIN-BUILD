@@ -4102,6 +4102,26 @@ const PROJECTS_FALLBACK = [
         "width": 800
       }
     ]
+  },
+  {
+    "id": "ميلانو-بوث-675ef748",
+    "discipline": "interior",
+    "category": "بوثات",
+    "title": "ميلانو بوث",
+    "featured": false,
+    "year": "2026",
+    "location": "القاهرة",
+    "area": "25 م",
+    "cover": "images/projects-by-name/interior/ميلانو بوث/01-cover.png",
+    "gallery": [
+      "images/projects-by-name/interior/ميلانو بوث/1.png"
+    ],
+    "excerpt": "",
+    "description": "",
+    "idea": "",
+    "tags": [
+      "بوثات"
+    ]
   }
 ];
-const projectsData = PROJECTS_FALLBACK;
+window.projectsData = PROJECTS_FALLBACK;
