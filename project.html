@@ -103,6 +103,47 @@
         <div data-p-gallery></div>
       </div>
 
+      <!-- Share on Facebook -->
+      <div class="reveal" style="text-align:center;margin-bottom:80px;">
+        <p class="body-md" style="margin-bottom:16px;color:var(--ink-3);">أعجبك المشروع؟ شاركه مع أصدقائك!</p>
+        <a id="fb-share-btn"
+           href="#"
+           target="_blank"
+           rel="noopener noreferrer"
+           style="
+             display:inline-flex;
+             align-items:center;
+             gap:10px;
+             background:#1877f2;
+             color:#fff;
+             font-family:'Cairo',sans-serif;
+             font-size:15px;
+             font-weight:700;
+             padding:14px 28px;
+             border-radius:8px;
+             text-decoration:none;
+             transition:background 0.2s,transform 0.2s;
+           "
+           onmouseover="this.style.background='#1464d8';this.style.transform='translateY(-2px)'"
+           onmouseout="this.style.background='#1877f2';this.style.transform='translateY(0)'">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+            <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.268h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+          </svg>
+          شارك على فيسبوك
+        </a>
+      </div>
+
+      <script>
+        // Set Facebook share URL dynamically based on current page URL
+        (function() {
+          var btn = document.getElementById('fb-share-btn');
+          if (btn) {
+            var pageUrl = encodeURIComponent(window.location.href);
+            btn.href = 'https://www.facebook.com/sharer/sharer.php?u=' + pageUrl;
+          }
+        })();
+      </script>
+
     </div>
   </main>
 
