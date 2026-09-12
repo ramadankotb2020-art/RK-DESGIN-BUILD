@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التحكم — RK Design Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #c5a059;
+    --gold-dark: #a8863d;
+    --bg: #0d0d0d;
+    --bg2: #161616;
+    --bg3: #1e1e1e;
+    --bg4: #252525;
+    --line: #2a2a2a;
+    --ink: #f0f0f0;
+    --ink2: #a0a0a0;
+    --ink3: #606060;
+    --green: #22c55e;
+    --red: #ef4444;
+    --blue: #3b82f6;
+    --radius: 10px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Cairo', sans-serif; background: var(--bg); color: var(--ink); min-height: 100vh; }
+
+  /* ── Login ── */
+  #login-screen {
+    display: flex; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 24px;
+    background: radial-gradient(ellipse at 60% 40%, #1a1408 0%, var(--bg) 70%);
+  }
+  .login-box {
+    width: 100%; max-width: 420px;
+    background: var(--bg2); border: 1px solid var(--line);
+    border-radius: 16px; padding: 48px 40px;
+  }
+  .login-logo { font-size: 36px; font-weight: 800; color: var(--gold); letter-spacing: 2px; margin-bottom: 8px; }
+  .login-sub { color: var(--ink2); font-size: 13px; margin-bottom: 36px; }
+  .field-label { font-size: 12px; font-weight: 700; color: var(--ink2); margin-bottom: 8px; display: block; letter-spacing: 0.5px; }
+  .field { width: 100%; background: var(--bg3); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 16px; color: var(--ink); font-family: 'Cairo', sans-serif; font-size: 14px; outline: none; transition: border-color 0.2s; margin-bottom: 16px; }
+  .field:focus { border-color: var(--gold); }
+  .btn-gold { width: 100%; background: var(--gold); color: #000; border: none; border-radius: var(--radius); padding: 14px; font-family: 'Cairo', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer; transition: background 0.2s, transform 0.1s; }
+  .btn-gold:hover { background: var(--gold-dark); }
+  .btn-gold:active { transform: scale(0.98); }
+  .login-error { color: var(--red); font-size: 13px; margin-top: 12px; display: none; }
+
+  /* ── Layout ── */
+  #app { display: none; min-height: 100vh; }
+  .sidebar {
+    position: fixed; top: 0; right: 0; bottom: 0; width: 240px;
+    background: var(--bg2); border-left: 1px solid var(--line);
+    padding: 24px 0; display: flex; flex-direction: column; z-index: 100;
+  }
+  .sidebar-logo { padding: 0 24px 24px; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
+  .sidebar-logo span { font-size: 22px; font-weight: 800; color: var(--gold); }
+  .sidebar-logo small { display: block; color: var(--ink3); font-size: 11px; margin-top: 2px; }
+  .nav-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 24px; color: var(--ink2); font-size: 14px; font-weight: 600;
+    cursor: pointer; transition: all 0.15s; border-right: 3px solid transparent;
+  }
+  .nav-item:hover { color: var(--ink); background: var(--bg3); }
+  .nav-item.active { color: var(--gold); border-right-color: var(--gold); background: rgba(197,160,89,0.07); }
+  .nav-icon { width: 18px; text-align: center; }
+  .sidebar-bottom { margin-top: auto; padding: 16px 24px; border-top: 1px solid var(--line); }
+  .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); display: inline-block; margin-left: 8px; }
+
+  .main { margin-right: 240px; padding: 32px; min-height: 100vh; }
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── Header ── */
+  .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 32px; }
+  .page-title { font-size: 24px; font-weight: 800; }
+  .page-sub { color: var(--ink2); font-size: 13px; margin-top: 4px; }
+
+  /* ── Cards ── */
+  .card { background: var(--bg2); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
+  .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  .stat-card { background: var(--bg2); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 24px; }
+  .stat-num { font-size: 32px; font-weight: 800; color: var(--gold); }
+  .stat-label { color: var(--ink2); font-size: 13px; margin-top: 4px; }
+
+  /* ── Buttons ── */
+  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-family: 'Cairo', sans-serif; font-size: 14px; font-weight: 700; cursor: pointer; border: none; transition: all 0.15s; }
+  .btn-primary { background: var(--gold); color: #000; }
+  .btn-primary:hover { background: var(--gold-dark); }
+  .btn-secondary { background: var(--bg3); color: var(--ink); border: 1px solid var(--line); }
+  .btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+  .btn-danger { background: rgba(239,68,68,0.1); color: var(--red); border: 1px solid rgba(239,68,68,0.2); }
+  .btn-danger:hover { background: rgba(239,68,68,0.2); }
+  .btn-sm { padding: 6px 14px; font-size: 13px; }
+
+  /* ── Table ── */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; }
+  th { text-align: right; padding: 12px 16px; font-size: 11px; font-weight: 700; color: var(--ink3); letter-spacing: 0.5px; border-bottom: 1px solid var(--line); }
+  td { padding: 14px 16px; font-size: 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--bg3); }
+  .project-thumb { width: 52px; height: 40px; object-fit: cover; border-radius: 6px; background: var(--bg4); }
+  .badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .badge-interior { background: rgba(59,130,246,0.15); color: #60a5fa; }
+  .badge-exterior { background: rgba(34,197,94,0.15); color: #4ade80; }
+  .badge-graphic { background: rgba(197,160,89,0.15); color: var(--gold); }
+
+  /* ── Form ── */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group.full { grid-column: 1 / -1; }
+  .form-label { font-size: 12px; font-weight: 700; color: var(--ink2); }
+  .form-input, .form-select, .form-textarea {
+    background: var(--bg3); border: 1px solid var(--line);
+    border-radius: 8px; padding: 10px 14px; color: var(--ink);
+    font-family: 'Cairo', sans-serif; font-size: 14px; outline: none;
+    transition: border-color 0.2s; width: 100%;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--gold); }
+  .form-textarea { min-height: 100px; resize: vertical; }
+  .form-select option { background: var(--bg3); }
+
+  /* ── Modal ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8);
+    z-index: 999; align-items: center; justify-content: center; padding: 24px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--bg2); border: 1px solid var(--line); border-radius: 16px;
+    padding: 32px; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto;
+  }
+  .modal-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 28px; }
+  .modal-title { font-size: 18px; font-weight: 800; }
+  .modal-close { background: none; border: none; color: var(--ink2); font-size: 22px; cursor: pointer; }
+
+  /* ── Toast ── */
+  #toast {
+    position: fixed; bottom: 24px; left: 24px; z-index: 9999;
+    background: var(--bg2); border: 1px solid var(--line); border-radius: 10px;
+    padding: 14px 20px; font-size: 14px; font-weight: 600;
+    display: flex; align-items: center; gap: 10px;
+    transform: translateY(80px); opacity: 0;
+    transition: all 0.3s; pointer-events: none;
+  }
+  #toast.show { transform: translateY(0); opacity: 1; }
+  #toast.success { border-color: var(--green); }
+  #toast.error { border-color: var(--red); }
+
+  /* ── Upload area ── */
+  .upload-area {
+    border: 2px dashed var(--line); border-radius: 10px; padding: 32px;
+    text-align: center; cursor: pointer; transition: border-color 0.2s;
+  }
+  .upload-area:hover { border-color: var(--gold); }
+  .upload-area input { display: none; }
+
+  /* ── Gallery grid ── */
+  .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 10px; margin-top: 16px; }
+  .gallery-item { position: relative; aspect-ratio: 1; border-radius: 8px; overflow: hidden; background: var(--bg4); }
+  .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+  .gallery-item-del { position: absolute; top: 4px; left: 4px; background: rgba(239,68,68,0.9); color: #fff; border: none; border-radius: 4px; width: 22px; height: 22px; cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+
+  /* ── Progress ── */
+  .progress-bar { background: var(--bg3); border-radius: 4px; height: 6px; overflow: hidden; margin-top: 8px; }
+  .progress-fill { height: 100%; background: var(--gold); border-radius: 4px; transition: width 0.3s; }
+
+  /* ── Settings ── */
+  .settings-section { margin-bottom: 32px; }
+  .settings-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--line); }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .sidebar { width: 200px; }
+    .main { margin-right: 200px; padding: 20px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .form-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ LOGIN ══ -->
+<div id="login-screen">
+  <div class="login-box">
+    <div class="login-logo">RK</div>
+    <div class="login-sub">لوحة تحكم RK Design Studio</div>
+    <label class="field-label">كلمة المرور</label>
+    <input class="field" type="password" id="pw-input" placeholder="أدخل كلمة المرور" onkeydown="if(event.key==='Enter')doLogin()">
+    <label class="field-label" style="margin-top:8px;">GitHub Token</label>
+    <input class="field" type="password" id="token-input" placeholder="ghp_xxxxxxxxxxxx" onkeydown="if(event.key==='Enter')doLogin()">
+    <div style="font-size:11px;color:var(--ink3);margin-bottom:16px;">الـ Token بيتحفظ في المتصفح فقط — مش بيتبعت لأي مكان</div>
+    <button class="btn-gold" onclick="doLogin()">دخول ←</button>
+    <div class="login-error" id="login-error">كلمة المرور غلط!</div>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+<div id="app">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <span>RK Admin</span>
+      <small>لوحة التحكم</small>
+    </div>
+    <nav>
+      <div class="nav-item active" onclick="showPage('dashboard')">
+        <span class="nav-icon">📊</span> الرئيسية
+      </div>
+      <div class="nav-item" onclick="showPage('projects')">
+        <span class="nav-icon">🖼</span> المشاريع
+      </div>
+      <div class="nav-item" onclick="showPage('add-project')">
+        <span class="nav-icon">➕</span> مشروع جديد
+      </div>
+      <div class="nav-item" onclick="showPage('settings')">
+        <span class="nav-icon">⚙️</span> الإعدادات
+      </div>
+    </nav>
+    <div class="sidebar-bottom">
+      <div style="font-size:12px;color:var(--ink3);">
+        <span class="status-dot"></span> متصل بـ GitHub
+      </div>
+      <button class="btn btn-secondary btn-sm" style="margin-top:12px;width:100%;" onclick="doLogout()">خروج</button>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Dashboard -->
+    <div class="page active" id="page-dashboard">
+      <div class="page-header">
+        <div>
+          <div class="page-title">أهلاً، رمضان! 👋</div>
+          <div class="page-sub">إليك ملخص الموقع</div>
+        </div>
+        <button class="btn btn-primary" onclick="showPage('add-project')">➕ مشروع جديد</button>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-num" id="stat-total">—</div>
+          <div class="stat-label">إجمالي المشاريع</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="stat-interior">—</div>
+          <div class="stat-label">تصميم داخلي</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="stat-exterior">—</div>
+          <div class="stat-label">تصميم خارجي</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-num" id="stat-graphic">—</div>
+          <div class="stat-label">جرافيك</div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="font-size:15px;font-weight:700;margin-bottom:16px;">آخر المشاريع المضافة</div>
+        <div id="recent-projects">جاري التحميل...</div>
+      </div>
+    </div>
+
+    <!-- Projects List -->
+    <div class="page" id="page-projects">
+      <div class="page-header">
+        <div>
+          <div class="page-title">المشاريع</div>
+          <div class="page-sub" id="projects-count"></div>
+        </div>
+        <div style="display:flex;gap:12px;">
+          <select class="form-select" style="width:160px;" id="filter-discipline" onchange="filterProjects()">
+            <option value="">كل التصنيفات</option>
+            <option value="interior">تصميم داخلي</option>
+            <option value="exterior">تصميم خارجي</option>
+            <option value="graphic">جرافيك</option>
+          </select>
+          <button class="btn btn-primary" onclick="showPage('add-project')">➕ جديد</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>الصورة</th>
+                <th>المشروع</th>
+                <th>التصنيف</th>
+                <th>السنة</th>
+                <th>الإجراءات</th>
+              </tr>
+            </thead>
+            <tbody id="projects-table"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Project -->
+    <div class="page" id="page-add-project">
+      <div class="page-header">
+        <div>
+          <div class="page-title" id="form-page-title">مشروع جديد</div>
+          <div class="page-sub">أضف تفاصيل المشروع</div>
+        </div>
+        <button class="btn btn-secondary" onclick="showPage('projects')">← رجوع</button>
+      </div>
+      <div class="card">
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">اسم المشروع *</label>
+            <input class="form-input" id="f-title" placeholder="مثال: شقة معاصرة — المعادي">
+          </div>
+          <div class="form-group">
+            <label class="form-label">التخصص *</label>
+            <select class="form-select" id="f-discipline">
+              <option value="interior">تصميم داخلي</option>
+              <option value="exterior">تصميم خارجي</option>
+              <option value="graphic">جرافيك وبراندينج</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">الفئة</label>
+            <input class="form-input" id="f-category" placeholder="مثال: شقق، مكاتب، هوية تجارية">
+          </div>
+          <div class="form-group">
+            <label class="form-label">السنة</label>
+            <input class="form-input" id="f-year" placeholder="2024">
+          </div>
+          <div class="form-group">
+            <label class="form-label">الموقع</label>
+            <input class="form-input" id="f-location" placeholder="مثال: القاهرة">
+          </div>
+          <div class="form-group">
+            <label class="form-label">المساحة</label>
+            <input class="form-input" id="f-area" placeholder="مثال: 120 م²">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">وصف مختصر</label>
+            <textarea class="form-textarea" id="f-excerpt" placeholder="وصف قصير يظهر في كارت المشروع"></textarea>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">الفكرة والتحدي التصميمي</label>
+            <textarea class="form-textarea" id="f-idea" placeholder="اشرح الفكرة والتحدي التصميمي للمشروع"></textarea>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">صورة الغلاف (Cover) *</label>
+            <div class="upload-area" onclick="document.getElementById('cover-upload').click()">
+              <input type="file" id="cover-upload" accept="image/*" onchange="handleCoverUpload(event)">
+              <div id="cover-preview" style="color:var(--ink2);font-size:14px;">
+                🖼 اضغط لاختيار صورة الغلاف
+              </div>
+            </div>
+          </div>
+          <div class="form-group full">
+            <label class="form-label">معرض الصور والفيديوهات</label>
+            <div class="upload-area" onclick="document.getElementById('gallery-upload').click()">
+              <input type="file" id="gallery-upload" accept="image/*,video/mp4" multiple onchange="handleGalleryUpload(event)">
+              <div style="color:var(--ink2);font-size:14px;">🖼 اضغط لإضافة صور أو فيديوهات (اختار أكتر من واحدة)</div>
+            </div>
+            <div class="gallery-grid" id="gallery-preview"></div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">مميز في الصفحة الرئيسية؟</label>
+            <select class="form-select" id="f-featured">
+              <option value="false">لا</option>
+              <option value="true">نعم</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top:28px;padding-top:24px;border-top:1px solid var(--line);display:flex;gap:12px;justify-content:flex-end;">
+          <button class="btn btn-secondary" onclick="resetForm()">مسح الكل</button>
+          <button class="btn btn-primary" id="save-btn" onclick="saveProject()">
+            💾 حفظ ونشر على GitHub
+          </button>
+        </div>
+        <div class="progress-bar" style="margin-top:12px;display:none;" id="save-progress">
+          <div class="progress-fill" id="save-progress-fill" style="width:0%"></div>
+        </div>
+        <div id="save-status" style="font-size:13px;color:var(--ink2);margin-top:8px;text-align:center;"></div>
+      </div>
+    </div>
+
+    <!-- Settings -->
+    <div class="page" id="page-settings">
+      <div class="page-header">
+        <div class="page-title">الإعدادات</div>
+      </div>
+      <div class="card">
+        <div class="settings-section">
+          <div class="settings-title">🔐 الأمان</div>
+          <div class="form-group" style="max-width:400px;">
+            <label class="form-label">تغيير كلمة المرور</label>
+            <input class="form-input" type="password" id="new-pw" placeholder="كلمة المرور الجديدة">
+            <button class="btn btn-secondary" style="margin-top:8px;" onclick="changePassword()">تغيير</button>
+          </div>
+        </div>
+        <div class="settings-section">
+          <div class="settings-title">🔑 GitHub Token</div>
+          <div class="form-group" style="max-width:400px;">
+            <label class="form-label">تحديث الـ Token</label>
+            <input class="form-input" type="password" id="new-token" placeholder="ghp_xxxxxxxxxxxx">
+            <button class="btn btn-secondary" style="margin-top:8px;" onclick="updateToken()">تحديث</button>
+          </div>
+          <div style="font-size:12px;color:var(--ink3);margin-top:8px;">
+            الـ Token محفوظ في المتصفح فقط — آمن تماماً
+          </div>
+        </div>
+        <div class="settings-section">
+          <div class="settings-title">🌐 معلومات الـ Repo</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:600px;">
+            <div class="form-group">
+              <label class="form-label">الـ Repo</label>
+              <input class="form-input" value="ramadankotb2020-art/RK-DESGIN-BUILD" readonly style="color:var(--ink3);">
+            </div>
+            <div class="form-group">
+              <label class="form-label">الـ Branch</label>
+              <input class="form-input" value="main" readonly style="color:var(--ink3);">
+            </div>
+          </div>
+        </div>
+        <div class="settings-section">
+          <div class="settings-title">🔗 روابط سريعة</div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="https://rk-desgin-build-2an.pages.dev" target="_blank" class="btn btn-secondary">🌐 الموقع</a>
+            <a href="https://github.com/ramadankotb2020-art/RK-DESGIN-BUILD" target="_blank" class="btn btn-secondary">📂 GitHub</a>
+            <a href="https://dash.cloudflare.com" target="_blank" class="btn btn-secondary">☁️ Cloudflare</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- Edit Modal -->
+<div class="modal-overlay" id="edit-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">تعديل المشروع</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="form-grid">
+      <input type="hidden" id="edit-id">
+      <div class="form-group">
+        <label class="form-label">اسم المشروع</label>
+        <input class="form-input" id="edit-title">
+      </div>
+      <div class="form-group">
+        <label class="form-label">التخصص</label>
+        <select class="form-select" id="edit-discipline">
+          <option value="interior">تصميم داخلي</option>
+          <option value="exterior">تصميم خارجي</option>
+          <option value="graphic">جرافيك</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">الفئة</label>
+        <input class="form-input" id="edit-category">
+      </div>
+      <div class="form-group">
+        <label class="form-label">السنة</label>
+        <input class="form-input" id="edit-year">
+      </div>
+      <div class="form-group full">
+        <label class="form-label">وصف مختصر</label>
+        <textarea class="form-textarea" id="edit-excerpt"></textarea>
+      </div>
+      <div class="form-group full">
+        <label class="form-label">الفكرة</label>
+        <textarea class="form-textarea" id="edit-idea"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">مميز؟</label>
+        <select class="form-select" id="edit-featured">
+          <option value="false">لا</option>
+          <option value="true">نعم</option>
+        </select>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:24px;padding-top:20px;border-top:1px solid var(--line);">
+      <button class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
+      <button class="btn btn-primary" onclick="saveEdit()">💾 حفظ التعديلات</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast">
+  <span id="toast-icon">✓</span>
+  <span id="toast-msg"></span>
+</div>
+
+<script>
+// ══ CONFIG ══
+const REPO   = 'ramadankotb2020-art/RK-DESGIN-BUILD';
+const BRANCH = 'main';
+const ADMIN_PW_KEY   = 'rk_admin_pw';
+const ADMIN_TOKEN_KEY = 'rk_admin_token';
+const DEFAULT_PW = 'RK2024@admin';
+
+// State
+let projectsData = [];
+let editingId = null;
+let coverFile = null;
+let galleryFiles = [];
+let coverBase64 = null;
+let galleryBase64 = [];
+
+// ══ AUTH ══
+function doLogin() {
+  const pw    = document.getElementById('pw-input').value;
+  const token = document.getElementById('token-input').value;
+  const saved = localStorage.getItem(ADMIN_PW_KEY) || DEFAULT_PW;
+
+  if (pw !== saved) {
+    document.getElementById('login-error').style.display = 'block';
+    return;
+  }
+  if (token) localStorage.setItem(ADMIN_TOKEN_KEY, token);
+  const t = localStorage.getItem(ADMIN_TOKEN_KEY);
+  if (!t) { alert('محتاج تدخل GitHub Token!'); return; }
+
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('app').style.display = 'block';
+  loadProjects();
+}
+
+function doLogout() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('pw-input').value = '';
+}
+
+function getToken() { return localStorage.getItem(ADMIN_TOKEN_KEY) || ''; }
+
+function changePassword() {
+  const v = document.getElementById('new-pw').value.trim();
+  if (!v) return;
+  localStorage.setItem(ADMIN_PW_KEY, v);
+  toast('تم تغيير كلمة المرور', 'success');
+  document.getElementById('new-pw').value = '';
+}
+
+function updateToken() {
+  const v = document.getElementById('new-token').value.trim();
+  if (!v) return;
+  localStorage.setItem(ADMIN_TOKEN_KEY, v);
+  toast('تم تحديث الـ Token', 'success');
+  document.getElementById('new-token').value = '';
+}
+
+// ══ NAVIGATION ══
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  const navMap = { dashboard: 0, projects: 1, 'add-project': 2, settings: 3 };
+  document.querySelectorAll('.nav-item')[navMap[id]]?.classList.add('active');
+
+  if (id === 'add-project') {
+    document.getElementById('form-page-title').textContent = 'مشروع جديد';
+    resetForm();
+  }
+}
+
+// ══ GITHUB API ══
+async function ghFetch(path, method = 'GET', body = null) {
+  const opts = {
+    method,
+    headers: {
+      'Authorization': `token ${getToken()}`,
+      'Accept': 'application/vnd.github.v3+json',
+      'Content-Type': 'application/json'
+    }
+  };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(`https://api.github.com/repos/${REPO}/${path}`, opts);
+  return res;
+}
+
+async function getFile(path) {
+  const res = await ghFetch(`contents/${path}?ref=${BRANCH}`);
+  if (!res.ok) return null;
+  const data = await res.json();
+  const content = atob(data.content.replace(/\n/g, ''));
+  return { content, sha: data.sha };
+}
+
+async function putFile(path, content, message, sha = null) {
+  const body = {
+    message,
+    content: btoa(unescape(encodeURIComponent(content))),
+    branch: BRANCH
+  };
+  if (sha) body.sha = sha;
+  const res = await ghFetch(`contents/${path}`, 'PUT', body);
+  return res.ok;
+}
+
+async function putFileBinary(path, base64content, message, sha = null) {
+  const body = { message, content: base64content, branch: BRANCH };
+  if (sha) body.sha = sha;
+  const res = await ghFetch(`contents/${path}`, 'PUT', body);
+  return res.ok;
+}
+
+// ══ LOAD PROJECTS ══
+async function loadProjects() {
+  setProgress(10);
+  const file = await getFile('js/projects-data.js');
+  setProgress(80);
+  if (!file) { toast('خطأ في تحميل البيانات', 'error'); return; }
+
+  try {
+    const match = file.content.match(/const PROJECTS_FALLBACK\s*=\s*(\[[\s\S]*?\]);/);
+    if (match) {
+      projectsData = JSON.parse(match[1]);
+    }
+  } catch(e) {
+    toast('خطأ في قراءة البيانات', 'error');
+    return;
+  }
+
+  setProgress(100);
+  setTimeout(() => setProgress(0), 500);
+  renderDashboard();
+  renderProjectsTable();
+}
+
+// ══ DASHBOARD ══
+function renderDashboard() {
+  const total    = projectsData.length;
+  const interior = projectsData.filter(p => p.discipline === 'interior').length;
+  const exterior = projectsData.filter(p => p.discipline === 'exterior').length;
+  const graphic  = projectsData.filter(p => p.discipline === 'graphic').length;
+
+  document.getElementById('stat-total').textContent    = total;
+  document.getElementById('stat-interior').textContent = interior;
+  document.getElementById('stat-exterior').textContent = exterior;
+  document.getElementById('stat-graphic').textContent  = graphic;
+
+  const recent = projectsData.slice(-5).reverse();
+  document.getElementById('recent-projects').innerHTML = recent.map(p => `
+    <div style="display:flex;align-items:center;gap:16px;padding:12px 0;border-bottom:1px solid var(--line);">
+      <img src="https://rk-desgin-build-2an.pages.dev/${p.cover || ''}" class="project-thumb" onerror="this.style.display='none'">
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:14px;">${p.title}</div>
+        <div style="color:var(--ink2);font-size:12px;">${p.category || ''} • ${p.year || ''}</div>
+      </div>
+      <span class="badge badge-${p.discipline}">${disciplineLabel(p.discipline)}</span>
+    </div>
+  `).join('');
+}
+
+function disciplineLabel(d) {
+  return { interior: 'داخلي', exterior: 'خارجي', graphic: 'جرافيك' }[d] || d;
+}
+
+// ══ PROJECTS TABLE ══
+function renderProjectsTable(filter = '') {
+  let data = projectsData;
+  if (filter) data = data.filter(p => p.discipline === filter);
+  document.getElementById('projects-count').textContent = `${data.length} مشروع`;
+
+  document.getElementById('projects-table').innerHTML = data.map(p => `
+    <tr>
+      <td><img src="https://rk-desgin-build-2an.pages.dev/${p.cover || ''}" class="project-thumb" onerror="this.src='';this.style.background='var(--bg4)'"></td>
+      <td><div style="font-weight:700;">${p.title}</div><div style="color:var(--ink3);font-size:12px;">${p.category || ''}</div></td>
+      <td><span class="badge badge-${p.discipline}">${disciplineLabel(p.discipline)}</span></td>
+      <td style="color:var(--ink2);">${p.year || '—'}</td>
+      <td>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-secondary btn-sm" onclick="openEdit('${p.id}')">✏️ تعديل</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteProject('${p.id}')">🗑</button>
+        </div>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function filterProjects() {
+  const v = document.getElementById('filter-discipline').value;
+  renderProjectsTable(v);
+}
+
+// ══ ADD PROJECT ══
+function handleCoverUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  coverFile = file;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    coverBase64 = ev.target.result.split(',')[1];
+    document.getElementById('cover-preview').innerHTML = `<img src="${ev.target.result}" style="max-height:120px;border-radius:8px;">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleGalleryUpload(e) {
+  const files = Array.from(e.target.files);
+  files.forEach(file => {
+    galleryFiles.push(file);
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const b64 = ev.target.result.split(',')[1];
+      galleryBase64.push({ name: file.name, b64, dataUrl: ev.target.result, isVideo: file.type.includes('video') });
+      renderGalleryPreview();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderGalleryPreview() {
+  document.getElementById('gallery-preview').innerHTML = galleryBase64.map((f, i) => `
+    <div class="gallery-item">
+      ${f.isVideo
+        ? `<div style="display:flex;align-items:center;justify-content:center;height:100%;background:var(--bg3);color:var(--gold);font-size:24px;">🎬</div>`
+        : `<img src="${f.dataUrl}">`}
+      <button class="gallery-item-del" onclick="removeGalleryItem(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function removeGalleryItem(i) {
+  galleryBase64.splice(i, 1);
+  galleryFiles.splice(i, 1);
+  renderGalleryPreview();
+}
+
+function resetForm() {
+  ['f-title','f-category','f-year','f-location','f-area','f-excerpt','f-idea'].forEach(id => {
+    document.getElementById(id).value = '';
+  });
+  document.getElementById('f-discipline').value = 'interior';
+  document.getElementById('f-featured').value = 'false';
+  document.getElementById('cover-preview').innerHTML = '🖼 اضغط لاختيار صورة الغلاف';
+  document.getElementById('gallery-preview').innerHTML = '';
+  coverFile = null; coverBase64 = null;
+  galleryFiles = []; galleryBase64 = [];
+}
+
+function makeId(title) {
+  const clean = title.replace(/\s+/g, '-').replace(/[^\u0600-\u06ff\w-]/g, '');
+  const hash = Array.from(clean).reduce((a,c) => (a*31 + c.charCodeAt(0)) | 0, 0).toString(16).slice(-8);
+  return `${clean.slice(0,20)}-${hash}`;
+}
+
+function setProgress(pct) {
+  const bar = document.getElementById('save-progress');
+  const fill = document.getElementById('save-progress-fill');
+  if (!bar) return;
+  if (pct > 0) { bar.style.display = 'block'; fill.style.width = pct + '%'; }
+  else { bar.style.display = 'none'; fill.style.width = '0%'; }
+}
+
+function setStatus(msg) {
+  document.getElementById('save-status').textContent = msg;
+}
+
+async function saveProject() {
+  const title = document.getElementById('f-title').value.trim();
+  if (!title) { toast('اسم المشروع مطلوب', 'error'); return; }
+  if (!coverBase64) { toast('صورة الغلاف مطلوبة', 'error'); return; }
+
+  const btn = document.getElementById('save-btn');
+  btn.disabled = true;
+  btn.textContent = 'جاري الحفظ...';
+
+  try {
+    const discipline = document.getElementById('f-discipline').value;
+    const id = makeId(title);
+    const folderPath = `images/projects-by-name/${discipline}/${title}`;
+    const coverExt = coverFile.name.split('.').pop();
+    const coverPath = `${folderPath}/01-cover.${coverExt}`;
+
+    setProgress(10); setStatus('جاري رفع صورة الغلاف...');
+    await putFileBinary(coverPath, coverBase64, `add: cover for ${title}`);
+
+    const galleryPaths = [];
+    for (let i = 0; i < galleryBase64.length; i++) {
+      setProgress(10 + (i+1) / (galleryBase64.length+1) * 50);
+      setStatus(`جاري رفع الملف ${i+1} من ${galleryBase64.length}...`);
+      const ext = galleryFiles[i].name.split('.').pop();
+      const fname = galleryBase64[i].isVideo ? `${i+1}.mp4` : `${i+1}.${ext}`;
+      const gPath = `${folderPath}/${fname}`;
+      await putFileBinary(gPath, galleryBase64[i].b64, `add: gallery for ${title}`);
+      galleryPaths.push(gPath);
+    }
+
+    setProgress(70); setStatus('جاري تحديث بيانات المشاريع...');
+    const newProject = {
+      id,
+      discipline,
+      category: document.getElementById('f-category').value.trim(),
+      title,
+      featured: document.getElementById('f-featured').value === 'true',
+      year: document.getElementById('f-year').value.trim(),
+      location: document.getElementById('f-location').value.trim(),
+      area: document.getElementById('f-area').value.trim(),
+      cover: coverPath,
+      gallery: galleryPaths,
+      excerpt: document.getElementById('f-excerpt').value.trim(),
+      description: document.getElementById('f-excerpt').value.trim(),
+      idea: document.getElementById('f-idea').value.trim(),
+      tags: [document.getElementById('f-category').value.trim()].filter(Boolean)
+    };
+
+    projectsData.push(newProject);
+    await saveProjectsData(`add project: ${title}`);
+
+    setProgress(100); setStatus('');
+    toast(`✓ تم نشر "${title}" بنجاح!`, 'success');
+    resetForm();
+    renderDashboard();
+    renderProjectsTable();
+
+  } catch(e) {
+    toast('حدث خطأ: ' + e.message, 'error');
+  }
+
+  btn.disabled = false;
+  btn.textContent = '💾 حفظ ونشر على GitHub';
+  setTimeout(() => setProgress(0), 1000);
+}
+
+// ══ SAVE PROJECTS DATA ══
+async function saveProjectsData(message) {
+  const file = await getFile('js/projects-data.js');
+  const newJson = JSON.stringify(projectsData, null, 2);
+  const header = '/* الملف ده بيتولّد تلقائيًا من مجلدات المشاريع — متعدّلوش يدويًا. */\nconst PROJECTS_FALLBACK = ';
+  const footer = ';\nwindow.projectsData = PROJECTS_FALLBACK;\n';
+  const content = header + newJson + footer;
+  const ok = await putFile('js/projects-data.js', content, message, file?.sha);
+  if (!ok) throw new Error('فشل حفظ البيانات على GitHub');
+}
+
+// ══ EDIT ══
+function openEdit(id) {
+  const p = projectsData.find(x => x.id === id);
+  if (!p) return;
+  editingId = id;
+  document.getElementById('edit-title').value     = p.title || '';
+  document.getElementById('edit-discipline').value = p.discipline || 'interior';
+  document.getElementById('edit-category').value   = p.category || '';
+  document.getElementById('edit-year').value       = p.year || '';
+  document.getElementById('edit-excerpt').value    = p.excerpt || p.description || '';
+  document.getElementById('edit-idea').value       = p.idea || '';
+  document.getElementById('edit-featured').value   = String(p.featured || false);
+  document.getElementById('edit-modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('edit-modal').classList.remove('open');
+  editingId = null;
+}
+
+async function saveEdit() {
+  const idx = projectsData.findIndex(p => p.id === editingId);
+  if (idx < 0) return;
+
+  projectsData[idx] = {
+    ...projectsData[idx],
+    title:      document.getElementById('edit-title').value.trim(),
+    discipline: document.getElementById('edit-discipline').value,
+    category:   document.getElementById('edit-category').value.trim(),
+    year:       document.getElementById('edit-year').value.trim(),
+    excerpt:    document.getElementById('edit-excerpt').value.trim(),
+    description:document.getElementById('edit-excerpt').value.trim(),
+    idea:       document.getElementById('edit-idea').value.trim(),
+    featured:   document.getElementById('edit-featured').value === 'true',
+  };
+
+  try {
+    await saveProjectsData(`edit project: ${projectsData[idx].title}`);
+    toast('تم حفظ التعديلات بنجاح', 'success');
+    closeModal();
+    renderDashboard();
+    renderProjectsTable();
+  } catch(e) {
+    toast('خطأ: ' + e.message, 'error');
+  }
+}
+
+// ══ DELETE ══
+async function deleteProject(id) {
+  const p = projectsData.find(x => x.id === id);
+  if (!p) return;
+  if (!confirm(`هل أنت متأكد من حذف "${p.title}"؟`)) return;
+
+  projectsData = projectsData.filter(x => x.id !== id);
+  try {
+    await saveProjectsData(`delete project: ${p.title}`);
+    toast('تم حذف المشروع', 'success');
+    renderDashboard();
+    renderProjectsTable();
+  } catch(e) {
+    toast('خطأ: ' + e.message, 'error');
+    projectsData.push(p); // rollback
+  }
+}
+
+// ══ TOAST ══
+function toast(msg, type = 'success') {
+  const el = document.getElementById('toast');
+  document.getElementById('toast-msg').textContent = msg;
+  document.getElementById('toast-icon').textContent = type === 'success' ? '✓' : '✕';
+  el.className = `show ${type}`;
+  setTimeout(() => el.className = '', 3500);
+}
+</script>
+</body>
+</html>
