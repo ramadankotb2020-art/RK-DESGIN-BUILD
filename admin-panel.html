@@ -215,6 +215,9 @@
       <div class="nav-item" onclick="showPage('add-project')">
         <span class="nav-icon">➕</span> مشروع جديد
       </div>
+      <div class="nav-item" onclick="showPage('facebook')">
+        <span class="nav-icon">📘</span> فيسبوك
+      </div>
       <div class="nav-item" onclick="showPage('settings')">
         <span class="nav-icon">⚙️</span> الإعدادات
       </div>
@@ -381,6 +384,62 @@
           <div class="progress-fill" id="save-progress-fill" style="width:0%"></div>
         </div>
         <div id="save-status" style="font-size:13px;color:var(--ink2);margin-top:8px;text-align:center;"></div>
+      </div>
+    </div>
+
+
+    <!-- Facebook -->
+    <div class="page" id="page-facebook">
+      <div class="page-header">
+        <div>
+          <div class="page-title">📘 نشر على فيسبوك</div>
+          <div class="page-sub">شارك مشاريعك على صفحتك بضغطة زرار</div>
+        </div>
+        <div style="display:flex;gap:12px;align-items:center;">
+          <div id="fb-status-dot" style="width:10px;height:10px;border-radius:50%;background:var(--ink3);"></div>
+          <span id="fb-status-text" style="font-size:13px;color:var(--ink2);">غير متصل</span>
+        </div>
+      </div>
+
+      <!-- Token Setup -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="settings-title">🔑 إعداد الصفحة</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:700px;">
+          <div class="form-group">
+            <label class="form-label">Page Access Token</label>
+            <input class="form-input" type="password" id="fb-token-input" placeholder="EAAxxxxxxxxxxxx">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Page ID</label>
+            <input class="form-input" id="fb-page-id-input" placeholder="1218558817997248" value="1218558817997248">
+          </div>
+        </div>
+        <button class="btn btn-primary" style="margin-top:16px;" onclick="saveFbSettings()">💾 حفظ وتحقق</button>
+        <div id="fb-verify-result" style="margin-top:12px;font-size:13px;"></div>
+      </div>
+
+      <!-- Post Composer -->
+      <div class="card" style="margin-bottom:24px;">
+        <div class="settings-title">✍️ بوست مخصص</div>
+        <div class="form-group" style="margin-bottom:16px;">
+          <label class="form-label">نص البوست</label>
+          <textarea class="form-textarea" id="fb-custom-msg" style="min-height:120px;" placeholder="اكتب نص البوست هنا..."></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="postCustomFb()">📤 نشر على فيسبوك</button>
+      </div>
+
+      <!-- Projects List for Sharing -->
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+          <div class="settings-title" style="margin-bottom:0;border:none;padding:0;">🖼 مشاركة المشاريع</div>
+          <select class="form-select" style="width:180px;" id="fb-filter" onchange="renderFbProjects()">
+            <option value="">كل التصنيفات</option>
+            <option value="interior">تصميم داخلي</option>
+            <option value="exterior">تصميم خارجي</option>
+            <option value="graphic">جرافيك</option>
+          </select>
+        </div>
+        <div id="fb-projects-list">جاري التحميل...</div>
       </div>
     </div>
 
@@ -558,9 +617,10 @@ function showPage(id) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
   document.getElementById('page-' + id).classList.add('active');
-  const navMap = { dashboard: 0, projects: 1, 'add-project': 2, settings: 3 };
+  const navMap = { dashboard: 0, projects: 1, 'add-project': 2, facebook: 3, settings: 4 };
   document.querySelectorAll('.nav-item')[navMap[id]]?.classList.add('active');
 
+  if (id === 'facebook') { renderFbProjects(); }
   if (id === 'add-project') {
     document.getElementById('form-page-title').textContent = 'مشروع جديد';
     resetForm();
@@ -586,14 +646,22 @@ async function getFile(path) {
   const res = await ghFetch(`contents/${path}?ref=${BRANCH}`);
   if (!res.ok) return null;
   const data = await res.json();
-  const content = atob(data.content.replace(/\n/g, ''));
+  // Decode base64 with proper UTF-8 support
+  const binary = atob(data.content.replace(/\n/g, ''));
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+  const content = new TextDecoder('utf-8').decode(bytes);
   return { content, sha: data.sha };
 }
 
 async function putFile(path, content, message, sha = null) {
+  // Encode with proper UTF-8 support
+  const bytes = new TextEncoder().encode(content);
+  let binary = '';
+  bytes.forEach(b => binary += String.fromCharCode(b));
   const body = {
     message,
-    content: btoa(unescape(encodeURIComponent(content))),
+    content: btoa(binary),
     branch: BRANCH
   };
   if (sha) body.sha = sha;
@@ -911,6 +979,121 @@ function toast(msg, type = 'success') {
   el.className = `show ${type}`;
   setTimeout(() => el.className = '', 3500);
 }
+
+// ══ FACEBOOK ══
+const FB_TOKEN_KEY   = 'rk_fb_token';
+const FB_PAGE_KEY    = 'rk_fb_page_id';
+const FB_POSTED_KEY  = 'rk_fb_posted';
+
+function getFbToken()  { return localStorage.getItem(FB_TOKEN_KEY) || ''; }
+function getFbPageId() { return localStorage.getItem(FB_PAGE_KEY) || '1218558817997248'; }
+function getPosted()   { return JSON.parse(localStorage.getItem(FB_POSTED_KEY) || '[]'); }
+function markPosted(id){ const p = getPosted(); if(!p.includes(id)){ p.push(id); localStorage.setItem(FB_POSTED_KEY, JSON.stringify(p)); } }
+
+function saveFbSettings() {
+  const token  = document.getElementById('fb-token-input').value.trim();
+  const pageId = document.getElementById('fb-page-id-input').value.trim();
+  if (!token)  { toast('الـ Token مطلوب', 'error'); return; }
+  if (!pageId) { toast('الـ Page ID مطلوب', 'error'); return; }
+  localStorage.setItem(FB_TOKEN_KEY, token);
+  localStorage.setItem(FB_PAGE_KEY, pageId);
+  verifyFbToken();
+}
+
+async function verifyFbToken() {
+  const result = document.getElementById('fb-verify-result');
+  result.textContent = 'جاري التحقق...';
+  result.style.color = 'var(--ink2)';
+  try {
+    const res = await fetch(`https://graph.facebook.com/me?access_token=${getFbToken()}`);
+    const data = await res.json();
+    if (data.error) {
+      result.textContent = '✕ الـ Token غير صحيح: ' + data.error.message;
+      result.style.color = 'var(--red)';
+      document.getElementById('fb-status-dot').style.background = 'var(--red)';
+      document.getElementById('fb-status-text').textContent = 'خطأ في الاتصال';
+    } else {
+      result.textContent = '✓ متصل بنجاح!';
+      result.style.color = 'var(--green)';
+      document.getElementById('fb-status-dot').style.background = 'var(--green)';
+      document.getElementById('fb-status-text').textContent = 'متصل';
+      renderFbProjects();
+    }
+  } catch(e) {
+    result.textContent = '✕ خطأ في الاتصال';
+    result.style.color = 'var(--red)';
+  }
+}
+
+async function postToFacebook(message) {
+  const pageId = getFbPageId();
+  const token  = getFbToken();
+  if (!token) { toast('حط الـ Token الأول في إعداد الصفحة', 'error'); return false; }
+  const res = await fetch(`https://graph.facebook.com/${pageId}/feed`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message, access_token: token })
+  });
+  const data = await res.json();
+  if (data.error) { toast('خطأ: ' + data.error.message, 'error'); return false; }
+  return true;
+}
+
+async function postCustomFb() {
+  const msg = document.getElementById('fb-custom-msg').value.trim();
+  if (!msg) { toast('اكتب نص البوست الأول', 'error'); return; }
+  const ok = await postToFacebook(msg);
+  if (ok) {
+    toast('✓ تم النشر على فيسبوك!', 'success');
+    document.getElementById('fb-custom-msg').value = '';
+  }
+}
+
+async function shareProject(id) {
+  const p = projectsData.find(x => x.id === id);
+  if (!p) return;
+  const projectUrl = `https://rk-desgin-build-2an.pages.dev/project?id=${p.id}`;
+  const msg = `🆕 مشروع جديد: ${p.title}\n\n${p.excerpt || p.description || ''}\n\nتفضل شوف المشروع كاملاً 👇\n${projectUrl}\n\n#RKDesignStudio #تصميم_داخلي #ديكور`;
+  const ok = await postToFacebook(msg);
+  if (ok) {
+    markPosted(id);
+    toast(`✓ تم نشر "${p.title}" على فيسبوك!`, 'success');
+    renderFbProjects();
+  }
+}
+
+function renderFbProjects() {
+  const filter  = document.getElementById('fb-filter')?.value || '';
+  const posted  = getPosted();
+  let data = projectsData;
+  if (filter) data = data.filter(p => p.discipline === filter);
+
+  document.getElementById('fb-projects-list').innerHTML = data.map(p => {
+    const isPosted = posted.includes(p.id);
+    return `
+    <div style="display:flex;align-items:center;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);">
+      <img src="https://rk-desgin-build-2an.pages.dev/${p.cover||''}" class="project-thumb" onerror="this.style.display='none'">
+      <div style="flex:1;">
+        <div style="font-weight:700;font-size:14px;">${p.title}</div>
+        <div style="color:var(--ink2);font-size:12px;">${disciplineLabel(p.discipline)} • ${p.year||''}</div>
+      </div>
+      ${isPosted
+        ? `<span style="color:var(--green);font-size:13px;font-weight:700;">✓ تم النشر</span>`
+        : `<button class="btn btn-primary btn-sm" onclick="shareProject('${p.id}')">📤 نشر</button>`
+      }
+    </div>`;
+  }).join('') || '<div style="color:var(--ink2);padding:20px;text-align:center;">لا توجد مشاريع</div>';
+}
+
+// Auto-load FB token if saved
+window.addEventListener('DOMContentLoaded', () => {
+  const savedToken = localStorage.getItem(FB_TOKEN_KEY);
+  if (savedToken) {
+    document.getElementById('fb-token-input').value = savedToken;
+    const savedPage = localStorage.getItem(FB_PAGE_KEY);
+    if (savedPage) document.getElementById('fb-page-id-input').value = savedPage;
+  }
+});
 </script>
 </body>
 </html>
