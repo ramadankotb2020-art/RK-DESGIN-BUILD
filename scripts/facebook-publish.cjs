@@ -1,7 +1,5 @@
 'use strict';
 /* Optional server-side publisher. NEVER import this file from browser code.
-   Each project's permanent GitHub issue is a reserva'use strict';
-/* Optional server-side publisher. NEVER import this file from browser code.
    Each project's permanent GitHub issue is a reservation / publication ledger.
    Ambiguous requests are deliberately not retried automatically. */
 // Temporary safety mode: diagnose only. No publishing or GitHub ledger writes.
@@ -15,11 +13,12 @@ async function main(){
  const {FACEBOOK_PAGE_TOKEN:token,FACEBOOK_PAGE_ID:page,FACEBOOK_API_VERSION:version,GITHUB_TOKEN:github,GITHUB_REPOSITORY:repo}=process.env;
  if(!token||!/^\d+$/.test(page||'')||!/^v\d+\.\d+$/.test(version||'')||!github||!repo)throw Error('Missing or invalid Facebook/GitHub configuration. See docs/FACEBOOK-SETUP.md.');
  if (DIAGNOSTIC_ONLY) {
+  let diagnosticToken = token;
   console.log('DIAGNOSTIC ONLY: no posts sent; no reservation changed.');
   const check = async (label, endpoint) => {
    try {
     const response = await fetch(`https://graph.facebook.com/${version}/${endpoint}`, {
-     headers: { Authorization: `Bearer ${token}` }, signal: AbortSignal.timeout(20000)
+     headers: { Authorization: `Bearer ${diagnosticToken}` }, signal: AbortSignal.timeout(20000)
     });
     const data = await response.json();
     if (!response.ok || data.error) {
@@ -38,7 +37,18 @@ async function main(){
     return null;
    }
   };
-  const identity = await check('PAGE_TOKEN_IDENTITY', 'me?fields=id');
+  let identity = await check('PAGE_TOKEN_IDENTITY', 'me?fields=id');
+  if (identity && String(identity.id) !== page) {
+   console.log('Resolving configured Page token server-side; credentials will not be printed or saved.');
+   const resolved = await check('RESOLVE_PAGE_TOKEN', `${page}?fields=id,access_token`);
+   if (!resolved || String(resolved.id) !== page || typeof resolved.access_token !== 'string' || !resolved.access_token.trim()) {
+    console.log('STOP: Meta did not provide a token for the configured Page. Check Page access/permissions.');
+    process.exitCode = 1;
+    return;
+   }
+   diagnosticToken = resolved.access_token;
+   identity = await check('RESOLVED_PAGE_IDENTITY', 'me?fields=id');
+  }
   const matches = identity && String(identity.id) === page;
   if (identity) console.log('TOKEN_MATCHES_CONFIGURED_PAGE=' + Boolean(matches));
   if (!matches) {
@@ -48,7 +58,7 @@ async function main(){
   }
   const feed = await check('PAGE_FEED_READ', `${page}/feed?fields=id&limit=1`);
   // Read permission does NOT prove publish permission. Never perform a test POST here.
-  const debug = await check('TOKEN_DETAILS_OPTIONAL', `debug_token?input_token=${encodeURIComponent(token)}`);
+  const debug = await check('TOKEN_DETAILS_OPTIONAL', `debug_token?input_token=${encodeURIComponent(diagnosticToken)}`);
   if (debug?.data) {
    const d=debug.data;
    const scopes=['pages_show_list','pages_read_engagement','pages_manage_posts'];
