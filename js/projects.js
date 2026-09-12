@@ -280,7 +280,7 @@ buildFilterBar(null);
         </svg>
         شارك على فيسبوك
       </a>`;
-    galleryEl.parentElement.after(fbShare);
+    page.querySelector('.container').appendChild(fbShare);
 
     /* ─── Lightbox — images only ─── */
     const images = imageItems;
