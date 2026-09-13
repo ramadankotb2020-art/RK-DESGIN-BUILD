@@ -3936,6 +3936,69 @@ const PROJECTS_FALLBACK = [
     ]
   },
   {
+    "id": "project-1b552adffcee06ab",
+    "legacyId": "معرض-اتصالات-للتكنولوجيا-d985d8b9",
+    "discipline": "interior",
+    "category": "تصميم داخلي",
+    "categoryKey": "interior",
+    "title": "معرض اتصالات للتكنولوجيا",
+    "slug": "معرض-اتصالات-للتكنولوجيا-1b552adffc",
+    "status": "published",
+    "facebook": false,
+    "services": [],
+    "seoTitle": "معرض اتصالات للتكنولوجيا | RK Design Studio",
+    "seoDescription": "شاهد صور وتفاصيل مشروع معرض اتصالات للتكنولوجيا من أعمال رمضان قطب — RK Design Studio.",
+    "alt": "معرض اتصالات للتكنولوجيا",
+    "location": "",
+    "area": null,
+    "year": "",
+    "cover": "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/01-cover.webp",
+    "before": null,
+    "gallery": [
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/1.webp",
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/2.webp",
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/3.webp",
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/4.mp4",
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/5.mp4"
+    ],
+    "video": "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/4.mp4",
+    "excerpt": "مشروع معرض اتصالات للتكنولوجيا",
+    "description": "مشروع معرض اتصالات للتكنولوجيا.",
+    "idea": "",
+    "materials": [],
+    "tags": [],
+    "featured": false,
+    "url": "projects/%D9%85%D8%B9%D8%B1%D8%B6-%D8%A7%D8%AA%D8%B5%D8%A7%D9%84%D8%A7%D8%AA-%D9%84%D9%84%D8%AA%D9%83%D9%86%D9%88%D9%84%D9%88%D8%AC%D9%8A%D8%A7-1b552adffc/",
+    "imageMeta": {
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/01-cover.webp": {
+        "width": 1600,
+        "height": 900
+      },
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/1.webp": {
+        "width": 1600,
+        "height": 900
+      },
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/2.webp": {
+        "width": 1600,
+        "height": 900
+      },
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/3.webp": {
+        "width": 1600,
+        "height": 900
+      }
+    },
+    "coverSources": [
+      {
+        "src": "images/responsive/431a256e41e3c1c4-480.webp",
+        "width": 480
+      },
+      {
+        "src": "images/responsive/431a256e41e3c1c4-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  {
     "id": "project-b540c55e56e2b3ae",
     "legacyId": "معرض-النخبة-للسيارات-d985d8b9",
     "discipline": "interior",
@@ -4104,48 +4167,55 @@ const PROJECTS_FALLBACK = [
     ]
   },
   {
-    "id": "ميلانو-بوث-675ef748",
+    "id": "project-d7df39e981cacf03",
+    "legacyId": "ميلانو-بوث-d985d98a",
     "discipline": "interior",
-    "category": "بوثات",
+    "category": "تصميم داخلي",
+    "categoryKey": "interior",
     "title": "ميلانو بوث",
-    "featured": false,
-    "year": "2026",
-    "location": "القاهرة",
-    "area": "25 م",
-    "cover": "images/projects-by-name/interior/ميلانو بوث/01-cover.png",
+    "slug": "ميلانو-بوث-d7df39e981",
+    "status": "published",
+    "facebook": false,
+    "services": [],
+    "seoTitle": "ميلانو بوث | RK Design Studio",
+    "seoDescription": "شاهد صور وتفاصيل مشروع ميلانو بوث من أعمال رمضان قطب — RK Design Studio.",
+    "alt": "ميلانو بوث",
+    "location": "",
+    "area": null,
+    "year": "",
+    "cover": "images/projects-by-name/interior/ميلانو بوث/01-cover.webp",
+    "before": null,
     "gallery": [
-      "images/projects-by-name/interior/ميلانو بوث/1.png"
+      "images/projects-by-name/interior/ميلانو بوث/1.webp"
     ],
-    "excerpt": "",
-    "description": "",
+    "video": null,
+    "excerpt": "مشروع ميلانو بوث",
+    "description": "مشروع ميلانو بوث.",
     "idea": "",
-    "tags": [
-      "بوثات"
-    ]
-  },
-  {
-    "id": "معرض-اتصالات-للتكنول--9498a45",
-    "discipline": "interior",
-    "category": "بوثات",
-    "title": "معرض اتصالات للتكنولوجيا",
-    "featured": true,
-    "year": "2020",
-    "location": "القاهرة",
-    "area": "40 م",
-    "cover": "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/01-cover.png",
-    "gallery": [
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/1.png",
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/2.png",
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/3.png",
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/4.mp4",
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/5.mp4"
-    ],
-    "excerpt": "تصميم بوث معرض تجاري عصري واحترافي",
-    "description": "تصميم بوث معرض تجاري عصري واحترافي",
-    "idea": "تصميم بوث معرض تجاري عصري واحترافي، يعتمد على تكوين معماري واضح ومتناسق يجمع بين الجمال البصري والوظيفة العملية. يتميز البوث بخطوط هندسية نظيفة وتوزيع متوازن للعناصر، مع إبراز هوية العلامة التجارية بشكل واضح من خلال أماكن مخصصة للّوجو والرسائل البصرية.\n\nيحتوي التصميم على مناطق عرض مناسبة للمنتجات، ومساحات للحركة والتفاعل مع الزوار، مع استخدام خامات وتشطيبات عالية الجودة وإضاءة معمارية ومدروسة لإبراز التفاصيل والعناصر الرئيسية. تم تصميم البوث ليكون جذابًا من أكثر من زاوية، مع الحفاظ على وضوح الرؤية وسهولة الدخول والحركة داخله.\n\nالطابع العام للتصميم Contemporary / Modern Exhibition Stand، مع الاهتمام بالتناسبات الهندسية، جودة الخامات، تفاصيل التنفيذ، الإضاءة، والهوية البصرية، بحيث يظهر البوث بصورة احترافية وواقعية ومناسبة للتنفيذ الفعلي في المعارض والفعاليات التجارية.",
-    "tags": [
-      "بوثات"
+    "materials": [],
+    "tags": [],
+    "featured": false,
+    "url": "projects/%D9%85%D9%8A%D9%84%D8%A7%D9%86%D9%88-%D8%A8%D9%88%D8%AB-d7df39e981/",
+    "imageMeta": {
+      "images/projects-by-name/interior/ميلانو بوث/01-cover.webp": {
+        "width": 1600,
+        "height": 911
+      },
+      "images/projects-by-name/interior/ميلانو بوث/1.webp": {
+        "width": 1600,
+        "height": 911
+      }
+    },
+    "coverSources": [
+      {
+        "src": "images/responsive/ed20631dd2925cea-480.webp",
+        "width": 480
+      },
+      {
+        "src": "images/responsive/ed20631dd2925cea-800.webp",
+        "width": 800
+      }
     ]
   }
 ];
-window.projectsData = PROJECTS_FALLBACK;
+const projectsData = PROJECTS_FALLBACK;
