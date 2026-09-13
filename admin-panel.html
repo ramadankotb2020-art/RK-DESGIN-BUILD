@@ -484,6 +484,22 @@
           </div>
         </div>
         <div class="settings-section">
+          <div class="settings-title">☁️ Cloudflare Token</div>
+          <div class="form-group" style="max-width:400px;">
+            <label class="form-label">API Token (للـ rebuild)</label>
+            <input class="form-input" type="password" id="cf-token-input" placeholder="CF API Token">
+            <button class="btn btn-secondary" style="margin-top:8px;" onclick="saveCfToken()">حفظ</button>
+          </div>
+        </div>
+        <div class="settings-section">
+          <div class="settings-title">🚀 إعادة نشر الموقع</div>
+          <p style="color:var(--ink2);font-size:13px;margin-bottom:16px;">لما تعمل تعديل وتحفظه، اضغط هنا عشان Cloudflare ينشر التحديثات فوراً.</p>
+          <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+            <button class="btn btn-primary" onclick="triggerRebuild()" id="rebuild-btn">🔄 Rebuild ونشر الموقع</button>
+            <span id="rebuild-status" style="font-size:13px;color:var(--ink2);"></span>
+          </div>
+        </div>
+        <div class="settings-section">
           <div class="settings-title">🔗 روابط سريعة</div>
           <div style="display:flex;gap:12px;flex-wrap:wrap;">
             <a href="https://rk-desgin-build-2an.pages.dev" target="_blank" class="btn btn-secondary">🌐 الموقع</a>
@@ -541,25 +557,6 @@
           <option value="true">نعم</option>
         </select>
       </div>
-      <div class="form-group full" style="margin-top:8px;">
-        <label class="form-label">🖼 إضافة / تغيير صورة الغلاف</label>
-        <div class="upload-area" onclick="document.getElementById('edit-cover-upload').click()" style="padding:20px;">
-          <input type="file" id="edit-cover-upload" accept="image/*" onchange="handleEditCover(event)" style="display:none;">
-          <div id="edit-cover-preview" style="color:var(--ink2);font-size:13px;">اضغط لاختيار صورة غلاف جديدة (اختياري)</div>
-        </div>
-      </div>
-      <div class="form-group full">
-        <label class="form-label">➕ إضافة صور / فيديوهات للمعرض</label>
-        <div class="upload-area" onclick="document.getElementById('edit-gallery-upload').click()" style="padding:20px;">
-          <input type="file" id="edit-gallery-upload" accept="image/*,video/mp4" multiple onchange="handleEditGallery(event)" style="display:none;">
-          <div style="color:var(--ink2);font-size:13px;">اضغط لإضافة صور أو فيديوهات جديدة للمعرض</div>
-        </div>
-        <div class="gallery-grid" id="edit-gallery-preview"></div>
-      </div>
-      <div class="form-group full" id="edit-current-gallery-wrap">
-        <label class="form-label">📁 الصور الحالية في المعرض</label>
-        <div class="gallery-grid" id="edit-current-gallery"></div>
-      </div>
     </div>
     <div style="display:flex;gap:12px;justify-content:flex-end;margin-top:24px;padding-top:20px;border-top:1px solid var(--line);">
       <button class="btn btn-secondary" onclick="closeModal()">إلغاء</button>
@@ -591,6 +588,26 @@ let coverBase64 = null;
 let galleryBase64 = [];
 
 // ══ AUTH ══
+const SESSION_KEY = 'rk_admin_session';
+const SESSION_DAYS = 7;
+
+function checkAutoLogin() {
+  const session = localStorage.getItem(SESSION_KEY);
+  if (session) {
+    try {
+      const s = JSON.parse(session);
+      if (s.expires > Date.now() && localStorage.getItem(ADMIN_TOKEN_KEY)) {
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        loadProjects();
+        return true;
+      }
+    } catch(e) {}
+    localStorage.removeItem(SESSION_KEY);
+  }
+  return false;
+}
+
 function doLogin() {
   const pw    = document.getElementById('pw-input').value;
   const token = document.getElementById('token-input').value;
@@ -604,12 +621,18 @@ function doLogin() {
   const t = localStorage.getItem(ADMIN_TOKEN_KEY);
   if (!t) { alert('محتاج تدخل GitHub Token!'); return; }
 
+  // Save session for 7 days
+  localStorage.setItem(SESSION_KEY, JSON.stringify({
+    expires: Date.now() + SESSION_DAYS * 24 * 60 * 60 * 1000
+  }));
+
   document.getElementById('login-screen').style.display = 'none';
   document.getElementById('app').style.display = 'block';
   loadProjects();
 }
 
 function doLogout() {
+  localStorage.removeItem(SESSION_KEY);
   document.getElementById('app').style.display = 'none';
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('pw-input').value = '';
@@ -928,82 +951,17 @@ async function saveProjectsData(message) {
 }
 
 // ══ EDIT ══
-// Edit upload state
-let editCoverFile = null, editCoverBase64 = null;
-let editGalleryFiles = [], editGalleryBase64 = [];
-let editRemovedGallery = [];
-
-function handleEditCover(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-  editCoverFile = file;
-  const reader = new FileReader();
-  reader.onload = ev => {
-    editCoverBase64 = ev.target.result.split(',')[1];
-    document.getElementById('edit-cover-preview').innerHTML = `<img src="${ev.target.result}" style="max-height:100px;border-radius:8px;">`;
-  };
-  reader.readAsDataURL(file);
-}
-
-function handleEditGallery(e) {
-  const files = Array.from(e.target.files);
-  files.forEach(file => {
-    editGalleryFiles.push(file);
-    const reader = new FileReader();
-    reader.onload = ev => {
-      const b64 = ev.target.result.split(',')[1];
-      editGalleryBase64.push({ name: file.name, b64, dataUrl: ev.target.result, isVideo: file.type.includes('video') });
-      renderEditGalleryPreview();
-    };
-    reader.readAsDataURL(file);
-  });
-}
-
-function renderEditGalleryPreview() {
-  document.getElementById('edit-gallery-preview').innerHTML = editGalleryBase64.map((f, i) => `
-    <div class="gallery-item">
-      ${f.isVideo ? `<div style="display:flex;align-items:center;justify-content:center;height:100%;background:var(--bg3);color:var(--gold);font-size:24px;">🎬</div>`
-        : `<img src="${f.dataUrl}">`}
-      <button class="gallery-item-del" onclick="editGalleryBase64.splice(${i},1);editGalleryFiles.splice(${i},1);renderEditGalleryPreview()">✕</button>
-    </div>`).join('');
-}
-
-function renderCurrentGallery(gallery) {
-  document.getElementById('edit-current-gallery').innerHTML = (gallery || []).map((g, i) => `
-    <div class="gallery-item" id="edit-cur-${i}">
-      ${g.endsWith('.mp4') || g.endsWith('.webm')
-        ? `<div style="display:flex;align-items:center;justify-content:center;height:100%;background:var(--bg3);color:var(--gold);font-size:20px;">🎬</div>`
-        : `<img src="https://rk-desgin-build-2an.pages.dev/${g}" onerror="this.src='';">`}
-      <button class="gallery-item-del" onclick="removeCurrentGallery(${i},'${g}')" title="حذف">✕</button>
-    </div>`).join('');
-}
-
-function removeCurrentGallery(i, path) {
-  editRemovedGallery.push(path);
-  document.getElementById('edit-cur-' + i).remove();
-}
-
 function openEdit(id) {
   const p = projectsData.find(x => x.id === id);
   if (!p) return;
   editingId = id;
-  // Reset upload state
-  editCoverFile = null; editCoverBase64 = null;
-  editGalleryFiles = []; editGalleryBase64 = [];
-  editRemovedGallery = [];
-
-  document.getElementById('edit-title').value      = p.title || '';
+  document.getElementById('edit-title').value     = p.title || '';
   document.getElementById('edit-discipline').value = p.discipline || 'interior';
   document.getElementById('edit-category').value   = p.category || '';
   document.getElementById('edit-year').value       = p.year || '';
   document.getElementById('edit-excerpt').value    = p.excerpt || p.description || '';
   document.getElementById('edit-idea').value       = p.idea || '';
   document.getElementById('edit-featured').value   = String(p.featured || false);
-  document.getElementById('edit-cover-preview').innerHTML = p.cover
-    ? `<img src="https://rk-desgin-build-2an.pages.dev/${p.cover}" style="max-height:100px;border-radius:8px;">`
-    : 'اضغط لاختيار صورة غلاف جديدة (اختياري)';
-  document.getElementById('edit-gallery-preview').innerHTML = '';
-  renderCurrentGallery(p.gallery || []);
   document.getElementById('edit-modal').classList.add('open');
 }
 
@@ -1016,59 +974,27 @@ async function saveEdit() {
   const idx = projectsData.findIndex(p => p.id === editingId);
   if (idx < 0) return;
 
-  const p = projectsData[idx];
-  const btn = document.querySelector('#edit-modal .btn-primary');
-  btn.disabled = true;
-  btn.textContent = 'جاري الحفظ...';
+  projectsData[idx] = {
+    ...projectsData[idx],
+    title:      document.getElementById('edit-title').value.trim(),
+    discipline: document.getElementById('edit-discipline').value,
+    category:   document.getElementById('edit-category').value.trim(),
+    year:       document.getElementById('edit-year').value.trim(),
+    excerpt:    document.getElementById('edit-excerpt').value.trim(),
+    description:document.getElementById('edit-excerpt').value.trim(),
+    idea:       document.getElementById('edit-idea').value.trim(),
+    featured:   document.getElementById('edit-featured').value === 'true',
+  };
 
   try {
-    const discipline = document.getElementById('edit-discipline').value;
-    const title = document.getElementById('edit-title').value.trim();
-    const folderPath = `images/projects-by-name/${discipline}/${p.title}`;
-
-    // Upload new cover if selected
-    let coverPath = p.cover;
-    if (editCoverBase64 && editCoverFile) {
-      const ext = editCoverFile.name.split('.').pop();
-      coverPath = `${folderPath}/01-cover.${ext}`;
-      await putFileBinary(coverPath, editCoverBase64, `update cover: ${title}`);
-    }
-
-    // Upload new gallery files
-    let gallery = (p.gallery || []).filter(g => !editRemovedGallery.includes(g));
-    for (let i = 0; i < editGalleryBase64.length; i++) {
-      const ext = editGalleryFiles[i].name.split('.').pop();
-      const fname = editGalleryBase64[i].isVideo ? `new-${Date.now()}-${i}.mp4` : `new-${Date.now()}-${i}.${ext}`;
-      const gPath = `${folderPath}/${fname}`;
-      await putFileBinary(gPath, editGalleryBase64[i].b64, `add gallery: ${title}`);
-      gallery.push(gPath);
-    }
-
-    projectsData[idx] = {
-      ...p,
-      title,
-      discipline,
-      category:    document.getElementById('edit-category').value.trim(),
-      year:        document.getElementById('edit-year').value.trim(),
-      excerpt:     document.getElementById('edit-excerpt').value.trim(),
-      description: document.getElementById('edit-excerpt').value.trim(),
-      idea:        document.getElementById('edit-idea').value.trim(),
-      featured:    document.getElementById('edit-featured').value === 'true',
-      cover:       coverPath,
-      gallery,
-    };
-
-    await saveProjectsData(`edit project: ${title}`);
-    toast('✓ تم حفظ التعديلات بنجاح', 'success');
+    await saveProjectsData(`edit project: ${projectsData[idx].title}`);
+    toast('تم حفظ التعديلات بنجاح', 'success');
     closeModal();
     renderDashboard();
     renderProjectsTable();
   } catch(e) {
     toast('خطأ: ' + e.message, 'error');
   }
-
-  btn.disabled = false;
-  btn.textContent = '💾 حفظ التعديلات';
 }
 
 // ══ DELETE ══
@@ -1235,6 +1161,74 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('fb-token-input').value = savedToken;
     const savedPage = localStorage.getItem(FB_PAGE_KEY);
     if (savedPage) document.getElementById('fb-page-id-input').value = savedPage;
+  }
+});
+
+// ══ CLOUDFLARE REBUILD ══
+const CF_TOKEN_KEY = 'rk_cf_token';
+const CF_ACCOUNT_ID = 'b77f6f22d154b42c42b5ea234c804ec3';
+const CF_PROJECT = 'rk-desgin-build';
+
+function saveCfToken() {
+  const v = document.getElementById('cf-token-input').value.trim();
+  if (!v) return;
+  localStorage.setItem(CF_TOKEN_KEY, v);
+  toast('✓ تم حفظ الـ Cloudflare Token', 'success');
+  document.getElementById('cf-token-input').value = '';
+}
+
+async function triggerRebuild() {
+  const cfToken = localStorage.getItem(CF_TOKEN_KEY);
+  if (!cfToken) {
+    toast('حط الـ Cloudflare Token في الإعدادات أولاً', 'error');
+    return;
+  }
+  const btn = document.getElementById('rebuild-btn');
+  const status = document.getElementById('rebuild-status');
+  btn.disabled = true;
+  btn.textContent = '⏳ جاري الإرسال...';
+  status.textContent = '';
+
+  try {
+    const res = await fetch(
+      `https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/pages/projects/${CF_PROJECT}/deployments`,
+      {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${cfToken}`,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+    const data = await res.json();
+    if (data.success) {
+      toast('✓ بدأ الـ rebuild — الموقع هيتحدث خلال دقيقة!', 'success');
+      status.textContent = '✓ تم إرسال أمر الـ rebuild بنجاح';
+      status.style.color = 'var(--green)';
+    } else {
+      const msg = data.errors?.[0]?.message || 'خطأ غير معروف';
+      toast('خطأ: ' + msg, 'error');
+      status.textContent = '✕ ' + msg;
+      status.style.color = 'var(--red)';
+    }
+  } catch(e) {
+    toast('خطأ في الاتصال بـ Cloudflare', 'error');
+    status.textContent = '✕ خطأ في الاتصال';
+    status.style.color = 'var(--red)';
+  }
+
+  btn.disabled = false;
+  btn.textContent = '🔄 Rebuild ونشر الموقع';
+}
+
+// Auto-load saved CF token
+window.addEventListener('DOMContentLoaded', () => {
+  // Check auto login first
+  checkAutoLogin();
+  // Pre-fill CF token field if saved
+  const savedCf = localStorage.getItem(CF_TOKEN_KEY);
+  if (savedCf && document.getElementById('cf-token-input')) {
+    document.getElementById('cf-token-input').placeholder = '••••••••• (محفوظ)';
   }
 });
 </script>
