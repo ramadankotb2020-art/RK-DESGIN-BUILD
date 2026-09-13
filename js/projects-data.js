@@ -3954,12 +3954,7 @@ const PROJECTS_FALLBACK = [
     "year": "2020",
     "cover": "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/01-cover.webp",
     "before": null,
-    "gallery": [
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/new-1789300542965-0.png",
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/new-1789300547766-1.png",
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/new-1789300555348-2.png",
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/new-1789300560816-3.mp4"
-    ],
+    "gallery": [],
     "video": "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/4.mp4",
     "excerpt": "مشروع معرض اتصالات للتكنولوجيا",
     "description": "مشروع معرض اتصالات للتكنولوجيا",
