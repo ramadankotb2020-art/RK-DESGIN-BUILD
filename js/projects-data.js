@@ -4169,7 +4169,7 @@ const PROJECTS_FALLBACK = [
     "id": "project-d7df39e981cacf03",
     "legacyId": "ميلانو-بوث-d985d98a",
     "discipline": "interior",
-    "category": "تصميم داخلي",
+    "category": "بوثات",
     "categoryKey": "interior",
     "title": "ميلانو بوث",
     "slug": "ميلانو-بوث-d7df39e981",
@@ -4181,19 +4181,21 @@ const PROJECTS_FALLBACK = [
     "alt": "ميلانو بوث",
     "location": "",
     "area": null,
-    "year": "",
+    "year": "2025",
     "cover": "images/projects-by-name/interior/ميلانو بوث/01-cover.webp",
     "before": null,
     "gallery": [
-      "images/projects-by-name/interior/ميلانو بوث/1.webp"
+      "images/projects-by-name/interior/ميلانو بوث/1.webp",
+      "images/projects-by-name/interior/ميلانو بوث/new-1789301821790-0.png",
+      "images/projects-by-name/interior/ميلانو بوث/new-1789301824211-1.png"
     ],
     "video": null,
-    "excerpt": "مشروع ميلانو بوث",
-    "description": "مشروع ميلانو بوث.",
-    "idea": "",
+    "excerpt": "معرض ميلانو للعرض احدض الموديلات من الاحذية الرياضية",
+    "description": "معرض ميلانو للعرض احدض الموديلات من الاحذية الرياضية",
+    "idea": "يحتوي التصميم على مناطق عرض مناسبة للمنتجات، ومساحات للحركة والتفاعل مع الزوار، مع استخدام خامات وتشطيبات عالية الجودة وإضاءة معمارية ومدروسة لإبراز التفاصيل والعناصر الرئيسية. تم تصميم البوث ليكون جذابًا من أكثر من زاوية، مع الحفاظ على وضوح الرؤية وسهولة الدخول والحركة داخله",
     "materials": [],
     "tags": [],
-    "featured": false,
+    "featured": true,
     "url": "projects/%D9%85%D9%8A%D9%84%D8%A7%D9%86%D9%88-%D8%A8%D9%88%D8%AB-d7df39e981/",
     "imageMeta": {
       "images/projects-by-name/interior/ميلانو بوث/01-cover.webp": {
