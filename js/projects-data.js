@@ -3939,19 +3939,19 @@ const PROJECTS_FALLBACK = [
     "id": "project-1b552adffcee06ab",
     "legacyId": "معرض-اتصالات-للتكنولوجيا-d985d8b9",
     "discipline": "interior",
-    "category": "تصميم داخلي",
+    "category": "بوثات",
     "categoryKey": "interior",
     "title": "معرض اتصالات للتكنولوجيا",
     "slug": "معرض-اتصالات-للتكنولوجيا-1b552adffc",
     "status": "published",
     "facebook": false,
     "services": [],
-    "seoTitle": "معرض اتصالات للتكنولوجيا | RK Design Studio",
+    "seoTitle": "معرض اتصالات للتكنولوجيا — القاهرة | RK Design Studio",
     "seoDescription": "شاهد صور وتفاصيل مشروع معرض اتصالات للتكنولوجيا من أعمال رمضان قطب — RK Design Studio.",
-    "alt": "معرض اتصالات للتكنولوجيا",
-    "location": "",
-    "area": null,
-    "year": "",
+    "alt": "معرض اتصالات للتكنولوجيا — القاهرة",
+    "location": "القاهرة",
+    "area": "30 م²",
+    "year": "2020",
     "cover": "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/01-cover.webp",
     "before": null,
     "gallery": [
@@ -4044,6 +4044,67 @@ const PROJECTS_FALLBACK = [
       },
       {
         "src": "images/responsive/483f46a88cb43ab9-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  {
+    "id": "project-5f52e0730193619e",
+    "legacyId": "معرض-ميلانو-للاحذية-الرياضية-d985d8b9",
+    "discipline": "interior",
+    "category": "بوثات",
+    "categoryKey": "interior",
+    "title": "معرض ميلانو للاحذية الرياضية",
+    "slug": "معرض-ميلانو-للاحذية-الرياضية-5f52e07301",
+    "status": "published",
+    "facebook": false,
+    "services": [],
+    "seoTitle": "معرض ميلانو للاحذية الرياضية — القاهرة | RK Design Studio",
+    "seoDescription": "شاهد صور وتفاصيل مشروع معرض ميلانو للاحذية الرياضية من أعمال رمضان قطب — RK Design Studio.",
+    "alt": "معرض ميلانو للاحذية الرياضية — القاهرة",
+    "location": "القاهرة",
+    "area": "25 م²",
+    "year": "2025",
+    "cover": "images/projects-by-name/interior/معرض ميلانو للاحذية الرياضية/01-cover.webp",
+    "before": null,
+    "gallery": [
+      "images/projects-by-name/interior/معرض ميلانو للاحذية الرياضية/1.webp",
+      "images/projects-by-name/interior/معرض ميلانو للاحذية الرياضية/new-1789301821790-0.webp",
+      "images/projects-by-name/interior/معرض ميلانو للاحذية الرياضية/new-1789301824211-1.webp"
+    ],
+    "video": null,
+    "excerpt": "مشروع معرض ميلانو للاحذية الرياضية",
+    "description": "مشروع معرض ميلانو للاحذية الرياضية.",
+    "idea": "",
+    "materials": [],
+    "tags": [],
+    "featured": false,
+    "url": "projects/%D9%85%D8%B9%D8%B1%D8%B6-%D9%85%D9%8A%D9%84%D8%A7%D9%86%D9%88-%D9%84%D9%84%D8%A7%D8%AD%D8%B0%D9%8A%D8%A9-%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D9%8A%D8%A9-5f52e07301/",
+    "imageMeta": {
+      "images/projects-by-name/interior/معرض ميلانو للاحذية الرياضية/01-cover.webp": {
+        "width": 1600,
+        "height": 911
+      },
+      "images/projects-by-name/interior/معرض ميلانو للاحذية الرياضية/1.webp": {
+        "width": 1600,
+        "height": 911
+      },
+      "images/projects-by-name/interior/معرض ميلانو للاحذية الرياضية/new-1789301821790-0.webp": {
+        "width": 1600,
+        "height": 911
+      },
+      "images/projects-by-name/interior/معرض ميلانو للاحذية الرياضية/new-1789301824211-1.webp": {
+        "width": 1600,
+        "height": 911
+      }
+    },
+    "coverSources": [
+      {
+        "src": "images/responsive/ed20631dd2925cea-480.webp",
+        "width": 480
+      },
+      {
+        "src": "images/responsive/ed20631dd2925cea-800.webp",
         "width": 800
       }
     ]
@@ -4164,67 +4225,6 @@ const PROJECTS_FALLBACK = [
         "width": 800
       }
     ]
-  },
-  {
-    "id": "project-d7df39e981cacf03",
-    "legacyId": "ميلانو-بوث-d985d98a",
-    "discipline": "interior",
-    "category": "بوثات",
-    "categoryKey": "interior",
-    "title": "معرض ميلانو للاحذية الرياضية",
-    "slug": "ميلانو-بوث-d7df39e981",
-    "status": "published",
-    "facebook": false,
-    "services": [],
-    "seoTitle": "ميلانو بوث | RK Design Studio",
-    "seoDescription": "شاهد صور وتفاصيل مشروع ميلانو بوث من أعمال رمضان قطب — RK Design Studio.",
-    "alt": "ميلانو بوث",
-    "location": "",
-    "area": null,
-    "year": "2025",
-    "cover": "images/projects-by-name/interior/ميلانو بوث/01-cover.webp",
-    "before": null,
-    "gallery": [
-      "images/projects-by-name/interior/ميلانو بوث/1.webp",
-      "images/projects-by-name/interior/ميلانو بوث/new-1789301821790-0.webp",
-      "images/projects-by-name/interior/ميلانو بوث/new-1789301824211-1.webp"
-    ],
-    "video": null,
-    "excerpt": "معرض ميلانو للاحذية الرياضية",
-    "description": "معرض ميلانو للاحذية الرياضية",
-    "idea": "",
-    "materials": [],
-    "tags": [],
-    "featured": true,
-    "url": "projects/%D9%85%D9%8A%D9%84%D8%A7%D9%86%D9%88-%D8%A8%D9%88%D8%AB-d7df39e981/",
-    "imageMeta": {
-      "images/projects-by-name/interior/ميلانو بوث/01-cover.webp": {
-        "width": 1600,
-        "height": 911
-      },
-      "images/projects-by-name/interior/ميلانو بوث/1.webp": {
-        "width": 1600,
-        "height": 911
-      },
-      "images/projects-by-name/interior/ميلانو بوث/new-1789301821790-0.webp": {
-        "width": 1600,
-        "height": 911
-      },
-      "images/projects-by-name/interior/ميلانو بوث/new-1789301824211-1.webp": {
-        "width": 1600,
-        "height": 911
-      }
-    },
-    "coverSources": [
-      {
-        "src": "images/responsive/ed20631dd2925cea-480.webp",
-        "width": 480
-      },
-      {
-        "src": "images/responsive/ed20631dd2925cea-800.webp",
-        "width": 800
-      }
-    ]
   }
 ];
-window.projectsData = PROJECTS_FALLBACK;
+const projectsData = PROJECTS_FALLBACK;
