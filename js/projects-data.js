@@ -3939,7 +3939,7 @@ const PROJECTS_FALLBACK = [
     "id": "project-1b552adffcee06ab",
     "legacyId": "معرض-اتصالات-للتكنولوجيا-d985d8b9",
     "discipline": "interior",
-    "category": "تصميم داخلي",
+    "category": "بوثات",
     "categoryKey": "interior",
     "title": "معرض اتصالات للتكنولوجيا",
     "slug": "معرض-اتصالات-للتكنولوجيا-1b552adffc",
@@ -3951,23 +3951,22 @@ const PROJECTS_FALLBACK = [
     "alt": "معرض اتصالات للتكنولوجيا",
     "location": "",
     "area": null,
-    "year": "",
+    "year": "2020",
     "cover": "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/01-cover.webp",
     "before": null,
     "gallery": [
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/1.webp",
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/2.webp",
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/3.webp",
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/4.mp4",
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/5.mp4"
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/new-1789300542965-0.png",
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/new-1789300547766-1.png",
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/new-1789300555348-2.png",
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/new-1789300560816-3.mp4"
     ],
     "video": "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/4.mp4",
     "excerpt": "مشروع معرض اتصالات للتكنولوجيا",
-    "description": "مشروع معرض اتصالات للتكنولوجيا.",
+    "description": "مشروع معرض اتصالات للتكنولوجيا",
     "idea": "",
     "materials": [],
     "tags": [],
-    "featured": false,
+    "featured": true,
     "url": "projects/%D9%85%D8%B9%D8%B1%D8%B6-%D8%A7%D8%AA%D8%B5%D8%A7%D9%84%D8%A7%D8%AA-%D9%84%D9%84%D8%AA%D9%83%D9%86%D9%88%D9%84%D9%88%D8%AC%D9%8A%D8%A7-1b552adffc/",
     "imageMeta": {
       "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/01-cover.webp": {
@@ -4218,4 +4217,4 @@ const PROJECTS_FALLBACK = [
     ]
   }
 ];
-const projectsData = PROJECTS_FALLBACK;
+window.projectsData = PROJECTS_FALLBACK;
