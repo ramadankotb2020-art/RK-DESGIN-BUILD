@@ -3939,7 +3939,7 @@ const PROJECTS_FALLBACK = [
     "id": "project-1b552adffcee06ab",
     "legacyId": "معرض-اتصالات-للتكنولوجيا-d985d8b9",
     "discipline": "interior",
-    "category": "تصميم داخلي",
+    "category": "بوثات",
     "categoryKey": "interior",
     "title": "معرض اتصالات للتكنولوجيا",
     "slug": "معرض-اتصالات-للتكنولوجيا-1b552adffc",
@@ -3951,23 +3951,17 @@ const PROJECTS_FALLBACK = [
     "alt": "معرض اتصالات للتكنولوجيا",
     "location": "",
     "area": null,
-    "year": "",
+    "year": "2020",
     "cover": "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/01-cover.webp",
     "before": null,
-    "gallery": [
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/1.webp",
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/2.webp",
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/3.webp",
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/4.mp4",
-      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/5.mp4"
-    ],
+    "gallery": [],
     "video": "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/4.mp4",
     "excerpt": "مشروع معرض اتصالات للتكنولوجيا",
-    "description": "مشروع معرض اتصالات للتكنولوجيا.",
+    "description": "مشروع معرض اتصالات للتكنولوجيا",
     "idea": "",
     "materials": [],
     "tags": [],
-    "featured": false,
+    "featured": true,
     "url": "projects/%D9%85%D8%B9%D8%B1%D8%B6-%D8%A7%D8%AA%D8%B5%D8%A7%D9%84%D8%A7%D8%AA-%D9%84%D9%84%D8%AA%D9%83%D9%86%D9%88%D9%84%D9%88%D8%AC%D9%8A%D8%A7-1b552adffc/",
     "imageMeta": {
       "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/01-cover.webp": {
@@ -4170,7 +4164,7 @@ const PROJECTS_FALLBACK = [
     "id": "project-d7df39e981cacf03",
     "legacyId": "ميلانو-بوث-d985d98a",
     "discipline": "interior",
-    "category": "تصميم داخلي",
+    "category": "بوثات",
     "categoryKey": "interior",
     "title": "ميلانو بوث",
     "slug": "ميلانو-بوث-d7df39e981",
@@ -4182,19 +4176,21 @@ const PROJECTS_FALLBACK = [
     "alt": "ميلانو بوث",
     "location": "",
     "area": null,
-    "year": "",
+    "year": "2025",
     "cover": "images/projects-by-name/interior/ميلانو بوث/01-cover.webp",
     "before": null,
     "gallery": [
-      "images/projects-by-name/interior/ميلانو بوث/1.webp"
+      "images/projects-by-name/interior/ميلانو بوث/1.webp",
+      "images/projects-by-name/interior/ميلانو بوث/new-1789301821790-0.png",
+      "images/projects-by-name/interior/ميلانو بوث/new-1789301824211-1.png"
     ],
     "video": null,
-    "excerpt": "مشروع ميلانو بوث",
-    "description": "مشروع ميلانو بوث.",
-    "idea": "",
+    "excerpt": "معرض ميلانو للعرض احدض الموديلات من الاحذية الرياضية",
+    "description": "معرض ميلانو للعرض احدض الموديلات من الاحذية الرياضية",
+    "idea": "يحتوي التصميم على مناطق عرض مناسبة للمنتجات، ومساحات للحركة والتفاعل مع الزوار، مع استخدام خامات وتشطيبات عالية الجودة وإضاءة معمارية ومدروسة لإبراز التفاصيل والعناصر الرئيسية. تم تصميم البوث ليكون جذابًا من أكثر من زاوية، مع الحفاظ على وضوح الرؤية وسهولة الدخول والحركة داخله",
     "materials": [],
     "tags": [],
-    "featured": false,
+    "featured": true,
     "url": "projects/%D9%85%D9%8A%D9%84%D8%A7%D9%86%D9%88-%D8%A8%D9%88%D8%AB-d7df39e981/",
     "imageMeta": {
       "images/projects-by-name/interior/ميلانو بوث/01-cover.webp": {
@@ -4218,4 +4214,4 @@ const PROJECTS_FALLBACK = [
     ]
   }
 ];
-const projectsData = PROJECTS_FALLBACK;
+window.projectsData = PROJECTS_FALLBACK;
