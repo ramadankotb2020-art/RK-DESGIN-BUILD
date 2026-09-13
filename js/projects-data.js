@@ -4169,7 +4169,7 @@ const PROJECTS_FALLBACK = [
     "id": "project-d7df39e981cacf03",
     "legacyId": "ميلانو-بوث-d985d98a",
     "discipline": "interior",
-    "category": "تصميم داخلي",
+    "category": "بوثات",
     "categoryKey": "interior",
     "title": "معرض ميلانو للاحذية الرياضية",
     "slug": "ميلانو-بوث-d7df39e981",
@@ -4181,7 +4181,7 @@ const PROJECTS_FALLBACK = [
     "alt": "ميلانو بوث",
     "location": "",
     "area": null,
-    "year": "",
+    "year": "2025",
     "cover": "images/projects-by-name/interior/ميلانو بوث/01-cover.webp",
     "before": null,
     "gallery": [
@@ -4190,12 +4190,12 @@ const PROJECTS_FALLBACK = [
       "images/projects-by-name/interior/ميلانو بوث/new-1789301824211-1.webp"
     ],
     "video": null,
-    "excerpt": "مشروع ميلانو بوث",
-    "description": "مشروع ميلانو بوث.",
+    "excerpt": "معرض ميلانو للاحذية الرياضية",
+    "description": "معرض ميلانو للاحذية الرياضية",
     "idea": "",
     "materials": [],
     "tags": [],
-    "featured": false,
+    "featured": true,
     "url": "projects/%D9%85%D9%8A%D9%84%D8%A7%D9%86%D9%88-%D8%A8%D9%88%D8%AB-d7df39e981/",
     "imageMeta": {
       "images/projects-by-name/interior/ميلانو بوث/01-cover.webp": {
@@ -4227,4 +4227,4 @@ const PROJECTS_FALLBACK = [
     ]
   }
 ];
-const projectsData = PROJECTS_FALLBACK;
+window.projectsData = PROJECTS_FALLBACK;
