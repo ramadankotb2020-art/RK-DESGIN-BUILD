@@ -4102,6 +4102,50 @@ const PROJECTS_FALLBACK = [
         "width": 800
       }
     ]
+  },
+  {
+    "id": "ميلانو-بوث-675ef748",
+    "discipline": "interior",
+    "category": "بوثات",
+    "title": "ميلانو بوث",
+    "featured": false,
+    "year": "2026",
+    "location": "القاهرة",
+    "area": "25 م",
+    "cover": "images/projects-by-name/interior/ميلانو بوث/01-cover.png",
+    "gallery": [
+      "images/projects-by-name/interior/ميلانو بوث/1.png"
+    ],
+    "excerpt": "",
+    "description": "",
+    "idea": "",
+    "tags": [
+      "بوثات"
+    ]
+  },
+  {
+    "id": "معرض-اتصالات-للتكنول--9498a45",
+    "discipline": "interior",
+    "category": "بوثات",
+    "title": "معرض اتصالات للتكنولوجيا",
+    "featured": true,
+    "year": "2020",
+    "location": "القاهرة",
+    "area": "40 م",
+    "cover": "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/01-cover.png",
+    "gallery": [
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/1.png",
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/2.png",
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/3.png",
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/4.mp4",
+      "images/projects-by-name/interior/معرض اتصالات للتكنولوجيا/5.mp4"
+    ],
+    "excerpt": "تصميم بوث معرض تجاري عصري واحترافي",
+    "description": "تصميم بوث معرض تجاري عصري واحترافي",
+    "idea": "تصميم بوث معرض تجاري عصري واحترافي، يعتمد على تكوين معماري واضح ومتناسق يجمع بين الجمال البصري والوظيفة العملية. يتميز البوث بخطوط هندسية نظيفة وتوزيع متوازن للعناصر، مع إبراز هوية العلامة التجارية بشكل واضح من خلال أماكن مخصصة للّوجو والرسائل البصرية.\n\nيحتوي التصميم على مناطق عرض مناسبة للمنتجات، ومساحات للحركة والتفاعل مع الزوار، مع استخدام خامات وتشطيبات عالية الجودة وإضاءة معمارية ومدروسة لإبراز التفاصيل والعناصر الرئيسية. تم تصميم البوث ليكون جذابًا من أكثر من زاوية، مع الحفاظ على وضوح الرؤية وسهولة الدخول والحركة داخله.\n\nالطابع العام للتصميم Contemporary / Modern Exhibition Stand، مع الاهتمام بالتناسبات الهندسية، جودة الخامات، تفاصيل التنفيذ، الإضاءة، والهوية البصرية، بحيث يظهر البوث بصورة احترافية وواقعية ومناسبة للتنفيذ الفعلي في المعارض والفعاليات التجارية.",
+    "tags": [
+      "بوثات"
+    ]
   }
 ];
-const projectsData = PROJECTS_FALLBACK;
+window.projectsData = PROJECTS_FALLBACK;
