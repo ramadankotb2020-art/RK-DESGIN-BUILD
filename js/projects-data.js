@@ -4171,7 +4171,7 @@ const PROJECTS_FALLBACK = [
     "discipline": "interior",
     "category": "تصميم داخلي",
     "categoryKey": "interior",
-    "title": "ميلانو بوث",
+    "title": "معرض ميلانو للاحذية الرياضية",
     "slug": "ميلانو-بوث-d7df39e981",
     "status": "published",
     "facebook": false,
