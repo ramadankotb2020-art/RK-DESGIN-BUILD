@@ -951,17 +951,99 @@ async function saveProjectsData(message) {
 }
 
 // ══ EDIT ══
+// Edit upload state
+let editCoverFile = null, editCoverBase64 = null;
+let editGalleryFiles = [], editGalleryBase64 = [];
+let editRemovedGallery = [];
+
+function handleEditCover(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  editCoverFile = file;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    editCoverBase64 = ev.target.result.split(',')[1];
+    document.getElementById('edit-cover-preview').innerHTML = `<img src="${ev.target.result}" style="max-height:100px;border-radius:8px;">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleEditGallery(e) {
+  const files = Array.from(e.target.files);
+  files.forEach(file => {
+    editGalleryFiles.push(file);
+    const reader = new FileReader();
+    reader.onload = ev => {
+      const b64 = ev.target.result.split(',')[1];
+      editGalleryBase64.push({ name: file.name, b64, dataUrl: ev.target.result, isVideo: file.type.includes('video') });
+      renderEditGalleryPreview();
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function renderEditGalleryPreview() {
+  const el = document.getElementById('edit-gallery-preview');
+  if (!el) return;
+  el.innerHTML = editGalleryBase64.map((f, i) => `
+    <div class="gallery-item">
+      ${f.isVideo ? `<div style="display:flex;align-items:center;justify-content:center;height:100%;background:var(--bg3);color:var(--gold);font-size:24px;">🎬</div>`
+        : `<img src="${f.dataUrl}">`}
+      <button class="gallery-item-del" onclick="editGalleryBase64.splice(${i},1);editGalleryFiles.splice(${i},1);renderEditGalleryPreview()">✕</button>
+    </div>`).join('');
+}
+
+function renderCurrentGallery(gallery) {
+  const el = document.getElementById('edit-current-gallery');
+  if (!el) return;
+  el.innerHTML = (gallery || []).map((g, i) => `
+    <div class="gallery-item" id="edit-cur-${i}">
+      ${g.endsWith('.mp4') || g.endsWith('.webm')
+        ? `<div style="display:flex;align-items:center;justify-content:center;height:100%;background:var(--bg3);color:var(--gold);font-size:20px;">🎬</div>`
+        : `<img src="https://rk-desgin-build-2an.pages.dev/${g}" onerror="this.src='';">`}
+      <button class="gallery-item-del" onclick="removeCurrentGallery(${i},'${g}')" title="حذف">✕</button>
+    </div>`).join('');
+}
+
+function removeCurrentGallery(i, path) {
+  editRemovedGallery.push(path);
+  const el = document.getElementById('edit-cur-' + i);
+  if (el) el.remove();
+}
+
 function openEdit(id) {
   const p = projectsData.find(x => x.id === id);
   if (!p) return;
   editingId = id;
-  document.getElementById('edit-title').value     = p.title || '';
+
+  // Reset upload state
+  editCoverFile = null; editCoverBase64 = null;
+  editGalleryFiles = []; editGalleryBase64 = [];
+  editRemovedGallery = [];
+
+  document.getElementById('edit-title').value      = p.title || '';
   document.getElementById('edit-discipline').value = p.discipline || 'interior';
   document.getElementById('edit-category').value   = p.category || '';
   document.getElementById('edit-year').value       = p.year || '';
   document.getElementById('edit-excerpt').value    = p.excerpt || p.description || '';
   document.getElementById('edit-idea').value       = p.idea || '';
   document.getElementById('edit-featured').value   = String(p.featured || false);
+
+  // Show current cover
+  const coverPreview = document.getElementById('edit-cover-preview');
+  if (coverPreview) {
+    coverPreview.innerHTML = p.cover
+      ? `<img src="https://rk-desgin-build-2an.pages.dev/${p.cover}" style="max-height:100px;border-radius:8px;">`
+      : 'اضغط لاختيار صورة غلاف جديدة';
+  }
+
+  // Show current gallery
+  renderCurrentGallery(p.gallery || []);
+
+  // Reset new gallery preview
+  const galleryPreview = document.getElementById('edit-gallery-preview');
+  if (galleryPreview) galleryPreview.innerHTML = '';
+
   document.getElementById('edit-modal').classList.add('open');
 }
 
@@ -974,27 +1056,57 @@ async function saveEdit() {
   const idx = projectsData.findIndex(p => p.id === editingId);
   if (idx < 0) return;
 
-  projectsData[idx] = {
-    ...projectsData[idx],
-    title:      document.getElementById('edit-title').value.trim(),
-    discipline: document.getElementById('edit-discipline').value,
-    category:   document.getElementById('edit-category').value.trim(),
-    year:       document.getElementById('edit-year').value.trim(),
-    excerpt:    document.getElementById('edit-excerpt').value.trim(),
-    description:document.getElementById('edit-excerpt').value.trim(),
-    idea:       document.getElementById('edit-idea').value.trim(),
-    featured:   document.getElementById('edit-featured').value === 'true',
-  };
+  const p = projectsData[idx];
+  const btn = document.querySelector('#edit-modal .btn-primary');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ جاري الحفظ...'; }
 
   try {
-    await saveProjectsData(`edit project: ${projectsData[idx].title}`);
-    toast('تم حفظ التعديلات بنجاح', 'success');
+    const discipline = document.getElementById('edit-discipline').value;
+    const title = document.getElementById('edit-title').value.trim();
+    const folderPath = `images/projects-by-name/${p.discipline}/${p.title}`;
+
+    // رفع صورة الغلاف الجديدة لو موجودة
+    let coverPath = p.cover;
+    if (editCoverBase64 && editCoverFile) {
+      const ext = editCoverFile.name.split('.').pop();
+      coverPath = `${folderPath}/01-cover.${ext}`;
+      await putFileBinary(coverPath, editCoverBase64, `update cover: ${title}`);
+    }
+
+    // رفع صور/فيديوهات جديدة للمعرض
+    let gallery = (p.gallery || []).filter(g => !editRemovedGallery.includes(g));
+    for (let i = 0; i < editGalleryBase64.length; i++) {
+      const ext = editGalleryFiles[i].name.split('.').pop();
+      const fname = editGalleryBase64[i].isVideo ? `new-${Date.now()}-${i}.mp4` : `new-${Date.now()}-${i}.${ext}`;
+      const gPath = `${folderPath}/${fname}`;
+      await putFileBinary(gPath, editGalleryBase64[i].b64, `add gallery: ${title}`);
+      gallery.push(gPath);
+    }
+
+    projectsData[idx] = {
+      ...p,
+      title,
+      discipline,
+      category:    document.getElementById('edit-category').value.trim(),
+      year:        document.getElementById('edit-year').value.trim(),
+      excerpt:     document.getElementById('edit-excerpt').value.trim(),
+      description: document.getElementById('edit-excerpt').value.trim(),
+      idea:        document.getElementById('edit-idea').value.trim(),
+      featured:    document.getElementById('edit-featured').value === 'true',
+      cover:       coverPath,
+      gallery,
+    };
+
+    await saveProjectsData(`edit project: ${title}`);
+    toast('✓ تم حفظ التعديلات بنجاح', 'success');
     closeModal();
     renderDashboard();
     renderProjectsTable();
   } catch(e) {
     toast('خطأ: ' + e.message, 'error');
   }
+
+  if (btn) { btn.disabled = false; btn.textContent = '💾 حفظ التعديلات'; }
 }
 
 // ══ DELETE ══
