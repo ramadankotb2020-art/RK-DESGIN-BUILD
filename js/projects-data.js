@@ -4049,6 +4049,73 @@ const PROJECTS_FALLBACK = [
     ]
   },
   {
+    "id": "project-411fe3ce78e168f4",
+    "legacyId": "معرض-فودافون-للتكونولوجيا-d985d8b9",
+    "discipline": "interior",
+    "category": "بوثات",
+    "categoryKey": "interior",
+    "title": "معرض فودافون للتكونولوجيا",
+    "slug": "معرض-فودافون-للتكونولوجيا-411fe3ce78",
+    "status": "published",
+    "facebook": false,
+    "services": [],
+    "seoTitle": "معرض فودافون للتكونولوجيا — القاهرة | RK Design Studio",
+    "seoDescription": "شاهد صور وتفاصيل مشروع معرض فودافون للتكونولوجيا من أعمال رمضان قطب — RK Design Studio.",
+    "alt": "معرض فودافون للتكونولوجيا — القاهرة",
+    "location": "القاهرة",
+    "area": "40 م²",
+    "year": "2025",
+    "cover": "images/projects-by-name/interior/معرض فودافون للتكونولوجيا/01-cover.webp",
+    "before": null,
+    "gallery": [
+      "images/projects-by-name/interior/معرض فودافون للتكونولوجيا/1.mp4",
+      "images/projects-by-name/interior/معرض فودافون للتكونولوجيا/1.webp",
+      "images/projects-by-name/interior/معرض فودافون للتكونولوجيا/2.webp",
+      "images/projects-by-name/interior/معرض فودافون للتكونولوجيا/3.webp",
+      "images/projects-by-name/interior/معرض فودافون للتكونولوجيا/4.webp"
+    ],
+    "video": "images/projects-by-name/interior/معرض فودافون للتكونولوجيا/1.mp4",
+    "excerpt": "مشروع معرض فودافون للتكونولوجيا",
+    "description": "مشروع معرض فودافون للتكونولوجيا.",
+    "idea": "",
+    "materials": [],
+    "tags": [],
+    "featured": false,
+    "url": "projects/%D9%85%D8%B9%D8%B1%D8%B6-%D9%81%D9%88%D8%AF%D8%A7%D9%81%D9%88%D9%86-%D9%84%D9%84%D8%AA%D9%83%D9%88%D9%86%D9%88%D9%84%D9%88%D8%AC%D9%8A%D8%A7-411fe3ce78/",
+    "imageMeta": {
+      "images/projects-by-name/interior/معرض فودافون للتكونولوجيا/01-cover.webp": {
+        "width": 2048,
+        "height": 1152
+      },
+      "images/projects-by-name/interior/معرض فودافون للتكونولوجيا/1.webp": {
+        "width": 2048,
+        "height": 1152
+      },
+      "images/projects-by-name/interior/معرض فودافون للتكونولوجيا/2.webp": {
+        "width": 2048,
+        "height": 1152
+      },
+      "images/projects-by-name/interior/معرض فودافون للتكونولوجيا/3.webp": {
+        "width": 2048,
+        "height": 1152
+      },
+      "images/projects-by-name/interior/معرض فودافون للتكونولوجيا/4.webp": {
+        "width": 2048,
+        "height": 1152
+      }
+    },
+    "coverSources": [
+      {
+        "src": "images/responsive/d37384a2e8dfbddb-480.webp",
+        "width": 480
+      },
+      {
+        "src": "images/responsive/d37384a2e8dfbddb-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  {
     "id": "project-5f52e0730193619e",
     "legacyId": "معرض-ميلانو-للاحذية-الرياضية-d985d8b9",
     "discipline": "interior",
@@ -4225,29 +4292,6 @@ const PROJECTS_FALLBACK = [
         "width": 800
       }
     ]
-  },
-  {
-    "id": "معرض-فودافون-للاتصال-408c519d",
-    "discipline": "interior",
-    "category": "بوثات",
-    "title": "معرض فودافون للاتصالات والتكونولوجيا",
-    "featured": true,
-    "year": "2025",
-    "location": "القاهرة",
-    "area": "40 م",
-    "cover": "images/projects-by-name/interior/معرض فودافون للاتصالات والتكونولوجيا/01-cover.webp",
-    "gallery": [
-      "images/projects-by-name/interior/معرض فودافون للاتصالات والتكونولوجيا/1.webp",
-      "images/projects-by-name/interior/معرض فودافون للاتصالات والتكونولوجيا/2.webp",
-      "images/projects-by-name/interior/معرض فودافون للاتصالات والتكونولوجيا/3.webp",
-      "images/projects-by-name/interior/معرض فودافون للاتصالات والتكونولوجيا/4.webp"
-    ],
-    "excerpt": "معرض فودافون للاتصالات والتكونولوجيا",
-    "description": "معرض فودافون للاتصالات والتكونولوجيا",
-    "idea": "تصميم وتنفيذ بوث معرض لشركة فودافون للاتصالات والتكنولوجيا، بهوية بصرية عصرية تعكس طبيعة الشركة في مجال الاتصالات والحلول الرقمية. يعتمد التصميم على خطوط هندسية واضحة، ومساحات عرض منظمة، وشاشات رقمية وعناصر تفاعلية لإبراز الخدمات والتقنيات بطريقة جذابة.\n\nتم توزيع مناطق البوث بما يحقق توازنًا بين العرض البصري، تجربة الزوار، ومسارات الحركة، مع توظيف الإضاءة والخامات والألوان المرتبطة بالهوية البصرية للعلامة التجارية لخلق حضور قوي وواضح داخل المعرض.\n\nالتصميم يجمع بين الطابع التكنولوجي الحديث والوظيفية، مع الحفاظ على رؤية واضحة للعلامة التجارية من مختلف زوايا المعرض.",
-    "tags": [
-      "بوثات"
-    ]
   }
 ];
-window.projectsData = PROJECTS_FALLBACK;
+const projectsData = PROJECTS_FALLBACK;
