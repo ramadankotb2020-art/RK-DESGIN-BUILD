@@ -6,6 +6,7 @@
   "scripts": {
     "optimize": "node scripts/optimize-media.js",
     "build": "node scripts/build-projects.js",
+    "offline": "node scripts/build-offline.js",
     "update": "node scripts/optimize-media.js && node scripts/build-projects.js",
     "deploy:build": "npm run build && node scripts/prepare-deploy.js",
     "test": "node --test tests/*.test.cjs",
