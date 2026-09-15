@@ -1,0 +1,339 @@
+/* ================================================================
+   RK DESIGN STUDIO — Mobile App Layer v1.0  (css/mobile-app.css)
+   طبقة تطبيق الموبايل: شريط تنقل سفلي + قائمة شيت + تحسينات لمس.
+   تُحمَّل بعد كل ملفات الأنماط الأخرى.
+   كل القواعد داخل max-width:820px — الديسكتوب لا يتأثر إطلاقًا.
+================================================================ */
+
+/* ─── أساسيات آمنة لكل المقاسات ─── */
+:root {
+  --rk-safe-b: env(safe-area-inset-bottom, 0px);
+  --rk-tabbar-h: 62px;
+}
+.rk-tabbar { display: none; } /* يظهر فقط على الموبايل بالأسفل */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+/* ════════════════════════════════════════════════════════════════
+   1) شريط التنقل السفلي — Bottom Tab Bar
+   الرئيسية · الديكور · واتساب (زر مرتفع) · الجرافيك · تواصل
+════════════════════════════════════════════════════════════════ */
+@media (max-width: 820px) {
+
+  .rk-tabbar {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    position: fixed;
+    bottom: 0;
+    inset-inline: 0;
+    z-index: 1200;
+    background: rgba(10, 10, 10, 0.92);
+    -webkit-backdrop-filter: blur(18px) saturate(1.4);
+    backdrop-filter: blur(18px) saturate(1.4);
+    border-top: 1px solid rgba(197, 160, 89, 0.22);
+    box-shadow: 0 -10px 34px rgba(0, 0, 0, 0.5);
+    padding-bottom: var(--rk-safe-b);
+    padding-inline: env(safe-area-inset-right, 0px) env(safe-area-inset-left, 0px);
+  }
+
+  .rk-tab {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-height: var(--rk-tabbar-h);
+    padding: 8px 2px 6px;
+    color: var(--ink-3);
+    -webkit-tap-highlight-color: rgba(197, 160, 89, 0.22);
+    transition: transform 0.16s var(--ease-out), color 0.2s;
+  }
+  .rk-tab:active { transform: scale(0.92); }
+  .rk-tab svg { width: 23px; height: 23px; }
+  .rk-tab-label {
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+  .rk-tab.is-active { color: var(--gold); }
+  .rk-tab.is-active::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    inset-inline: 24%;
+    height: 3px;
+    border-radius: 0 0 3px 3px;
+    background: linear-gradient(to left, var(--gold-dim), var(--gold));
+  }
+
+  /* زر الواتساب المرتفع في المنتصف */
+  .rk-tab-wa {
+    width: 54px;
+    height: 54px;
+    min-height: 0;
+    justify-self: center;
+    align-self: start;
+    margin-top: -20px;
+    border-radius: 50%;
+    background: linear-gradient(160deg, var(--gold-light), var(--gold));
+    color: #0a0a0a;
+    box-shadow: 0 0 0 5px #0c0c0c, 0 10px 26px rgba(197, 160, 89, 0.4);
+  }
+  .rk-tab-wa svg { width: 26px; height: 26px; }
+  .rk-tab-wa:active { transform: scale(0.94); }
+
+  /* مساحة أسفل الصفحة حتى لا يغطي الشريط المحتوى */
+  body { padding-bottom: calc(var(--rk-tabbar-h) + var(--rk-safe-b)); }
+  body > .site-footer { margin-bottom: 0; }
+
+  /* زر العودة للأعلى فوق الشريط */
+  #back-to-top {
+    bottom: calc(var(--rk-tabbar-h) + var(--rk-safe-b) + 14px);
+    left: 14px;
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+
+  /* ─── قائمة الهامبرجر: شيت منسدل بملء الشاشة تحت الهيدر ─── */
+  .nav-links {
+    top: 100%;
+    right: 0;
+    left: 0;
+    max-height: calc(100vh - 100% - var(--rk-tabbar-h) - 10px);
+    max-height: calc(100dvh - 100% - var(--rk-tabbar-h) - 10px);
+    padding: 10px clamp(16px, 4vw, 40px) 18px;
+    background: rgba(8, 8, 8, 0.98);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(197, 160, 89, 0.3);
+    box-shadow: 0 34px 70px rgba(0, 0, 0, 0.65);
+  }
+  .nav-links.is-open { animation: rkSheetIn 0.26s var(--ease-out); }
+  .nav-links a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 54px;
+    width: 100%;
+    padding: 12px 4px;
+    font-size: 16.5px;
+    font-weight: 700;
+    color: var(--ink);
+    border-bottom: 1px solid var(--line-2);
+    border-radius: 0;
+  }
+  .nav-links a:last-child { border-bottom: 0; }
+  .nav-links a::after {
+    content: '‹';
+    position: static;
+    display: block;
+    width: auto;
+    height: auto;
+    right: auto;
+    left: auto;
+    bottom: auto;
+    background: none;
+    transform: none;
+    color: var(--gold-dim);
+    font-size: 22px;
+    line-height: 1;
+  }
+  .nav-links a.active,
+  .nav-links a[aria-current='page'] { color: var(--gold); }
+
+  /* ─── الهيرو ─── */
+  .hero {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100svh;
+    padding-block: 118px calc(var(--rk-tabbar-h) + var(--rk-safe-b) + 52px);
+  }
+  .hero-dots-bar { bottom: calc(var(--rk-tabbar-h) + var(--rk-safe-b) + 14px); }
+  .hero-pause { bottom: calc(var(--rk-tabbar-h) + var(--rk-safe-b) + 14px); }
+  .hero-arrow { display: none; }
+  .hero-btns { gap: 12px; }
+  .hero-btns .btn { width: 100%; max-width: 360px; }
+  .hero-title,
+  .headline-xl, .headline-lg, .headline-md, .headline-sm { letter-spacing: 0; }
+
+  /* ─── الأقسام والعناوين ─── */
+  .section-label { gap: 12px; margin-bottom: 40px; }
+  .section-label p { font-size: 16px; }
+  .page-hero { padding: 128px 0 52px; }
+  .stats-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stat-cell { padding: 22px 12px; }
+  .stat-cell .num { font-size: 34px; }
+
+  /* ─── فلاتر المشاريع: شرائح تمرير أفقي ─── */
+  .filter-wrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    padding-bottom: 6px;
+  }
+  .filter-wrapper::-webkit-scrollbar { display: none; }
+  .filter-bar { flex-wrap: nowrap; }
+  .filter-bar button {
+    flex: 0 0 auto;
+    scroll-snap-align: center;
+    padding-inline: 20px;
+    font-size: 13.5px;
+  }
+
+  /* ─── بطاقات المشاريع ─── */
+  .portfolio-grid { gap: 16px; margin-top: 28px; }
+  .project-info { padding: 16px 18px 18px; }
+  .project-category-badge { top: 10px; inset-inline-end: 10px; font-size: 10px; padding: 4px 11px; }
+
+  /* ─── الخدمات والبطاقات الداخلية ─── */
+  .service-overlay { padding: 20px; }
+  .service-title { font-size: 17px; }
+  .pillar { padding: 30px 24px; }
+  .pillar-icon { font-size: 28px; }
+  .step { padding: 26px 20px; }
+  .feature { padding: 26px 20px; }
+  .cta-banner, .planner-callout { padding: 40px 24px; }
+
+  /* ─── نموذج التواصل ─── */
+  .contact-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .service-chip label {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 10px 18px;
+    font-size: 13.5px;
+  }
+  .form-control { padding: 14px 16px; border-radius: 10px; }
+  [data-contact-form] .btn { width: 100%; }
+
+  /* ─── الفوتر: أخف وأصغر ─── */
+  .site-footer { padding: 52px 0 28px; margin-top: 48px; }
+  .footer-top { gap: 26px; padding-bottom: 28px; margin-bottom: 24px; }
+  .footer-col h5 { margin-bottom: 12px; }
+  .footer-links { gap: 8px; }
+  .footer-links a { font-size: 15px; }
+  .footer-brand-desc { margin-top: 14px; }
+
+  /* ─── صفحات المشاريع المولّدة ─── */
+  .project-document { padding-block: 104px 36px; }
+  .project-facts { gap: 14px; padding-block: 18px; }
+  .project-cta .btn {
+    width: 100%;
+    margin-inline: 0;
+  }
+  .gallery-dialog img { max-height: 72vh; max-height: 72dvh; }
+  #rk-lightbox img,
+  #rk-lightbox #lb-img {
+    max-height: 78vh;
+    max-height: 78dvh;
+    width: auto;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+}
+
+@keyframes rkSheetIn {
+  from { opacity: 0; transform: translateY(-14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* نبضة خفيفة لزر الواتساب — فقط لمن لا يفضل تقليل الحركة */
+@media (max-width: 820px) and (prefers-reduced-motion: no-preference) {
+  .rk-tab-wa { animation: rkWaPulse 3.4s ease-in-out infinite; }
+}
+@keyframes rkWaPulse {
+  0%, 100% { box-shadow: 0 0 0 5px #0c0c0c, 0 10px 26px rgba(197, 160, 89, 0.38); }
+  50%      { box-shadow: 0 0 0 5px #0c0c0c, 0 10px 26px rgba(197, 160, 89, 0.38), 0 0 0 13px rgba(197, 160, 89, 0.10); }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   2) تحسينات اللمس — بدون شريط (تعمل مع أي عرض، فقط على أجهزة اللمس)
+════════════════════════════════════════════════════════════════ */
+
+/* إظهار زر "عرض المشروع" على البطاقات (الهوفر لا يوجد على اللمس) */
+@media (hover: none) and (max-width: 820px) {
+  .project-card-cta {
+    opacity: 1;
+    transform: translateX(-50%);
+    bottom: 12px;
+    padding: 7px 18px;
+    font-size: 11px;
+  }
+  /* صور الخدمات أوضح وأكثر حياة على الموبايل */
+  .service-card img { filter: grayscale(0%) brightness(0.78); }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   3) مقاسات صغيرة (iPhone SE وأصغر — حتى 360px)
+════════════════════════════════════════════════════════════════ */
+@media (max-width: 360px) {
+  :root { --rk-tabbar-h: 56px; }
+  .rk-tab svg { width: 21px; height: 21px; }
+  .rk-tab-label { font-size: 9px; }
+  .rk-tab-wa { width: 50px; height: 50px; margin-top: -18px; }
+  .hero-title { font-size: 1.8rem; }
+  .hero-btns .btn { max-width: 100%; }
+  .container { padding-inline: 14px; }
+  .cta-banner, .planner-callout { padding: 32px 18px; }
+  .card { padding: 20px 18px !important; }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   4) موبايل أفقي (Landscape) — شاشات قصيرة
+════════════════════════════════════════════════════════════════ */
+@media (max-width: 920px) and (max-height: 500px) and (orientation: landscape) {
+  :root { --rk-tabbar-h: 46px; }
+  .rk-tab { min-height: 46px; padding-block: 5px 4px; }
+  .rk-tab-label { display: none; }
+  .rk-tab svg { width: 21px; height: 21px; }
+  .rk-tab-wa { width: 42px; height: 42px; margin-top: -12px; }
+  .hero { min-height: auto; padding-block: 96px 76px; }
+  .hero-sub { margin-bottom: 20px; }
+  .page-hero { padding: 108px 0 40px; }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   5) تقليل الحركة — إيقاف نبضة الواتساب وحركة الشيت
+════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .rk-tabbar *, .rk-tabbar { animation: none !important; transition: none !important; }
+  .nav-links.is-open { animation: none !important; }
+}
+
+/* ════════════════════════════════════════════════════════════════
+   6) شبكات الصفحات الثابتة التي كانت بستايل مضمّن
+      (تواصل + بطاقات الخدمات السريعة في صفحات الأقسام)
+════════════════════════════════════════════════════════════════ */
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.6fr;
+  gap: 56px;
+  align-items: start;
+}
+.duo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin-bottom: 72px;
+}
+.quick-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.quick-stats.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+@media (max-width: 900px) {
+  .contact-grid { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+  .duo-grid { grid-template-columns: minmax(0, 1fr); gap: 24px; margin-bottom: 48px; }
+  .quick-stats, .quick-stats.cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 540px) {
+  .quick-stats, .quick-stats.cols-4 { grid-template-columns: minmax(0, 1fr); }
+}
