@@ -48,7 +48,8 @@ if (counts.heroVideos !== 2) problems.push('فيديوهات هيرو=' + counts
 const dataVids = (html.match(/data:video\/mp4;base64,/g) || []).length;
 if (dataVids !== 36) problems.push('فيديوهات مدمجة=' + dataVids + ' (المفروض 36: 34 مشروع + 2 هيرو)');
 const heroVidSrc = d.querySelectorAll('video.hero-slide')[0];
-if (heroVidSrc && !(heroVidSrc.getAttribute('src') || '').startsWith('data:video/mp4')) problems.push('فيديو الهيرو مش مدمج (data URI)');
+if (heroVidSrc && !(heroVidSrc.getAttribute('data-src') || '').startsWith('data:video/mp4')) problems.push('فيديو الهيرو مش مدمج (data-src)');
+if (!d.getElementById('lb-video')) problems.push('مفيش عنصر فيديو في اللايت بوكس');
 
 /* 3) تشغيل السكربت + الفلاتر + اللايت بوكس */
 if (!win.IntersectionObserver) {
@@ -80,13 +81,20 @@ try {
   problems.push('filter error: ' + e.message);
 }
 
-/* اللايت بوكس */
+/* اللايت بوكس (الفيديو أول عنصر لو المشروع عنده فيديو) */
 try {
   cards[0].click();
   const opened = d.getElementById('lightbox').classList.contains('open');
   if (!opened) problems.push('اللايت بوكس مش بيفتح');
-  const src = d.getElementById('lb-img').getAttribute('src') || '';
-  if (!src.startsWith('data:')) problems.push('صورة اللايت بوكس مش data URI');
+  const lbVideo = d.getElementById('lb-video');
+  const vSrc = lbVideo.getAttribute('src') || '';
+  if (lbVideo.style.display !== 'none') {
+    /* أول عنصر فيديو */
+    if (!vSrc.startsWith('data:video/mp4;base64,')) problems.push('فيديو اللايت بوكس مش مدمج');
+  } else {
+    const src = d.getElementById('lb-img').getAttribute('src') || '';
+    if (!src.startsWith('data:')) problems.push('صورة اللايت بوكس مش data URI');
+  }
   d.getElementById('lb-close').click();
   if (d.getElementById('lightbox').classList.contains('open')) problems.push('اللايت بوكس مش بيقفل');
 } catch (e) {

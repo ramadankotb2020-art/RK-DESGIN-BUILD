@@ -44,16 +44,37 @@ badge.click(); badge2.click();
 if (badge.textContent.indexOf('إيقاف') !== -1) problems.push('الفيديو الأول مش وقف لما التاني شغل');
 badge2.click();
 
-/* 4) الكارت نفسه يفتح اللايت بوكس (مش الشارة) */
+/* 4) الكارت نفسه يفتح اللايت بوكس (مش الشارة) — والفيديو أول عنصر جوه المعرض */
 card.dispatchEvent(new win.Event('click', { bubbles: true }));
-if (!d.getElementById('lightbox').classList.contains('open')) problems.push('الكليك على الكارت مش بيفتح اللايت بوكس');
+const lbEl = d.getElementById('lightbox');
+if (!lbEl.classList.contains('open')) problems.push('الكليك على الكارت مش بيفتح اللايت بوكس');
+const lbVideo = d.getElementById('lb-video');
+if (!lbVideo) problems.push('مفيش عنصر فيديو في اللايت بوكس');
+else {
+  if (lbVideo.style.display === 'none') problems.push('فيديو اللايت بوكس مخفي وهو المفروض أول عنصر');
+  const vs = lbVideo.getAttribute('src') || '';
+  if (!vs.startsWith('data:video/mp4;base64,')) problems.push('فيديو اللايت بوكس مش مدمج: ' + vs.slice(0, 40));
+  if (!lbVideo.hasAttribute('controls')) problems.push('فيديو اللايت بوكس من غير controls');
+}
+const lbCount = d.getElementById('lb-count').textContent;
+if (lbCount.indexOf('فيديو') === -1) problems.push('عدّاد اللايت بوكس مابيقولش فيديو: ' + lbCount);
 d.getElementById('lb-close').click();
+if (d.getElementById('lightbox').classList.contains('open')) problems.push('اللايت بوكس مش بيقفل');
 
-/* 5) فيديوهات الهيرو مدمجة وبتتكرر */
+/* 4ب) مشروع من غير فيديو → أول عنصر صورة عادية */
+const noVidCard = cards.find(c => !c.querySelector('.work-video-badge'));
+if (noVidCard) {
+  noVidCard.dispatchEvent(new win.Event('click', { bubbles: true }));
+  const im = d.getElementById('lb-img');
+  if (im.style.display === 'none') problems.push('مشروع بدون فيديو: الصورة مخفية');
+  d.getElementById('lb-close').click();
+}
+
+/* 5) فيديوهات الهيرو مدمجة (data-src → Blob URL وقت التشغيل) وبتتكرر */
 const hv = d.querySelectorAll('video.hero-slide');
 if (hv.length !== 2) problems.push('فيديوهات هيرو=' + hv.length);
 hv.forEach(v => {
-  if (!(v.getAttribute('src') || '').startsWith('data:video/mp4')) problems.push('فيديو هيرو مش مدمج');
+  if (!(v.getAttribute('data-src') || v.getAttribute('src') || '').startsWith('data:video/mp4')) problems.push('فيديو هيرو مش مدمج');
   if (!v.loop || !v.muted) problems.push('فيديو هيرو مش loop/muted');
 });
 

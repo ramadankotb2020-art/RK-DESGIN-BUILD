@@ -188,7 +188,7 @@ function compressVideo(file, opts) {
       (w.featured ? '<span class="work-featured">⭐ مميز</span>' : '') +
       '<span class="work-badge">' + escHtml(w.category) + '</span>' +
       (w.v ? '<span class="work-video-badge" aria-hidden="true">▶ فيديو</span>' : '') +
-      '<span class="work-count">📷 ' + w.light.length + '</span></div>' +
+      '<span class="work-count">' + (w.v ? '🎬📷 ' + (w.light.length + 1) : '📷 ' + w.light.length) + '</span></div>' +
       '<div class="work-info"><h3>' + escHtml(w.title) + '</h3><span>اضغط لعرض المعرض ←</span></div>' +
     '</a>'
   ).join('\n          ');
@@ -204,8 +204,8 @@ function compressVideo(file, opts) {
 
   const slidesHtml = heroImgs.map((src, i) =>
     '<img class="hero-slide' + (i === 0 ? ' active' : '') + '" src="' + src + '" alt="أعمال RK Design Studio" decoding="async">'
-  ).concat(heroVids.map((src, i) =>
-    '<video class="hero-slide hero-video" muted loop playsinline preload="metadata"' + (heroImgs.length === 0 && i === 0 ? ' active' : '') + ' src="' + src + '" aria-hidden="true"></video>'
+  ).concat(heroVids.map(src =>
+    '<video class="hero-slide hero-video" muted loop playsinline preload="metadata" data-src="' + src + '" aria-hidden="true"></video>'
   )).join('\n        ');
   const dotsHtml = heroImgs.map((_, i) =>
     '<button class="hero-dot' + (i === 0 ? ' active' : '') + '" data-slide="' + i + '" aria-label="الشريحة ' + (i + 1) + '"></button>'
@@ -365,6 +365,7 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
 .lb-close{width:44px;height:44px;min-width:44px;border:1px solid var(--line-2);background:transparent;color:#fff;border-radius:8px;font-size:20px}
 .lb-stage{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0 8px}
 .lb-stage img{max-width:100%;max-height:calc(100vh - 170px);object-fit:contain;border-radius:8px;touch-action:pan-y}
+.lb-stage video{max-width:100%;max-height:calc(100vh - 170px);border-radius:8px;background:#000;touch-action:pan-y}
 .lb-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px calc(14px + var(--safe-b))}
 .lb-arrow{min-width:52px;height:52px;border-radius:10px;border:1px solid var(--gold-line);background:rgba(197,160,89,.08);color:var(--gold);font-size:24px;font-weight:800}
 .lb-arrow:disabled{opacity:.3}
@@ -541,7 +542,7 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
           <span><span class="lbl">واتساب مباشر</span><span class="val">ابعت رسالة الآن</span></span>
         </a>
       </div>
-      <p class="offline-note reveal">📎 <b>نسخة أوفلاين:</b> الملف ده شغّال من غير إنترنت وبيضم ${projects.length} مشروع و${workItems.filter(w => w.v).length} فيديو عرض — أزرار الاتصال والواتساب والرابط اللي تحت هيتفتحوا لما النت يكون متاح.<br>آخر إصدار من الموقع: <a href="${SITE}" target="_blank" rel="noopener">rk-desgin-build-2an.pages.dev</a></p>
+      <p class="offline-note reveal">📎 <b>نسخة أوفلاين — الإصدار ٣ (بالفيديوهات 🎬):</b> الملف ده شغّال من غير إنترنت وبيضم ${projects.length} مشروع و${workItems.filter(w => w.v).length} فيديو (شغّلها من شارة «▶ فيديو» على الكارت أو جوه معرض المشروع نفسه) — أزرار الاتصال والواتساب والرابط اللي تحت هيتفتحوا لما النت يكون متاح.<br>آخر إصدار من الموقع: <a href="${SITE}" target="_blank" rel="noopener">rk-desgin-build-2an.pages.dev</a></p>
     </div>
   </section>
 </main>
@@ -550,6 +551,7 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
   <div class="container">
     <p>© <span id="year">2026</span> رمضان قطب — جميع الحقوق محفوظة.</p>
     <p style="margin-top:6px">Designed by <span class="gold">RK Design Studio</span></p>
+    <p style="margin-top:6px;color:var(--ink-3);font-size:11.5px">الإصدار ٣ — بالفيديوهات 🎬 (${projects.length} مشروع · ${workItems.filter(w => w.v).length} فيديو)</p>
   </div>
 </footer>
 
@@ -583,7 +585,7 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
     <span class="lb-count" id="lb-count"></span>
     <button class="lb-close" id="lb-close" aria-label="إغلاق المعرض">✕</button>
   </div>
-  <div class="lb-stage"><img id="lb-img" alt="صورة من المشروع"></div>
+  <div class="lb-stage"><img id="lb-img" alt="صورة من المشروع" style="display:none"><video id="lb-video" controls muted loop playsinline style="display:none"></video></div>
   <div class="lb-nav">
     <button class="lb-arrow" id="lb-next" aria-label="الصورة التالية">‹</button>
     <a class="lb-site" id="lb-site" href="#" target="_blank" rel="noopener">شاهد المشروع على الموقع ←</a>
@@ -598,13 +600,29 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
 
   document.getElementById('year').textContent = new Date().getFullYear();
 
+  /* ─── تحويل data URI لفيديو → Blob URL (أضمن وسيلة تشغيل في المتصفحات) ─── */
+  var canBlob = typeof URL !== 'undefined' && typeof URL.createObjectURL === 'function' && typeof Blob === 'function' && typeof atob === 'function';
+  var blobCache = {};
+  function vidUrl(key, dataUri) {
+    if (!canBlob) return dataUri;
+    if (blobCache[key]) return blobCache[key];
+    try {
+      var bin = atob(dataUri.split(',')[1]);
+      var arr = new Uint8Array(bin.length);
+      for (var i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+      return blobCache[key] = URL.createObjectURL(new Blob([arr], { type: 'video/mp4' }));
+    } catch (e) { return dataUri; }
+  }
+
   /* شرائح الهيرو (صور + فيديوهات) */
   var slides = Array.prototype.slice.call(document.querySelectorAll('.hero-slide'));
   var dots = Array.prototype.slice.call(document.querySelectorAll('.hero-dot'));
   var cur = 0, timer = null;
-  slides.forEach(function (s) {
+  slides.forEach(function (s, i) {
     if (s.tagName !== 'VIDEO') return;
     s.muted = true; s.loop = true; s.setAttribute('playsinline', '');
+    var ds = s.getAttribute('data-src');
+    if (ds) s.src = vidUrl('hero' + i, ds); /* Blob URL = تشغيل مضمون */
   });
   function go(n) {
     cur = (n + slides.length) % slides.length;
@@ -699,7 +717,7 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
       vid = document.createElement('video');
       vid.muted = true; vid.loop = true; vid.playsInline = true;
       vid.setAttribute('playsinline', ''); vid.setAttribute('aria-hidden', 'true');
-      vid.preload = 'none'; vid.src = src;
+      vid.preload = 'none'; vid.src = vidUrl('w' + card.getAttribute('data-work'), src); /* Blob URL */
       media.insertBefore(vid, media.firstChild);
       vid.addEventListener('error', function () { if (vid) { vid.remove(); vid = null; } });
       return vid;
@@ -756,9 +774,11 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  /* اللايت بوكس */
+  /* اللايت بوكس (الفيديو أول عنصر لو المشروع عنده فيديو) */
   var lb = document.getElementById('lightbox');
   var lbImg = document.getElementById('lb-img');
+  var lbVideo = document.getElementById('lb-video');
+  var lbStage = document.querySelector('.lb-stage');
   var lbTitle = document.getElementById('lb-title');
   var lbCount = document.getElementById('lb-count');
   var lbSite = document.getElementById('lb-site');
@@ -768,14 +788,29 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
 
   function render() {
     var p = WORKS[pIdx];
-    lbImg.src = p.i[iIdx];
-    lbImg.alt = p.t + ' — صورة ' + (iIdx + 1);
-    lbTitle.textContent = p.t;
-    lbCount.textContent = (iIdx + 1) + ' / ' + p.i.length;
-    lbPrev.disabled = iIdx === 0;
-    lbNext.disabled = iIdx === p.i.length - 1;
+    var total = (p.v ? 1 : 0) + p.i.length;
+    var isVid = !!p.v && iIdx === 0;
+    lbTitle.textContent = (isVid ? '🎬 ' : '') + p.t;
     lbSite.href = p.u;
     lbSite.style.display = p.u ? '' : 'none';
+    lbPrev.disabled = iIdx === 0;
+    lbNext.disabled = iIdx === total - 1;
+    if (isVid) {
+      lbImg.style.display = 'none';
+      lbVideo.style.display = '';
+      lbVideo.poster = p.i[0];
+      lbVideo.src = vidUrl('w' + pIdx, p.v); /* نفس الـ Blob URL بتاع الكارت */
+      lbCount.textContent = '🎬 فيديو';
+      var q = lbVideo.play();
+      if (q && q.catch) q.catch(function () {});
+    } else {
+      lbVideo.pause(); lbVideo.removeAttribute('src'); lbVideo.style.display = 'none';
+      lbImg.style.display = '';
+      var imgIdx = p.v ? iIdx - 1 : iIdx;
+      lbImg.src = p.i[imgIdx];
+      lbImg.alt = p.t + ' — صورة ' + (imgIdx + 1);
+      lbCount.textContent = (iIdx + 1) + ' / ' + total;
+    }
   }
   function openLb(idx) {
     if (stopActiveVid) stopActiveVid();
@@ -785,6 +820,7 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
     document.getElementById('lb-close').focus();
   }
   function closeLb() {
+    lbVideo.pause();
     lb.classList.remove('open');
     document.body.style.overflow = '';
     if (lastFocus) lastFocus.focus();
@@ -795,7 +831,10 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
   document.getElementById('lb-close').addEventListener('click', closeLb);
   lb.addEventListener('click', function (e) { if (e.target === lb || e.target.classList.contains('lb-stage')) closeLb(); });
   lbPrev.addEventListener('click', function () { if (iIdx > 0) { iIdx--; render(); } });
-  lbNext.addEventListener('click', function () { if (iIdx < WORKS[pIdx].i.length - 1) { iIdx++; render(); } });
+  lbNext.addEventListener('click', function () {
+    var total = (WORKS[pIdx].v ? 1 : 0) + WORKS[pIdx].i.length;
+    if (iIdx < total - 1) { iIdx++; render(); }
+  });
   document.addEventListener('keydown', function (e) {
     if (!lb.classList.contains('open')) return;
     if (e.key === 'Escape') closeLb();
@@ -803,10 +842,10 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
     if (e.key === 'ArrowRight') lbPrev.click();
   });
 
-  /* سحب باللمس داخل اللايت بوكس */
+  /* سحب باللمس داخل اللايت بوكس (على الصور والفيديو) */
   var touchX = null;
-  lbImg.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
-  lbImg.addEventListener('touchend', function (e) {
+  lbStage.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; }, { passive: true });
+  lbStage.addEventListener('touchend', function (e) {
     if (touchX === null) return;
     var dx = e.changedTouches[0].clientX - touchX;
     if (Math.abs(dx) > 45) { dx > 0 ? lbPrev.click() : lbNext.click(); }
