@@ -20,21 +20,26 @@ d.querySelectorAll('script[src], link[href], source[src]').forEach(el =>
 ['home', 'works', 'services', 'about', 'contact'].forEach(id => {
   if (!d.getElementById(id)) problems.push('قسم ناقص: ' + id);
 });
+const cards = d.querySelectorAll('.work-card');
 const counts = {
   tabs: d.querySelectorAll('.rk-tab').length,
-  workCards: d.querySelectorAll('.work-card').length,
+  workCards: cards.length,
+  featuredBadges: d.querySelectorAll('.work-featured').length,
+  chips: d.querySelectorAll('.chip').length,
   serviceCards: d.querySelectorAll('.service-card').length,
   heroSlides: d.querySelectorAll('.hero-slide').length,
   dataImgs: d.querySelectorAll('img[src^="data:"]').length,
   counters: d.querySelectorAll('[data-counter]').length
 };
 if (counts.tabs !== 5) problems.push('تبويبات=' + counts.tabs);
-if (counts.workCards !== 9) problems.push('كروت أعمال=' + counts.workCards);
+if (counts.workCards < 55) problems.push('كروت أعمال=' + counts.workCards + ' (المفروض 61)');
+if (counts.featuredBadges !== 9) problems.push('شارات مميز=' + counts.featuredBadges);
+if (counts.chips !== 4) problems.push('فلاتر=' + counts.chips);
 if (counts.serviceCards !== 6) problems.push('كروت خدمات=' + counts.serviceCards);
 if (counts.heroSlides !== 3) problems.push('شرائح هيرو=' + counts.heroSlides);
 if (counts.counters !== 4) problems.push('عدادات=' + counts.counters);
 
-/* 3) تشغيل السكربت + اللايت بوكس */
+/* 3) تشغيل السكربت + الفلاتر + اللايت بوكس */
 if (!win.IntersectionObserver) {
   win.IntersectionObserver = function () { this.observe = function () {}; this.unobserve = function () {}; this.disconnect = function () {}; };
 }
@@ -46,8 +51,27 @@ try {
 } catch (e) {
   problems.push('JS error: ' + e.message);
 }
+
+/* الفلاتر */
 try {
-  d.querySelector('.work-card').click();
+  const countEl = d.getElementById('works-count');
+  if (!/61/.test(countEl.textContent)) problems.push('عدد الكل غلط: ' + countEl.textContent);
+  const graphicChip = d.querySelector('.chip[data-cat="graphic"]');
+  graphicChip.click();
+  const visibleGraphic = [...cards].filter(c => c.style.display !== 'none').length;
+  const expectedGraphic = [...cards].filter(c => c.getAttribute('data-cat') === 'graphic').length;
+  if (visibleGraphic !== expectedGraphic) problems.push('فلتر الجرافيك: ظاهر=' + visibleGraphic + ' متوقع=' + expectedGraphic);
+  if (!/24/.test(countEl.textContent)) problems.push('عدد الجرافيك غلط: ' + countEl.textContent);
+  d.querySelector('.chip[data-cat="all"]').click();
+  const visibleAll = [...cards].filter(c => c.style.display !== 'none').length;
+  if (visibleAll !== cards.length) problems.push('الكل مش بيرجع: ' + visibleAll + '/' + cards.length);
+} catch (e) {
+  problems.push('filter error: ' + e.message);
+}
+
+/* اللايت بوكس */
+try {
+  cards[0].click();
   const opened = d.getElementById('lightbox').classList.contains('open');
   if (!opened) problems.push('اللايت بوكس مش بيفتح');
   const src = d.getElementById('lb-img').getAttribute('src') || '';
@@ -64,7 +88,7 @@ if (!wa || !/^https:\/\/wa\.me\/201112630681/.test(wa.getAttribute('href'))) pro
 if (!d.querySelector('a[href^="tel:"]')) problems.push('مفيش لينك اتصال');
 
 /* 5) التحقق من صحة base64 (عينة) */
-const sample = (d.querySelector('.work-card img').getAttribute('src') || '').split(',')[1];
+const sample = (cards[0].querySelector('img').getAttribute('src') || '').split(',')[1];
 if (!sample || !/^[A-Za-z0-9+/=]+$/.test(sample.slice(0, 200))) problems.push('base64 تالف');
 
 console.log('الأرقام:', JSON.stringify(counts));

@@ -1,8 +1,11 @@
 // scripts/build-offline.js
 // يولّد ملف HTML واحد مكتفٍ بذاته (بورتفوليو أوفلاين) — كل الأنماط والسكربتات
 // والصور (WebP مدمج base64) جوه ملف واحد يفتح بالدبل كليك من غير سيرفر ونت.
-// التشغيل:  node scripts/build-offline.js
-// الناتج:   rk-portfolio-offline.html في جذر المستودع
+// التشغيل:  npm run offline   →   الناتج: rk-portfolio-offline.html
+//
+// ⚙️ أزرار التحكم في الحجم (عدّلهم لو عايز ملف أكبر أو أصغر):
+//   MAX_GALLERY_PER_PROJECT — عدد صور المعرض الإضافية لكل مشروع في اللايت بوكس
+//   GALLERY_BUDGET_MB       — سقف إجمالي حجم صور المعرض الإضافية (ميجابايت قبل base64)
 
 'use strict';
 const fs = require('fs');
@@ -15,16 +18,25 @@ const SITE = 'https://rk-desgin-build-2an.pages.dev';
 const WA = '201112630681';
 const PHONE = '01112630681';
 
-/* ─── بيانات المشاريع ─── */
+const MAX_GALLERY_PER_PROJECT = 2;
+const GALLERY_BUDGET_MB = 6.5;
+
+const DISCIPLINES = {
+  interior: 'التصميم الداخلي',
+  exterior: 'الواجهات واللاندسكيب',
+  graphic: 'الجرافيك والهوية البصرية'
+};
+
+/* ─── بيانات المشاريع: الكل (المميز الأولًا) ─── */
 const dataSrc = fs.readFileSync(path.join(ROOT, 'js/projects-data.js'), 'utf8');
-const projects = new Function(dataSrc + '; return PROJECTS_FALLBACK;')();
-const featured = (projects.filter(p => p.featured).length ? projects.filter(p => p.featured) : projects.slice(0, 6))
+const allProjects = new Function(dataSrc + '; return PROJECTS_FALLBACK;')();
+const projects = allProjects
   .filter(p => p.status === 'published')
-  .slice(0, 9);
+  .sort((a, b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0)); // المميز في الأول
 
 /* ─── خط الأصول: قراءة/ضغط → data URI ─── */
 const report = [];
-async function toDataUri(file, opts = {}) {
+async function compress(file, opts = {}) {
   const abs = path.join(ROOT, file);
   if (!fs.existsSync(abs)) throw new Error('missing asset: ' + file);
   let buf;
@@ -33,14 +45,14 @@ async function toDataUri(file, opts = {}) {
     if (opts.width) img = img.resize({ width: opts.width, withoutEnlargement: true });
     buf = await img.webp({ quality: opts.quality || 70 }).toBuffer();
     if (opts.maxKb && buf.length > opts.maxKb * 1024) {
-      buf = await sharp(abs).rotate().resize({ width: Math.round((opts.width || 1100) * 0.75), withoutEnlargement: true })
+      buf = await sharp(abs).rotate().resize({ width: Math.round((opts.width || 1000) * 0.75), withoutEnlargement: true })
         .webp({ quality: 58 }).toBuffer();
     }
   } else {
     buf = fs.readFileSync(abs);
   }
   report.push({ file, kb: Math.round(buf.length / 1024) });
-  return 'data:image/webp;base64,' + buf.toString('base64');
+  return { uri: 'data:image/webp;base64,' + buf.toString('base64'), bytes: buf.length };
 }
 
 /* ─── جمع الصور ─── */
@@ -48,7 +60,7 @@ async function toDataUri(file, opts = {}) {
   /* هيرو */
   const heroImgs = [];
   for (const f of ['hero-slide-1-interior', 'hero-slide-2-graphic', 'hero-slide-3-exterior']) {
-    heroImgs.push(await toDataUri('images/homepage/' + f + '.webp', { width: 1280, quality: 70, maxKb: 150 }));
+    heroImgs.push((await compress('images/homepage/' + f + '.webp', { width: 1280, quality: 70, maxKb: 150 })).uri);
   }
 
   /* الخدمات */
@@ -62,41 +74,54 @@ async function toDataUri(file, opts = {}) {
   ];
   const services = [];
   for (const s of serviceDefs) {
-    services.push({ title: s.title, src: await toDataUri('images/homepage/' + s.img + '.webp', { width: 820, quality: 70, maxKb: 95 }) });
+    services.push({ title: s.title, src: (await compress('images/homepage/' + s.img + '.webp', { width: 820, quality: 70, maxKb: 95 })).uri });
   }
 
   /* صورة النبذة */
-  const portrait = await toDataUri('images/homepage/about-portrait.webp', { width: 760, quality: 72, maxKb: 110 });
+  const portrait = (await compress('images/homepage/about-portrait.webp', { width: 760, quality: 72, maxKb: 110 })).uri;
 
-  /* المشاريع المميزة: كارت 480 + لايت بوكس (غلاف 800 + حتى 3 صور معرض) */
+  /* كل المشاريع: كارت 480 + لايت بوكس (غلاف 800 + صور معرض حسب الميزانية) */
   const workItems = [];
-  for (const p of featured) {
+  let galleryLeft = GALLERY_BUDGET_MB * 1024 * 1024;
+  for (const p of projects) {
     const cover480 = p.coverSources.find(s => s.width === 480) || p.coverSources[0];
     const cover800 = p.coverSources.find(s => s.width === 800) || p.coverSources[p.coverSources.length - 1];
-    const cardSrc = await toDataUri(cover480.src);
-    const lightImgs = [await toDataUri(cover800.src)];
-    const galleryFiles = (p.gallery || []).filter(g => /\.(webp|jpe?g|png)$/i.test(g) && fs.existsSync(path.join(ROOT, g))).slice(0, 3);
+    const card = (await compress(cover480.src)).uri;
+    const light = [(await compress(cover800.src)).uri];
+    const galleryFiles = (p.gallery || [])
+      .filter(g => /\.(webp|jpe?g|png)$/i.test(g) && fs.existsSync(path.join(ROOT, g)))
+      .slice(0, MAX_GALLERY_PER_PROJECT);
     for (const g of galleryFiles) {
-      lightImgs.push(await toDataUri(g, { width: 1100, quality: 68, maxKb: 115 }));
+      if (galleryLeft <= 0) break;
+      const r = await compress(g, { width: 900, quality: 64, maxKb: 80 });
+      light.push(r.uri);
+      galleryLeft -= r.bytes;
     }
     workItems.push({
       title: p.title,
       category: p.category || '',
+      disc: p.discipline,
+      featured: !!p.featured,
       url: SITE + '/' + p.url.replace(/^\//, ''),
-      card: cardSrc,
-      light: lightImgs
+      card,
+      light
     });
   }
 
   /* ─── بناء الـ HTML ─── */
   const cardsHtml = workItems.map((w, i) =>
-    '<a class="work-card" href="#works" data-work="' + i + '">' +
+    '<a class="work-card" href="#works" data-work="' + i + '" data-cat="' + (w.disc || '') + '">' +
       '<div class="work-media"><img src="' + w.card + '" alt="' + escAttr(w.title) + '" loading="lazy" decoding="async">' +
+      (w.featured ? '<span class="work-featured">⭐ مميز</span>' : '') +
       '<span class="work-badge">' + escHtml(w.category) + '</span>' +
       '<span class="work-count">📷 ' + w.light.length + '</span></div>' +
       '<div class="work-info"><h3>' + escHtml(w.title) + '</h3><span>اضغط لعرض المعرض ←</span></div>' +
     '</a>'
   ).join('\n          ');
+
+  const chipsHtml = ['<button class="chip active" data-cat="all">الكل</button>']
+    .concat(Object.keys(DISCIPLINES).map(k => '<button class="chip" data-cat="' + k + '">' + DISCIPLINES[k] + '</button>'))
+    .join('');
 
   const servicesHtml = services.map(s =>
     '<div class="service-card"><img src="' + s.src + '" alt="' + escAttr(s.title) + '" loading="lazy" decoding="async">' +
@@ -144,11 +169,9 @@ section{scroll-margin-top:64px}
 .section{padding-block:clamp(52px,9vw,104px)}
 .eyebrow{display:inline-flex;align-items:center;gap:10px;color:var(--gold);font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase}
 .eyebrow::before{content:"";width:26px;height:1px;background:var(--gold)}
-.headline-xl{font-size:clamp(2rem,7.5vw,4.2rem);font-weight:900;line-height:1.35;color:#fff;letter-spacing:0}
 .headline-md{font-size:clamp(1.5rem,4.5vw,2.6rem);font-weight:800;line-height:1.4;color:#fff;letter-spacing:0}
 .gold{color:var(--gold)}
-.body-lg{font-size:clamp(1rem,2.4vw,1.15rem);color:var(--ink-2)}
-.label-center{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;margin-bottom:clamp(28px,5vw,52px)}
+.label-center{display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px;margin-bottom:clamp(24px,4vw,44px)}
 .label-center p{color:var(--ink-2);max-width:560px}
 
 /* ─── هيدر ─── */
@@ -189,13 +212,23 @@ section{scroll-margin-top:64px}
 .stat-cell .num{font-size:clamp(1.9rem,6vw,3rem);font-weight:900;color:var(--gold);line-height:1.1}
 .stat-cell .lbl{font-size:13px;color:var(--ink-3);font-weight:700;margin-top:4px}
 
+/* ─── فلاتر الأعمال ─── */
+.works-tools{display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:clamp(20px,4vw,36px)}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:6px;max-width:100%}
+.chips::-webkit-scrollbar{display:none}
+.chip{border:1px solid var(--line-2);background:transparent;color:var(--ink-3);padding:9px 20px;border-radius:30px;font-size:13.5px;font-weight:700;white-space:nowrap;min-height:44px;transition:color .2s,border-color .2s}
+.chip.active{background:var(--gold);border-color:var(--gold);color:#0a0a0a}
+.works-count{color:var(--ink-3);font-size:13px;font-weight:700}
+.works-count b{color:var(--gold)}
+
 /* ─── الأعمال ─── */
 .works-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:16px}
 .work-card{position:relative;display:block;background:var(--bg-3);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;-webkit-tap-highlight-color:rgba(197,160,89,.18)}
 .work-media{position:relative;aspect-ratio:4/3;background:var(--bg-4)}
 .work-media img{width:100%;height:100%;object-fit:cover;filter:brightness(.92)}
 .work-media::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.55),transparent 55%)}
-.work-badge{position:absolute;top:10px;inset-inline-end:10px;z-index:2;background:rgba(10,10,10,.82);color:var(--gold);font-size:10.5px;font-weight:800;padding:4px 12px;border-radius:30px;border:1px solid rgba(197,160,89,.3)}
+.work-badge{position:absolute;top:10px;inset-inline-end:10px;z-index:2;background:rgba(10,10,10,.82);color:var(--gold);font-size:10.5px;font-weight:800;padding:4px 12px;border-radius:30px;border:1px solid rgba(197,160,89,.3);max-width:65%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.work-featured{position:absolute;top:10px;inset-inline-start:10px;z-index:2;background:var(--gold);color:#0a0a0a;font-size:10px;font-weight:900;padding:4px 10px;border-radius:30px}
 .work-count{position:absolute;bottom:10px;inset-inline-end:10px;z-index:2;background:rgba(10,10,10,.78);color:var(--ink-2);font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px}
 .work-info{padding:14px 16px 16px;border-top:1px solid var(--line)}
 .work-info h3{color:#fff;font-size:15.5px;font-weight:800;line-height:1.5}
@@ -251,7 +284,7 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
 .lb-count{color:var(--gold);font-size:12.5px;font-weight:800;flex-shrink:0}
 .lb-close{width:44px;height:44px;min-width:44px;border:1px solid var(--line-2);background:transparent;color:#fff;border-radius:8px;font-size:20px}
 .lb-stage{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0 8px}
-.lb-stage img{max-width:100%;max-height:calc(100dvh - 170px);max-height:calc(100vh - 170px);object-fit:contain;border-radius:8px;touch-action:pan-y}
+.lb-stage img{max-width:100%;max-height:calc(100vh - 170px);object-fit:contain;border-radius:8px;touch-action:pan-y}
 .lb-nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px calc(14px + var(--safe-b))}
 .lb-arrow{min-width:52px;height:52px;border-radius:10px;border:1px solid var(--gold-line);background:rgba(197,160,89,.08);color:var(--gold);font-size:24px;font-weight:800}
 .lb-arrow:disabled{opacity:.3}
@@ -335,7 +368,7 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
       <h1 class="hero-title">أحوّل مساحتك<br>إلى <em>تحفة معمارية</em></h1>
       <p class="hero-sub">تصميم داخلي وجرافيك في القاهرة ومصر — رندر 3D ومخططات تنفيذية وهوية بصرية</p>
       <div class="hero-btns">
-        <a href="#works" class="btn btn-primary">شاهد الأعمال المختارة</a>
+        <a href="#works" class="btn btn-primary">تصفح ${projects.length} مشروع</a>
         <a href="https://wa.me/${WA}" target="_blank" rel="noopener" class="btn btn-outline">طلب استشارة عبر واتساب 💬</a>
       </div>
     </div>
@@ -346,7 +379,7 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
   <section class="section" aria-label="إحصائيات">
     <div class="container">
       <div class="stats-row reveal">
-        <div class="stat-cell"><div class="num" data-counter="150">150+</div><div class="lbl">مشروع ديكور</div></div>
+        <div class="stat-cell"><div class="num" data-counter="${projects.length}">${projects.length}+</div><div class="lbl">مشروع منفذ</div></div>
         <div class="stat-cell"><div class="num" data-counter="80">80+</div><div class="lbl">هوية بصرية</div></div>
         <div class="stat-cell"><div class="num" data-counter="120">120+</div><div class="lbl">عميل راضٍ</div></div>
         <div class="stat-cell"><div class="num" data-counter="7">7+</div><div class="lbl">سنوات خبرة</div></div>
@@ -359,10 +392,14 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
     <div class="container">
       <div class="label-center reveal">
         <span class="eyebrow">معرض الأعمال</span>
-        <h2 class="headline-md">أعمال <span class="gold">مختارة</span></h2>
-        <p>مجموعة من أفضل مشاريع التصميم الداخلي والخارجي — اضغط على أي مشروع لعرض معرضه كاملًا</p>
+        <h2 class="headline-md">كل مشاريع <span class="gold">الاستوديو</span></h2>
+        <p>فلتر حسب المجال واضغط على أي مشروع لعرض معرضه كاملًا</p>
       </div>
-      <div class="works-grid">
+      <div class="works-tools reveal">
+        <div class="chips" role="tablist" aria-label="فلترة الأعمال">${chipsHtml}</div>
+        <div class="works-count" id="works-count">—</div>
+      </div>
+      <div class="works-grid" id="works-grid">
           ${cardsHtml}
       </div>
     </div>
@@ -424,7 +461,7 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
           <span><span class="lbl">واتساب مباشر</span><span class="val">ابعت رسالة الآن</span></span>
         </a>
       </div>
-      <p class="offline-note reveal">📎 <b>نسخة أوفلاين:</b> الملف ده شغّال من غير إنترنت — أزرار الاتصال والواتساب والرابط اللي تحت هيتفتحوا لما النت يكون متاح.<br>المعرض الكامل بكل المشاريع: <a href="${SITE}" target="_blank" rel="noopener">rk-desgin-build-2an.pages.dev</a></p>
+      <p class="offline-note reveal">📎 <b>نسخة أوفلاين:</b> الملف ده شغّال من غير إنترنت وبيضم ${projects.length} مشروع — أزرار الاتصال والواتساب والرابط اللي تحت هيتفتحوا لما النت يكون متاح.<br>آخر إصدار من الموقع: <a href="${SITE}" target="_blank" rel="noopener">rk-desgin-build-2an.pages.dev</a></p>
     </div>
   </section>
 </main>
@@ -529,6 +566,29 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
     reveals.forEach(function (r) { rObs.observe(r); });
   }
 
+  /* فلاتر الأعمال */
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.work-card'));
+  var chips = Array.prototype.slice.call(document.querySelectorAll('.chip'));
+  var countEl = document.getElementById('works-count');
+  function applyFilter(cat) {
+    var shown = 0;
+    cards.forEach(function (c) {
+      var show = cat === 'all' || c.getAttribute('data-cat') === cat;
+      c.style.display = show ? '' : 'none';
+      if (show) shown++;
+    });
+    countEl.textContent = 'عرض ' + shown + ' مشروع';
+    chips.forEach(function (ch) {
+      var on = ch.getAttribute('data-cat') === cat;
+      ch.classList.toggle('active', on);
+      ch.setAttribute('aria-pressed', on ? 'true' : 'false');
+    });
+  }
+  chips.forEach(function (ch) {
+    ch.addEventListener('click', function () { applyFilter(ch.getAttribute('data-cat')); });
+  });
+  applyFilter('all');
+
   /* التبويب النشط حسب موضع التمرير */
   var tabs = document.querySelectorAll('.rk-tab[data-sec]');
   var secs = ['home', 'works', 'services', 'about', 'contact'].map(function (id) { return document.getElementById(id); });
@@ -580,7 +640,7 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
     document.body.style.overflow = '';
     if (lastFocus) lastFocus.focus();
   }
-  document.querySelectorAll('.work-card').forEach(function (card) {
+  cards.forEach(function (card) {
     card.addEventListener('click', function (e) { e.preventDefault(); openLb(+card.getAttribute('data-work')); });
   });
   document.getElementById('lb-close').addEventListener('click', closeLb);
@@ -611,9 +671,16 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
   fs.writeFileSync(OUT, html);
   const totalKb = Math.round(fs.statSync(OUT).size / 1024);
   const imgsKb = report.reduce((a, r) => a + r.kb, 0);
+  const lightImgs = workItems.reduce((a, w) => a + w.light.length, 0);
   console.log('✅ تم توليد: rk-portfolio-offline.html');
   console.log('   الحجم الكلي: ' + (totalKb / 1024).toFixed(2) + ' MB (الصور قبل base64: ' + (imgsKb / 1024).toFixed(2) + ' MB)');
-  console.log('   المشاريع: ' + workItems.length + ' | صور اللايت بوكس: ' + workItems.reduce((a, w) => a + w.light.length, 0));
+  console.log('   المشاريع: ' + workItems.length + ' (مميز: ' + workItems.filter(w => w.featured).length + ') | صور اللايت بوكس: ' + lightImgs);
+  const byDisc = {};
+  workItems.forEach(w => { byDisc[w.disc] = (byDisc[w.disc] || 0) + 1; });
+  console.log('   حسب المجال: ' + Object.keys(byDisc).map(k => k + '=' + byDisc[k]).join(' · '));
+  if (totalKb > 18 * 1024) {
+    console.log('   ⚠️ الحجم كبير — قلّل GALLERY_BUDGET_MB أو MAX_GALLERY_PER_PROJECT في رأس السكريبت.');
+  }
 })().catch(e => { console.error('فشل البناء:', e.message); process.exit(1); });
 
 /* ─── أدوات ─── */
