@@ -17,8 +17,12 @@ DIRECTORY = str(Path(__file__).resolve().parent)
 DIRECT_DOWNLOADS = {
     "/portfolio": "rk-portfolio-offline.html",
     "/portfolio.zip": "rk-portfolio-offline.zip",
+    "/portfolio-lite": "rk-portfolio-lite.html",
+    "/portfolio-lite.zip": "rk-portfolio-lite.zip",
     "/rk-portfolio-offline.html": "rk-portfolio-offline.html",
     "/rk-portfolio-offline.zip": "rk-portfolio-offline.zip",
+    "/rk-portfolio-lite.html": "rk-portfolio-lite.html",
+    "/rk-portfolio-lite.zip": "rk-portfolio-lite.zip",
 }
 
 

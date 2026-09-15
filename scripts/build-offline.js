@@ -12,14 +12,33 @@ const fs = require('fs');
 const path = require('path');
 const sharp = require('sharp');
 
+// الوضع الخفيف: node scripts/build-offline.js --lite → rk-portfolio-lite.html
+// نفس كل المشاريع، بس صور أصغر وأخف (مثالي لنت ضعيف أو مشاركة سريعة)
+const LITE = process.argv.includes('--lite');
+
 const ROOT = path.join(__dirname, '..');
-const OUT = path.join(ROOT, 'rk-portfolio-offline.html');
+const OUT = path.join(ROOT, LITE ? 'rk-portfolio-lite.html' : 'rk-portfolio-offline.html');
 const SITE = 'https://rk-desgin-build-2an.pages.dev';
 const WA = '201112630681';
 const PHONE = '01112630681';
 
-const MAX_GALLERY_PER_PROJECT = 2;
-const GALLERY_BUDGET_MB = 6.5;
+const MAX_GALLERY_PER_PROJECT = LITE ? 1 : 2;
+const GALLERY_BUDGET_MB = LITE ? 1.2 : 6.5;
+
+/* مواصفات الضغط حسب الوضع */
+const OPTS = LITE ? {
+  hero: { width: 1080, quality: 66, maxKb: 110 },
+  service: { width: 700, quality: 64, maxKb: 70 },
+  portrait: { width: 600, quality: 65, maxKb: 80 },
+  cover: { width: 640, quality: 60, maxKb: 45 },
+  gallery: { width: 800, quality: 58, maxKb: 55 }
+} : {
+  hero: { width: 1280, quality: 70, maxKb: 150 },
+  service: { width: 820, quality: 70, maxKb: 95 },
+  portrait: { width: 760, quality: 72, maxKb: 110 },
+  cover: null, // غلاف 800 الجاهز زي ما هو
+  gallery: { width: 900, quality: 64, maxKb: 80 }
+};
 
 const DISCIPLINES = {
   interior: 'التصميم الداخلي',
@@ -60,7 +79,7 @@ async function compress(file, opts = {}) {
   /* هيرو */
   const heroImgs = [];
   for (const f of ['hero-slide-1-interior', 'hero-slide-2-graphic', 'hero-slide-3-exterior']) {
-    heroImgs.push((await compress('images/homepage/' + f + '.webp', { width: 1280, quality: 70, maxKb: 150 })).uri);
+    heroImgs.push((await compress('images/homepage/' + f + '.webp', OPTS.hero)).uri);
   }
 
   /* الخدمات */
@@ -74,11 +93,11 @@ async function compress(file, opts = {}) {
   ];
   const services = [];
   for (const s of serviceDefs) {
-    services.push({ title: s.title, src: (await compress('images/homepage/' + s.img + '.webp', { width: 820, quality: 70, maxKb: 95 })).uri });
+    services.push({ title: s.title, src: (await compress('images/homepage/' + s.img + '.webp', OPTS.service)).uri });
   }
 
   /* صورة النبذة */
-  const portrait = (await compress('images/homepage/about-portrait.webp', { width: 760, quality: 72, maxKb: 110 })).uri;
+  const portrait = (await compress('images/homepage/about-portrait.webp', OPTS.portrait)).uri;
 
   /* كل المشاريع: كارت 480 + لايت بوكس (غلاف 800 + صور معرض حسب الميزانية) */
   const workItems = [];
@@ -87,13 +106,13 @@ async function compress(file, opts = {}) {
     const cover480 = p.coverSources.find(s => s.width === 480) || p.coverSources[0];
     const cover800 = p.coverSources.find(s => s.width === 800) || p.coverSources[p.coverSources.length - 1];
     const card = (await compress(cover480.src)).uri;
-    const light = [(await compress(cover800.src)).uri];
+    const light = [(await compress(cover800.src, OPTS.cover || undefined)).uri];
     const galleryFiles = (p.gallery || [])
       .filter(g => /\.(webp|jpe?g|png)$/i.test(g) && fs.existsSync(path.join(ROOT, g)))
       .slice(0, MAX_GALLERY_PER_PROJECT);
     for (const g of galleryFiles) {
       if (galleryLeft <= 0) break;
-      const r = await compress(g, { width: 900, quality: 64, maxKb: 80 });
+      const r = await compress(g, OPTS.gallery);
       light.push(r.uri);
       galleryLeft -= r.bytes;
     }
@@ -672,7 +691,7 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
   const totalKb = Math.round(fs.statSync(OUT).size / 1024);
   const imgsKb = report.reduce((a, r) => a + r.kb, 0);
   const lightImgs = workItems.reduce((a, w) => a + w.light.length, 0);
-  console.log('✅ تم توليد: rk-portfolio-offline.html');
+  console.log('✅ تم توليد: ' + path.basename(OUT) + (LITE ? ' (نسخة خفيفة)' : ''));
   console.log('   الحجم الكلي: ' + (totalKb / 1024).toFixed(2) + ' MB (الصور قبل base64: ' + (imgsKb / 1024).toFixed(2) + ' MB)');
   console.log('   المشاريع: ' + workItems.length + ' (مميز: ' + workItems.filter(w => w.featured).length + ') | صور اللايت بوكس: ' + lightImgs);
   const byDisc = {};
