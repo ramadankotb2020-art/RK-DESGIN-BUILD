@@ -10,7 +10,20 @@
 'use strict';
 const fs = require('fs');
 const path = require('path');
+const os = require('os');
+const { execFileSync } = require('child_process');
 const sharp = require('sharp');
+
+/* ffmpeg لضغط فيديوهات المشاريع — ffmpeg-static (رئيسي) أو @ffmpeg-installer (بديل)
+   ملحوظة: بيناريز ffmpeg-static بتنزل بسكريبت التثبيت — لو اتثبتت بـ --ignore-scripts استخدم:
+   npm i --no-save --ignore-scripts @ffmpeg-installer/ffmpeg */
+let FFMPEG = null;
+for (const resolve of [
+  () => require('ffmpeg-static'),
+  () => require('@ffmpeg-installer/ffmpeg').path
+]) {
+  try { const p = resolve(); if (p && fs.existsSync(p)) { FFMPEG = p; break; } } catch (e) { /* التالي */ }
+}
 
 // الوضع الخفيف: node scripts/build-offline.js --lite → rk-portfolio-lite.html
 // نفس كل المشاريع، بس صور أصغر وأخف (مثالي لنت ضعيف أو مشاركة سريعة)
@@ -24,6 +37,11 @@ const PHONE = '01112630681';
 
 const MAX_GALLERY_PER_PROJECT = LITE ? 1 : 2;
 const GALLERY_BUDGET_MB = LITE ? 1.2 : 6.5;
+
+/* ضغط الفيديوهات (كروت المشاريع + شرائح الهيرو) — scale=العرض:-2 يحافظ على النسبة */
+const VIDEO_OPTS = LITE
+  ? { card: { w: 480, crf: 34 }, hero: { w: 480, crf: 34 } }
+  : { card: { w: 560, crf: 32 }, hero: { w: 640, crf: 31 } };
 
 /* مواصفات الضغط حسب الوضع */
 const OPTS = LITE ? {
@@ -74,12 +92,42 @@ async function compress(file, opts = {}) {
   return { uri: 'data:image/webp;base64,' + buf.toString('base64'), bytes: buf.length };
 }
 
+/* ─── ضغط فيديو → data URI (mp4/H.264 baseline — متوافق مع كل المتصفحات) ─── */
+const videoReport = [];
+let videoWarned = false;
+function compressVideo(file, opts) {
+  if (!FFMPEG) {
+    if (!videoWarned) { console.warn('⚠️ ffmpeg مش متاح (npm i --no-save --ignore-scripts @ffmpeg-installer/ffmpeg) — النسخة هتطلع من غير فيديوهات!'); videoWarned = true; }
+    return null;
+  }
+  const tmp = path.join(os.tmpdir(), 'rk-vid-' + Date.now() + '-' + Math.random().toString(36).slice(2, 8) + '.mp4');
+  execFileSync(FFMPEG, [
+    '-y', '-i', path.join(ROOT, file),
+    '-vf', 'scale=' + opts.w + ':-2',
+    '-crf', String(opts.crf),
+    '-preset', 'veryfast',
+    '-profile:v', 'baseline', '-level', '3.1',
+    '-pix_fmt', 'yuv420p',
+    '-an', '-movflags', '+faststart',
+    tmp
+  ], { stdio: 'ignore' });
+  const buf = fs.readFileSync(tmp);
+  fs.unlinkSync(tmp);
+  videoReport.push({ file, kb: Math.round(buf.length / 1024) });
+  return { uri: 'data:video/mp4;base64,' + buf.toString('base64'), bytes: buf.length };
+}
+
 /* ─── جمع الصور ─── */
 (async () => {
-  /* هيرو */
+  /* هيرو: 3 صور + 2 فيديو (زي الموقع) */
   const heroImgs = [];
   for (const f of ['hero-slide-1-interior', 'hero-slide-2-graphic', 'hero-slide-3-exterior']) {
     heroImgs.push((await compress('images/homepage/' + f + '.webp', OPTS.hero)).uri);
+  }
+  const heroVids = [];
+  for (const f of ['videos/1.mp4', 'videos/2.mp4']) {
+    const r = compressVideo(f, VIDEO_OPTS.hero);
+    if (r) heroVids.push(r.uri);
   }
 
   /* الخدمات */
@@ -99,7 +147,7 @@ async function compress(file, opts = {}) {
   /* صورة النبذة */
   const portrait = (await compress('images/homepage/about-portrait.webp', OPTS.portrait)).uri;
 
-  /* كل المشاريع: كارت 480 + لايت بوكس (غلاف 800 + صور معرض حسب الميزانية) */
+  /* كل المشاريع: كارت 480 + لايت بوكس (غلاف 800 + صور معرض حسب الميزانية) + فيديو الكارت */
   const workItems = [];
   let galleryLeft = GALLERY_BUDGET_MB * 1024 * 1024;
   for (const p of projects) {
@@ -107,6 +155,11 @@ async function compress(file, opts = {}) {
     const cover800 = p.coverSources.find(s => s.width === 800) || p.coverSources[p.coverSources.length - 1];
     const card = (await compress(cover480.src)).uri;
     const light = [(await compress(cover800.src, OPTS.cover || undefined)).uri];
+    let vUri = null;
+    if (p.video && /\.(mp4|webm|m4v)$/i.test(p.video) && fs.existsSync(path.join(ROOT, p.video))) {
+      const r = compressVideo(p.video, VIDEO_OPTS.card);
+      if (r) vUri = r.uri;
+    }
     const galleryFiles = (p.gallery || [])
       .filter(g => /\.(webp|jpe?g|png)$/i.test(g) && fs.existsSync(path.join(ROOT, g)))
       .slice(0, MAX_GALLERY_PER_PROJECT);
@@ -123,7 +176,8 @@ async function compress(file, opts = {}) {
       featured: !!p.featured,
       url: SITE + '/' + p.url.replace(/^\//, ''),
       card,
-      light
+      light,
+      v: vUri
     });
   }
 
@@ -133,6 +187,7 @@ async function compress(file, opts = {}) {
       '<div class="work-media"><img src="' + w.card + '" alt="' + escAttr(w.title) + '" loading="lazy" decoding="async">' +
       (w.featured ? '<span class="work-featured">⭐ مميز</span>' : '') +
       '<span class="work-badge">' + escHtml(w.category) + '</span>' +
+      (w.v ? '<span class="work-video-badge" aria-hidden="true">▶ فيديو</span>' : '') +
       '<span class="work-count">📷 ' + w.light.length + '</span></div>' +
       '<div class="work-info"><h3>' + escHtml(w.title) + '</h3><span>اضغط لعرض المعرض ←</span></div>' +
     '</a>'
@@ -149,12 +204,14 @@ async function compress(file, opts = {}) {
 
   const slidesHtml = heroImgs.map((src, i) =>
     '<img class="hero-slide' + (i === 0 ? ' active' : '') + '" src="' + src + '" alt="أعمال RK Design Studio" decoding="async">'
-  ).join('\n        ');
+  ).concat(heroVids.map((src, i) =>
+    '<video class="hero-slide hero-video" muted loop playsinline preload="metadata"' + (heroImgs.length === 0 && i === 0 ? ' active' : '') + ' src="' + src + '" aria-hidden="true"></video>'
+  )).join('\n        ');
   const dotsHtml = heroImgs.map((_, i) =>
     '<button class="hero-dot' + (i === 0 ? ' active' : '') + '" data-slide="' + i + '" aria-label="الشريحة ' + (i + 1) + '"></button>'
   ).join('');
 
-  const workData = JSON.stringify(workItems.map(w => ({ t: w.title, c: w.category, u: w.url, i: w.light })));
+  const workData = JSON.stringify(workItems.map(w => ({ t: w.title, c: w.category, u: w.url, i: w.light, v: w.v || null })));
 
   const html = `<!doctype html>
 <html lang="ar" dir="rtl">
@@ -249,6 +306,10 @@ section{scroll-margin-top:64px}
 .work-badge{position:absolute;top:10px;inset-inline-end:10px;z-index:2;background:rgba(10,10,10,.82);color:var(--gold);font-size:10.5px;font-weight:800;padding:4px 12px;border-radius:30px;border:1px solid rgba(197,160,89,.3);max-width:65%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .work-featured{position:absolute;top:10px;inset-inline-start:10px;z-index:2;background:var(--gold);color:#0a0a0a;font-size:10px;font-weight:900;padding:4px 10px;border-radius:30px}
 .work-count{position:absolute;bottom:10px;inset-inline-end:10px;z-index:2;background:rgba(10,10,10,.78);color:var(--ink-2);font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px}
+.work-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .45s ease;background:var(--bg-4)}
+.work-media video.is-on{opacity:1}
+.work-video-badge{position:absolute;bottom:10px;inset-inline-start:10px;z-index:3;background:rgba(10,10,10,.82);color:var(--gold);border:1px solid rgba(197,160,89,.4);font-size:11px;font-weight:800;padding:6px 14px;border-radius:20px;min-height:28px;display:inline-flex;align-items:center}
+.work-video-badge.is-playing{background:var(--gold);color:#0a0a0a}
 .work-info{padding:14px 16px 16px;border-top:1px solid var(--line)}
 .work-info h3{color:#fff;font-size:15.5px;font-weight:800;line-height:1.5}
 .work-info span{color:var(--gold);font-size:12px;font-weight:700}
@@ -480,7 +541,7 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
           <span><span class="lbl">واتساب مباشر</span><span class="val">ابعت رسالة الآن</span></span>
         </a>
       </div>
-      <p class="offline-note reveal">📎 <b>نسخة أوفلاين:</b> الملف ده شغّال من غير إنترنت وبيضم ${projects.length} مشروع — أزرار الاتصال والواتساب والرابط اللي تحت هيتفتحوا لما النت يكون متاح.<br>آخر إصدار من الموقع: <a href="${SITE}" target="_blank" rel="noopener">rk-desgin-build-2an.pages.dev</a></p>
+      <p class="offline-note reveal">📎 <b>نسخة أوفلاين:</b> الملف ده شغّال من غير إنترنت وبيضم ${projects.length} مشروع و${workItems.filter(w => w.v).length} فيديو عرض — أزرار الاتصال والواتساب والرابط اللي تحت هيتفتحوا لما النت يكون متاح.<br>آخر إصدار من الموقع: <a href="${SITE}" target="_blank" rel="noopener">rk-desgin-build-2an.pages.dev</a></p>
     </div>
   </section>
 </main>
@@ -537,19 +598,33 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
 
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  /* شرائح الهيرو */
+  /* شرائح الهيرو (صور + فيديوهات) */
   var slides = Array.prototype.slice.call(document.querySelectorAll('.hero-slide'));
   var dots = Array.prototype.slice.call(document.querySelectorAll('.hero-dot'));
   var cur = 0, timer = null;
+  slides.forEach(function (s) {
+    if (s.tagName !== 'VIDEO') return;
+    s.muted = true; s.loop = true; s.setAttribute('playsinline', '');
+  });
   function go(n) {
     cur = (n + slides.length) % slides.length;
-    slides.forEach(function (s, i) { s.classList.toggle('active', i === cur); });
+    slides.forEach(function (s, i) {
+      var on = i === cur;
+      s.classList.toggle('active', on);
+      if (s.tagName === 'VIDEO') {
+        if (on) { var p = s.play(); if (p && p.catch) p.catch(function () {}); }
+        else s.pause();
+      }
+    });
     dots.forEach(function (d, i) { d.classList.toggle('active', i === cur); });
   }
   function play() { timer = setInterval(function () { go(cur + 1); }, 5000); }
   function stop() { if (timer) { clearInterval(timer); timer = null; } }
   dots.forEach(function (d, i) { d.addEventListener('click', function () { stop(); go(i); play(); }); });
-  document.addEventListener('visibilitychange', function () { document.hidden ? stop() : play(); });
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) { stop(); slides.forEach(function (s) { if (s.tagName === 'VIDEO') s.pause(); }); }
+    else { go(cur); play(); }
+  });
   play();
 
   /* عدّادات */
@@ -608,6 +683,60 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
   });
   applyFilter('all');
 
+  /* ─── فيديوهات المشاريع (زي الموقع: هيستر على ديسكتوب / ضغط الشارة على موبايل) ─── */
+  var skipVid = reduceMotion || (navigator.connection && navigator.connection.saveData);
+  var canHover = matchMedia('(hover: hover) and (pointer: fine)').matches;
+  var stopActiveVid = null; /* إيقاف الفيديو الشغال حاليًا (واحد بس في نفس الوقت) */
+  if (!skipVid) cards.forEach(function (card) {
+    var w = WORKS[+card.getAttribute('data-work')];
+    var src = w && w.v;
+    if (!src) return;
+    var media = card.querySelector('.work-media');
+    var badge = card.querySelector('.work-video-badge');
+    var vid = null;
+    function ensure() {
+      if (vid) return vid;
+      vid = document.createElement('video');
+      vid.muted = true; vid.loop = true; vid.playsInline = true;
+      vid.setAttribute('playsinline', ''); vid.setAttribute('aria-hidden', 'true');
+      vid.preload = 'none'; vid.src = src;
+      media.insertBefore(vid, media.firstChild);
+      vid.addEventListener('error', function () { if (vid) { vid.remove(); vid = null; } });
+      return vid;
+    }
+    function vPlay() {
+      var v = ensure(); v.preload = 'auto';
+      var p = v.play();
+      if (p && p.then) p.then(function () { v.classList.add('is-on'); }).catch(function () {});
+      else v.classList.add('is-on');
+    }
+    function vStop() { if (!vid) return; vid.pause(); vid.classList.remove('is-on'); }
+    if (canHover) {
+      card.addEventListener('mouseenter', vPlay);
+      card.addEventListener('mouseleave', vStop);
+      card.addEventListener('focusin', vPlay);
+      card.addEventListener('focusout', vStop);
+    } else if (badge) {
+      var on = false;
+      function off() {
+        on = false; vStop();
+        badge.textContent = '▶ فيديو'; badge.classList.remove('is-playing');
+        if (stopActiveVid === off) stopActiveVid = null;
+      }
+      badge.addEventListener('click', function (e) {
+        e.preventDefault(); e.stopPropagation();
+        if (stopActiveVid && stopActiveVid !== off) stopActiveVid(); /* وقّف أي فيديو تاني بس */
+        if (!on) { on = true; vPlay(); badge.textContent = '❚❚ إيقاف'; badge.classList.add('is-playing'); stopActiveVid = off; }
+        else off();
+      });
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (es) {
+          es.forEach(function (en) { if (!en.isIntersecting && on) off(); });
+        }, { threshold: 0.15 }).observe(card);
+      }
+    }
+  });
+
   /* التبويب النشط حسب موضع التمرير */
   var tabs = document.querySelectorAll('.rk-tab[data-sec]');
   var secs = ['home', 'works', 'services', 'about', 'contact'].map(function (id) { return document.getElementById(id); });
@@ -649,6 +778,7 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
     lbSite.style.display = p.u ? '' : 'none';
   }
   function openLb(idx) {
+    if (stopActiveVid) stopActiveVid();
     pIdx = idx; iIdx = 0; lastFocus = document.activeElement;
     render(); lb.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -690,15 +820,17 @@ body{padding-bottom:calc(var(--tabbar-h) + var(--safe-b))}
   fs.writeFileSync(OUT, html);
   const totalKb = Math.round(fs.statSync(OUT).size / 1024);
   const imgsKb = report.reduce((a, r) => a + r.kb, 0);
+  const vidsKb = videoReport.reduce((a, r) => a + r.kb, 0);
   const lightImgs = workItems.reduce((a, w) => a + w.light.length, 0);
+  const vidCount = workItems.filter(w => w.v).length;
   console.log('✅ تم توليد: ' + path.basename(OUT) + (LITE ? ' (نسخة خفيفة)' : ''));
-  console.log('   الحجم الكلي: ' + (totalKb / 1024).toFixed(2) + ' MB (الصور قبل base64: ' + (imgsKb / 1024).toFixed(2) + ' MB)');
-  console.log('   المشاريع: ' + workItems.length + ' (مميز: ' + workItems.filter(w => w.featured).length + ') | صور اللايت بوكس: ' + lightImgs);
+  console.log('   الحجم الكلي: ' + (totalKb / 1024).toFixed(2) + ' MB (الصور: ' + (imgsKb / 1024).toFixed(2) + ' MB + الفيديوهات: ' + (vidsKb / 1024).toFixed(2) + ' MB قبل base64)');
+  console.log('   المشاريع: ' + workItems.length + ' (مميز: ' + workItems.filter(w => w.featured).length + ') | صور اللايت بوكس: ' + lightImgs + ' | فيديوهات المشاريع: ' + vidCount + ' + هيرو: ' + heroVids.length);
   const byDisc = {};
   workItems.forEach(w => { byDisc[w.disc] = (byDisc[w.disc] || 0) + 1; });
   console.log('   حسب المجال: ' + Object.keys(byDisc).map(k => k + '=' + byDisc[k]).join(' · '));
-  if (totalKb > 18 * 1024) {
-    console.log('   ⚠️ الحجم كبير — قلّل GALLERY_BUDGET_MB أو MAX_GALLERY_PER_PROJECT في رأس السكريبت.');
+  if (totalKb > 26 * 1024) {
+    console.log('   ⚠️ الحجم كبير — قلّل GALLERY_BUDGET_MB أو VIDEO_OPTS في رأس السكريبت.');
   }
 })().catch(e => { console.error('فشل البناء:', e.message); process.exit(1); });
 

@@ -1,8 +1,10 @@
-/* فحص ملف البورتفوليو الأوفلاين — dev-only (jsdom) */
+/* فحص ملف البورتفوليو الأوفلاين — dev-only (jsdom)
+   الاستخدام: node tests/offline-check.cjs [rk-portfolio-lite.html] (الافتراضي: النسخة الكاملة) */
 const fs = require('fs');
 const { JSDOM } = require('jsdom');
 
-const html = fs.readFileSync('rk-portfolio-offline.html', 'utf8');
+const FILE = process.argv[2] || 'rk-portfolio-offline.html';
+const html = fs.readFileSync(FILE, 'utf8');
 const dom = new JSDOM(html, { runScripts: 'outside-only', pretendToBeVisual: true });
 const win = dom.window;
 const d = win.document;
@@ -29,15 +31,24 @@ const counts = {
   serviceCards: d.querySelectorAll('.service-card').length,
   heroSlides: d.querySelectorAll('.hero-slide').length,
   dataImgs: d.querySelectorAll('img[src^="data:"]').length,
-  counters: d.querySelectorAll('[data-counter]').length
+  counters: d.querySelectorAll('[data-counter]').length,
+  videoBadges: d.querySelectorAll('.work-video-badge').length,
+  heroVideos: d.querySelectorAll('video.hero-slide').length
 };
 if (counts.tabs !== 5) problems.push('تبويبات=' + counts.tabs);
 if (counts.workCards < 55) problems.push('كروت أعمال=' + counts.workCards + ' (المفروض 61)');
 if (counts.featuredBadges !== 9) problems.push('شارات مميز=' + counts.featuredBadges);
 if (counts.chips !== 4) problems.push('فلاتر=' + counts.chips);
 if (counts.serviceCards !== 6) problems.push('كروت خدمات=' + counts.serviceCards);
-if (counts.heroSlides !== 3) problems.push('شرائح هيرو=' + counts.heroSlides);
+if (counts.heroSlides !== 5) problems.push('شرائح هيرو=' + counts.heroSlides + ' (المفروض 5: 3 صور + 2 فيديو)');
 if (counts.counters !== 4) problems.push('عدادات=' + counts.counters);
+/* الفيديوهات: 34 مشروع + 2 هيرو (كروت الفيديو بتتعمل بالجافاسكريبت فبنشوفها في WORKS) */
+if (counts.videoBadges !== 34) problems.push('شارات فيديو=' + counts.videoBadges + ' (المفروض 34)');
+if (counts.heroVideos !== 2) problems.push('فيديوهات هيرو=' + counts.heroVideos);
+const dataVids = (html.match(/data:video\/mp4;base64,/g) || []).length;
+if (dataVids !== 36) problems.push('فيديوهات مدمجة=' + dataVids + ' (المفروض 36: 34 مشروع + 2 هيرو)');
+const heroVidSrc = d.querySelectorAll('video.hero-slide')[0];
+if (heroVidSrc && !(heroVidSrc.getAttribute('src') || '').startsWith('data:video/mp4')) problems.push('فيديو الهيرو مش مدمج (data URI)');
 
 /* 3) تشغيل السكربت + الفلاتر + اللايت بوكس */
 if (!win.IntersectionObserver) {
@@ -92,7 +103,7 @@ const sample = (cards[0].querySelector('img').getAttribute('src') || '').split('
 if (!sample || !/^[A-Za-z0-9+/=]+$/.test(sample.slice(0, 200))) problems.push('base64 تالف');
 
 console.log('الأرقام:', JSON.stringify(counts));
-console.log('الحجم:', (fs.statSync('rk-portfolio-offline.html').size / 1024 / 1024).toFixed(2) + 'MB');
+console.log('الحجم:', (fs.statSync(FILE).size / 1024 / 1024).toFixed(2) + 'MB');
 if (problems.length) { console.log('مشاكل:'); problems.forEach(p => console.log('  ✗ ' + p)); process.exit(1); }
 console.log('كل فحوصات الملف الأوفلاين نجحت ✅');
 process.exit(0);
