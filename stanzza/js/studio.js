@@ -21,8 +21,12 @@
   ];
 
   function normalize(items) {
-    return items.map(function (f) {
+    return items.map(function (f, i) {
       f.candidates = [f.img];
+      f.hash = f.hash || ("fb" + i);
+      f.disc = f.disc || (/هوية|إعلان|جرافيك|شعار/.test(f.cat || "") ? "graphic" : "interior");
+      f.field = f.disc === "graphic" ? "brand" : "space";
+      f.desc = f.desc || "";
       return f;
     });
   }
@@ -56,6 +60,10 @@
       return {
         title: p.title,
         cat: p.category,
+        disc: p.discipline || "",
+        field: (p.discipline === "graphic") ? "brand" : "space",
+        desc: p.excerpt || p.description || "",
+        hash: hash,
         area: p.area || null,
         loc: p.location || null,
         year: p.year || null,
@@ -255,7 +263,7 @@
     if (!wrap || !info || !DATA.work.length) return;
 
     var items = DATA.work;
-    var imgs = items.map(function (it, i) {
+    var imgs = items.map(function (it) {
       var img = document.createElement("img");
       img.alt = it.title;
       img.loading = "lazy";
@@ -264,11 +272,28 @@
       return img;
     });
     var num = $("#wNum"), total = $("#wTotal"),
-        wCat = $("#wCat"), wTitle = $("#wTitle"),
+        wDisc = $("#wDisc"), wCat = $("#wCat"), wTitle = $("#wTitle"),
+        wDesc = $("#wDesc"),
         wArea = $("#wArea"), wLoc = $("#wLoc"), wYear = $("#wYear"),
         wLink = $("#wLink"), prog = $("#wProg");
-    if (total) total.textContent = pad2(items.length);
 
+    var FIELD_LABELS = { space: "التصميم الداخلي والخارجي", brand: "الجرافيك والهوية البصرية" };
+
+    // نصوص مضبوطة على المساحات الفعلية (الأصلية فيها أخطاء نسخ)
+    var DESC_OVERRIDES = {
+      "1d92b09064": "شقة 120 مترًا — صالة استقبال تجمع البساطة والدفء: ألوان محايدة متناغمة، إضاءة مخفية بالأسقف الجبسية، وأثاث مختار بعناية يمنح إحساسًا بالرحابة.",
+      "2fe1f9c086": "دور إداري 140 مترًا — مكاتب وغرفة اجتماعات بتصميم عملي وراقٍ يعكس هوية الشركة ويحافظ على اتساع الحركة.",
+      "35b76057a9": "تصميم خارجي ولاندسكيب لمحطة وقود كاملة — حركة انسيابية للعملاء بين البنزين والصيانة والمطعم والسوبر ماركت."
+    };
+
+    function descOf(it) {
+      var d = (DESC_OVERRIDES[it.hash] || it.desc || "").replace(/\s+/g, " ").trim();
+      if (!d || d.indexOf("مشروع " + it.title) === 0) d = "مشروع " + (it.cat || "من أعمال الاستوديو") + " — من تنفيذ رمضان قطب.";
+      if (d.length > 170) d = d.slice(0, 167).replace(/\s+\S*$/, "") + "…";
+      return d;
+    }
+
+    var view = items.map(function (_, i) { return i; });
     var cur = -1;
     var timer = null;
     var WORK_MS = 6800;
@@ -279,11 +304,13 @@
       else { el.textContent = "—"; el.classList.add("none"); }
     }
 
-    function loadNear(i) {
-      [i, (i + 1) % items.length, (i - 1 + items.length) % items.length].forEach(function (k) {
-        var img = imgs[k];
+    function loadNear(vi) {
+      [0, 1, -1].forEach(function (o) {
+        var k = ((vi + o) % view.length + view.length) % view.length;
+        var gi = view[k];
+        var img = imgs[gi];
         if (img.dataset.loaded) return;
-        var it = items[k];
+        var it = items[gi];
         var ci = 0;
         img.dataset.fail = "0";
         img.onload = null;
@@ -299,17 +326,21 @@
       });
     }
 
-    function show(i, manual) {
-      cur = (i + items.length) % items.length;
-      var it = items[cur];
+    function show(vi, manual) {
+      cur = ((vi % view.length) + view.length) % view.length;
+      var gi = view[cur];
+      var it = items[gi];
       loadNear(cur);
-      imgs.forEach(function (img, k) { img.classList.toggle("on", k === cur); });
+      imgs.forEach(function (img, k) { img.classList.toggle("on", k === gi); });
       if (num) num.textContent = pad2(cur + 1);
+      if (total) total.textContent = pad2(view.length);
 
       info.classList.add("swap");
       setTimeout(function () {
-        wCat.textContent = it.cat || "مشروع";
+        if (wDisc) wDisc.textContent = FIELD_LABELS[it.field] || "مشروع";
+        wCat.textContent = it.cat || "";
         wTitle.textContent = it.title;
+        if (wDesc) wDesc.textContent = descOf(it);
         fillMeta(wArea, it.area);
         fillMeta(wLoc, it.loc);
         fillMeta(wYear, it.year);
@@ -346,17 +377,36 @@
     if (next) next.addEventListener("click", function () { show(cur + 1, true); });
     if (prev) prev.addEventListener("click", function () { show(cur - 1, true); });
 
+    // فلاتر المجالين — نفس تقسيم الموقع الأساسي
+    var FILTERS = {
+      all:   function () { return true; },
+      space: function (it) { return it.field === "space"; },
+      brand: function (it) { return it.field === "brand"; }
+    };
+    $$(".wfilter").forEach(function (b) {
+      var f = b.getAttribute("data-filter");
+      if (!FILTERS[f]) return;
+      var cnt = b.querySelector("span");
+      if (cnt) cnt.textContent = String(items.filter(FILTERS[f]).length);
+      b.addEventListener("click", function () {
+        if (b.classList.contains("active")) return;
+        $$(".wfilter").forEach(function (x) { x.classList.remove("active"); });
+        b.classList.add("active");
+        view = [];
+        items.forEach(function (it, i) { if (FILTERS[f](it)) view.push(i); });
+        if (view.length) show(0, true);
+      });
+    });
+
     // سحب باللمس
     var startX = null;
-    if (wrap) {
-      wrap.addEventListener("pointerdown", function (e) { startX = e.clientX; });
-      window.addEventListener("pointerup", function (e) {
-        if (startX === null) return;
-        var dx = e.clientX - startX;
-        startX = null;
-        if (Math.abs(dx) > 44) show(cur + (dx < 0 ? 1 : -1), true);
-      });
-    }
+    wrap.addEventListener("pointerdown", function (e) { startX = e.clientX; });
+    window.addEventListener("pointerup", function (e) {
+      if (startX === null) return;
+      var dx = e.clientX - startX;
+      startX = null;
+      if (Math.abs(dx) > 44) show(cur + (dx < 0 ? 1 : -1), true);
+    });
 
     // الأسهم من الكيبورد (عندما يكون الشريط في الشاشة)
     window.addEventListener("keydown", function (e) {
@@ -382,8 +432,10 @@
       a.target = "_blank";
       a.rel = "noopener";
       a.style.setProperty("--d", (i * 0.08) + "s");
+      var discTag = { interior: "داخلي", exterior: "خارجي", graphic: "جرافيك" }[it.disc] || "";
       a.innerHTML =
         '<img src="' + it.candidates[0] + '" alt="' + it.title.replace(/"/g, "&quot;") + '" loading="lazy" width="600" height="800">' +
+        (discTag ? '<span class="thumb-tag">' + discTag + "</span>" : "") +
         '<span class="thumb-index">' + pad2(i + 1) + "</span>" +
         '<span class="thumb-label">view <span class="arr">↗</span></span>';
       a.querySelector("img").addEventListener("error", function () {

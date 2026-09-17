@@ -166,13 +166,20 @@
         </div>
       </div>
 
+      <div class="work-filters reveal" style="--d:.12s;" role="group" aria-label="تصفية الأعمال حسب المجال">
+        <button type="button" class="wfilter active" data-filter="all">الكل <span>0</span></button>
+        <button type="button" class="wfilter" data-filter="space">داخلي وخارجي <span>0</span></button>
+        <button type="button" class="wfilter" data-filter="brand">جرافيك وهوية <span>0</span></button>
+      </div>
+
       <div class="work-stage reveal" style="--d:.2s;">
         <div class="work-media" id="workMedia">
           <span class="w-badge" id="wBadge">مشروع مُنجز</span>
         </div>
         <div class="work-info" id="workInfo">
-          <div class="work-cat" id="wCat">—</div>
+          <div class="work-cat"><span id="wDisc">—</span><span class="wcat-sep" aria-hidden="true">·</span><span id="wCat">—</span></div>
           <h3 class="work-title" id="wTitle">—</h3>
+          <p class="work-desc" id="wDesc"></p>
           <dl class="work-meta">
             <div class="row"><dt>المساحة</dt><dd id="wArea">—</dd></div>
             <div class="row"><dt>الموقع</dt><dd id="wLoc">—</dd></div>
