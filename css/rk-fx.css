@@ -354,16 +354,22 @@
 }
 
 /* ═══════════════════════════════════════════════════════════════
-   فيديو خلفية للبانر (يغطي البانر، fade فوق الصورة)
+   فيديو خلفية للبانر (يغطي البانر كامل، fade فوق الصورة)
+   ⚠️ القاعدة الأساسية بقت في css/style.css (لأن rk-fx.css مش
+   مربوط في أي صفحة) — سايبين نسخة مطابقة هنا للتأمين.
 ═══════════════════════════════════════════════════════════════ */
 .rk-parallax-video {
   position: absolute;
   inset: 0;
+  display: block;
   width: 100%;
   height: 100%;
+  max-width: none;
+  max-height: none;
   object-fit: cover;
-  object-position: center;
+  object-position: center center;
   opacity: 0;
   transition: opacity 1s ease-in-out;
   z-index: 0;
+  pointer-events: none;
 }

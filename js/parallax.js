@@ -70,8 +70,14 @@
     v.playsInline = true;
     v.setAttribute('playsinline', '');
     v.setAttribute('muted', '');
+    v.setAttribute('aria-hidden', 'true');
     v.preload = 'none';
     v.disablePictureInPicture = true;
+    /* تأمين: الفيديو يغطّي البانر بالكامل حتى لو الـ CSS مش متحدّث في الكاش */
+    v.style.cssText = 'position:absolute;inset:0;display:block;' +
+      'width:100%;height:100%;max-width:none;max-height:none;' +
+      'object-fit:cover;object-position:center center;' +
+      'opacity:0;transition:opacity 1s ease-in-out;z-index:0;pointer-events:none;';
     v.src = videoSrc;
     /* fade فوق الصورة لما يبدأ يشغّل */
     v.addEventListener('playing', () => { v.style.opacity = '1'; });
