@@ -458,6 +458,44 @@
     });
   })();
 
+  /* ── إدارة المظاهر (themes) ─────────────────────────── */
+  (function () {
+    var THEMES = {
+      clay:     { bg: "#f4efe7" }, // طين (افتراضي)
+      forest:   { bg: "#131812" }, // غابة
+      espresso: { bg: "#171009" }, // إسبريسو
+      midnight: { bg: "#0b0a08" }  // ليل (الأصلي)
+    };
+    var KEY = "rk-studio-theme";
+    var meta = document.querySelector('meta[name="theme-color"]');
+    var html = document.documentElement;
+
+    function apply(t, save) {
+      if (!THEMES[t]) t = "clay";
+      html.classList.add("theming");
+      if (t === "clay") delete html.dataset.theme;
+      else html.dataset.theme = t;
+      if (meta) meta.setAttribute("content", THEMES[t].bg);
+      $$(".theme-dot").forEach(function (d) {
+        d.classList.toggle("active", d.getAttribute("data-set-theme") === t);
+      });
+      if (save !== false) {
+        try { localStorage.setItem(KEY, t); } catch (e) {}
+      }
+      setTimeout(function () { html.classList.remove("theming"); }, 700);
+    }
+
+    $$(".theme-dot").forEach(function (d) {
+      d.addEventListener("click", function () {
+        apply(d.getAttribute("data-set-theme"));
+      });
+    });
+
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch (e) {}
+    apply(saved && THEMES[saved] ? saved : "clay", false);
+  })();
+
   /* ── سنة الحقوق ──────────────────────────────────────── */
   var y = $("#year");
   if (y) y.textContent = String(new Date().getFullYear());
