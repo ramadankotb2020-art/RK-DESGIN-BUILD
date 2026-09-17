@@ -1,77 +1,77 @@
 /* الملف ده بيتولّد تلقائيًا من مجلدات المشاريع — متعدّلوش يدويًا. */
 const PROJECTS_FALLBACK = [
   {
-    "id": "project-5480a65a3ab56ec9",
-    "legacyId": "بنزية-توتال-سمنود-d8a8d986",
+    "id": "project-35b76057a91a9033",
+    "legacyId": "بنزية-توتال-سمنود-التصميم-الخارجي-d8a8d986",
     "discipline": "exterior",
     "category": "تصميم خارجي ولاندسكيب",
     "categoryKey": "exterior",
-    "title": "بنزية توتال سمنود",
-    "slug": "بنزية-توتال-سمنود-5480a65a3a",
+    "title": "بنزية توتال سمنود- التصميم الخارجي",
+    "slug": "بنزية-توتال-سمنود-التصميم-الخارجي-35b76057a9",
     "status": "published",
     "facebook": false,
     "services": [],
-    "seoTitle": "بنزية توتال سمنود | RK Design Studio",
-    "seoDescription": "شاهد صور وتفاصيل مشروع بنزية توتال سمنود من أعمال رمضان قطب — RK Design Studio.",
-    "alt": "بنزية توتال سمنود",
+    "seoTitle": "بنزية توتال سمنود- التصميم الخارجي | RK Design Studio",
+    "seoDescription": "شاهد صور وتفاصيل مشروع بنزية توتال سمنود- التصميم الخارجي من أعمال رمضان قطب — RK Design Studio.",
+    "alt": "بنزية توتال سمنود- التصميم الخارجي",
     "location": "",
     "area": null,
     "year": "",
-    "cover": "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (1).webp",
+    "cover": "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (1).webp",
     "before": null,
     "gallery": [
-      "images/projects-by-name/exterior/بنزية توتال سمنود/cover.mp4",
-      "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (2).webp",
-      "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (3).webp",
-      "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (4).webp",
-      "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (5).webp",
-      "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (6).webp",
-      "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (7).webp",
-      "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (8).webp",
-      "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (9).webp"
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/cover.mp4",
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (2).webp",
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (3).webp",
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (4).webp",
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (5).webp",
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (6).webp",
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (7).webp",
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (8).webp",
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (9).webp"
     ],
-    "video": "images/projects-by-name/exterior/بنزية توتال سمنود/cover.mp4",
-    "excerpt": "مشروع بنزية توتال سمنود",
-    "description": "مشروع بنزية توتال سمنود.",
+    "video": "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/cover.mp4",
+    "excerpt": "مشروع بنزية توتال سمنود- التصميم الخارجي",
+    "description": "مشروع بنزية توتال سمنود- التصميم الخارجي.",
     "idea": "",
     "materials": [],
     "tags": [],
     "featured": false,
-    "url": "projects/%D8%A8%D9%86%D8%B2%D9%8A%D8%A9-%D8%AA%D9%88%D8%AA%D8%A7%D9%84-%D8%B3%D9%85%D9%86%D9%88%D8%AF-5480a65a3a/",
+    "url": "projects/%D8%A8%D9%86%D8%B2%D9%8A%D8%A9-%D8%AA%D9%88%D8%AA%D8%A7%D9%84-%D8%B3%D9%85%D9%86%D9%88%D8%AF-%D8%A7%D9%84%D8%AA%D8%B5%D9%85%D9%8A%D9%85-%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A-35b76057a9/",
     "imageMeta": {
-      "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (1).webp": {
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (1).webp": {
         "width": 1600,
         "height": 900
       },
-      "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (2).webp": {
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (2).webp": {
         "width": 1600,
         "height": 900
       },
-      "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (3).webp": {
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (3).webp": {
         "width": 1600,
         "height": 900
       },
-      "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (4).webp": {
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (4).webp": {
         "width": 1600,
         "height": 900
       },
-      "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (5).webp": {
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (5).webp": {
         "width": 1600,
         "height": 900
       },
-      "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (6).webp": {
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (6).webp": {
         "width": 1366,
         "height": 768
       },
-      "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (7).webp": {
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (7).webp": {
         "width": 1600,
         "height": 900
       },
-      "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (8).webp": {
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (8).webp": {
         "width": 1600,
         "height": 900
       },
-      "images/projects-by-name/exterior/بنزية توتال سمنود/بنزية توتال سمنود (9).webp": {
+      "images/projects-by-name/exterior/بنزية توتال سمنود- التصميم الخارجي/بنزية توتال سمنود (9).webp": {
         "width": 1600,
         "height": 900
       }
@@ -83,6 +83,138 @@ const PROJECTS_FALLBACK = [
       },
       {
         "src": "images/responsive/679e913821216ba5-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  {
+    "id": "project-a583a52df0da273f",
+    "legacyId": "فيلا-فاخرة-التصميم-الخارجي-d981d98a",
+    "discipline": "exterior",
+    "category": "تصميم خارجي ولاندسكيب",
+    "categoryKey": "exterior",
+    "title": "فيلا فاخرة - التصميم الخارجي",
+    "slug": "فيلا-فاخرة-التصميم-الخارجي-a583a52df0",
+    "status": "published",
+    "facebook": false,
+    "services": [],
+    "seoTitle": "فيلا فاخرة - التصميم الخارجي | RK Design Studio",
+    "seoDescription": "شاهد صور وتفاصيل مشروع فيلا فاخرة - التصميم الخارجي من أعمال رمضان قطب — RK Design Studio.",
+    "alt": "فيلا فاخرة - التصميم الخارجي",
+    "location": "",
+    "area": null,
+    "year": "",
+    "cover": "images/projects-by-name/exterior/فيلا فاخرة - التصميم الخارجي/1789626498023-01a0ae0c-464a-72fd-86e2-419319f8e10a.webp",
+    "before": null,
+    "gallery": [
+      "images/projects-by-name/exterior/فيلا فاخرة - التصميم الخارجي/1789627696161-01a0ae1e-b737-791c-8f55-2a0468598715.webp",
+      "images/projects-by-name/exterior/فيلا فاخرة - التصميم الخارجي/1789627846591-01a0ae21-06ec-7c9e-81f6-83ab672ecb3f.webp",
+      "images/projects-by-name/exterior/فيلا فاخرة - التصميم الخارجي/1789628002583-01a0ae23-7002-7cb3-9871-8aaae0571e86.webp",
+      "images/projects-by-name/exterior/فيلا فاخرة - التصميم الخارجي/1789628168151-01a0ae25-c8c5-792f-9796-b36f48899f59.webp"
+    ],
+    "video": null,
+    "excerpt": "مشروع فيلا فاخرة - التصميم الخارجي",
+    "description": "مشروع فيلا فاخرة - التصميم الخارجي.",
+    "idea": "",
+    "materials": [],
+    "tags": [],
+    "featured": false,
+    "url": "projects/%D9%81%D9%8A%D9%84%D8%A7-%D9%81%D8%A7%D8%AE%D8%B1%D8%A9-%D8%A7%D9%84%D8%AA%D8%B5%D9%85%D9%8A%D9%85-%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A-a583a52df0/",
+    "imageMeta": {
+      "images/projects-by-name/exterior/فيلا فاخرة - التصميم الخارجي/1789626498023-01a0ae0c-464a-72fd-86e2-419319f8e10a.webp": {
+        "width": 1600,
+        "height": 900
+      },
+      "images/projects-by-name/exterior/فيلا فاخرة - التصميم الخارجي/1789627696161-01a0ae1e-b737-791c-8f55-2a0468598715.webp": {
+        "width": 1600,
+        "height": 900
+      },
+      "images/projects-by-name/exterior/فيلا فاخرة - التصميم الخارجي/1789627846591-01a0ae21-06ec-7c9e-81f6-83ab672ecb3f.webp": {
+        "width": 1600,
+        "height": 900
+      },
+      "images/projects-by-name/exterior/فيلا فاخرة - التصميم الخارجي/1789628002583-01a0ae23-7002-7cb3-9871-8aaae0571e86.webp": {
+        "width": 1600,
+        "height": 900
+      },
+      "images/projects-by-name/exterior/فيلا فاخرة - التصميم الخارجي/1789628168151-01a0ae25-c8c5-792f-9796-b36f48899f59.webp": {
+        "width": 1600,
+        "height": 900
+      }
+    },
+    "coverSources": [
+      {
+        "src": "images/responsive/34b4de4be64dd4dd-480.webp",
+        "width": 480
+      },
+      {
+        "src": "images/responsive/34b4de4be64dd4dd-800.webp",
+        "width": 800
+      }
+    ]
+  },
+  {
+    "id": "project-96b958ae6ec49df9",
+    "legacyId": "مبنى-سكني-حديث-التصميم-الخارجي-d985d8a8",
+    "discipline": "exterior",
+    "category": "تصميم خارجي ولاندسكيب",
+    "categoryKey": "exterior",
+    "title": "مبنى سكني حديث - التصميم الخارجي",
+    "slug": "مبنى-سكني-حديث-التصميم-الخارجي-96b958ae6e",
+    "status": "published",
+    "facebook": false,
+    "services": [],
+    "seoTitle": "مبنى سكني حديث - التصميم الخارجي | RK Design Studio",
+    "seoDescription": "شاهد صور وتفاصيل مشروع مبنى سكني حديث - التصميم الخارجي من أعمال رمضان قطب — RK Design Studio.",
+    "alt": "مبنى سكني حديث - التصميم الخارجي",
+    "location": "",
+    "area": null,
+    "year": "",
+    "cover": "images/projects-by-name/exterior/مبنى سكني حديث - التصميم الخارجي/1789631502407-01a0ae58-d166-7c86-be01-c5675622cd48.webp",
+    "before": null,
+    "gallery": [
+      "images/projects-by-name/exterior/مبنى سكني حديث - التصميم الخارجي/1789631743239-01a0ae5c-a2ad-7f0c-a9d4-7dcee1c41a30.webp",
+      "images/projects-by-name/exterior/مبنى سكني حديث - التصميم الخارجي/1789633286707-01a0ae73-ddc5-7ba8-8165-923573446f0e.webp",
+      "images/projects-by-name/exterior/مبنى سكني حديث - التصميم الخارجي/1789633987125-01a0ae7e-c06e-7180-ae2f-9ff4687260e8.webp",
+      "images/projects-by-name/exterior/مبنى سكني حديث - التصميم الخارجي/1789634198386-01a0ae82-1bfa-7626-a38c-b5d90d3421de.webp"
+    ],
+    "video": null,
+    "excerpt": "مشروع مبنى سكني حديث - التصميم الخارجي",
+    "description": "مشروع مبنى سكني حديث - التصميم الخارجي.",
+    "idea": "",
+    "materials": [],
+    "tags": [],
+    "featured": false,
+    "url": "projects/%D9%85%D8%A8%D9%86%D9%89-%D8%B3%D9%83%D9%86%D9%8A-%D8%AD%D8%AF%D9%8A%D8%AB-%D8%A7%D9%84%D8%AA%D8%B5%D9%85%D9%8A%D9%85-%D8%A7%D9%84%D8%AE%D8%A7%D8%B1%D8%AC%D9%8A-96b958ae6e/",
+    "imageMeta": {
+      "images/projects-by-name/exterior/مبنى سكني حديث - التصميم الخارجي/1789631502407-01a0ae58-d166-7c86-be01-c5675622cd48.webp": {
+        "width": 1600,
+        "height": 900
+      },
+      "images/projects-by-name/exterior/مبنى سكني حديث - التصميم الخارجي/1789631743239-01a0ae5c-a2ad-7f0c-a9d4-7dcee1c41a30.webp": {
+        "width": 1600,
+        "height": 900
+      },
+      "images/projects-by-name/exterior/مبنى سكني حديث - التصميم الخارجي/1789633286707-01a0ae73-ddc5-7ba8-8165-923573446f0e.webp": {
+        "width": 1600,
+        "height": 900
+      },
+      "images/projects-by-name/exterior/مبنى سكني حديث - التصميم الخارجي/1789633987125-01a0ae7e-c06e-7180-ae2f-9ff4687260e8.webp": {
+        "width": 1600,
+        "height": 900
+      },
+      "images/projects-by-name/exterior/مبنى سكني حديث - التصميم الخارجي/1789634198386-01a0ae82-1bfa-7626-a38c-b5d90d3421de.webp": {
+        "width": 1600,
+        "height": 900
+      }
+    },
+    "coverSources": [
+      {
+        "src": "images/responsive/8b91c42857795209-480.webp",
+        "width": 480
+      },
+      {
+        "src": "images/responsive/8b91c42857795209-800.webp",
         "width": 800
       }
     ]
@@ -2319,12 +2451,13 @@ const PROJECTS_FALLBACK = [
     "cover": "images/projects-by-name/interior/ريسبشن & مطبخ مفتوح مدينة  بدر/ريسبشن & مطبخ مفتوح مدينة  بدر (1).webp",
     "before": null,
     "gallery": [
+      "images/projects-by-name/interior/ريسبشن & مطبخ مفتوح مدينة  بدر/1.mp4",
       "images/projects-by-name/interior/ريسبشن & مطبخ مفتوح مدينة  بدر/ريسبشن & مطبخ مفتوح مدينة  بدر (2).webp",
       "images/projects-by-name/interior/ريسبشن & مطبخ مفتوح مدينة  بدر/ريسبشن & مطبخ مفتوح مدينة  بدر (3).webp",
       "images/projects-by-name/interior/ريسبشن & مطبخ مفتوح مدينة  بدر/ريسبشن & مطبخ مفتوح مدينة  بدر (4).webp",
       "images/projects-by-name/interior/ريسبشن & مطبخ مفتوح مدينة  بدر/ريسبشن & مطبخ مفتوح مدينة  بدر (5).webp"
     ],
-    "video": null,
+    "video": "images/projects-by-name/interior/ريسبشن & مطبخ مفتوح مدينة  بدر/1.mp4",
     "excerpt": "شقة بمساحة 80 مترًا سُلّمت على المسطح، وكان",
     "description": "شقة بمساحة 80 مترًا سُلّمت على المسطح، وكان",
     "idea": "",
@@ -3129,13 +3262,13 @@ const PROJECTS_FALLBACK = [
     "location": "التجمع الخامس",
     "area": "150 م²",
     "year": "2024",
-    "cover": "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/غرفة نوم ومعيشة التجمع (5).webp",
+    "cover": "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/1.webp",
     "before": null,
     "gallery": [
-      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/غرفة نوم ومعيشة التجمع (6).webp",
-      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/غرفة نوم ومعيشة التجمع (7).webp",
-      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/غرفة نوم ومعيشة التجمع (8).webp",
-      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/غرفة نوم ومعيشة التجمع (9).webp"
+      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/2.webp",
+      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/3.webp",
+      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/4.webp",
+      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/5.webp"
     ],
     "video": null,
     "excerpt": "غرفة نوم رئيسية ضمن شقة بمساحة 150 مترًا، صُممت بلمسة مودرن معاصرة تجمع بين الخشب الداكن والتفاصيل الذهبية الخفيفة. طاول",
@@ -3155,34 +3288,34 @@ const PROJECTS_FALLBACK = [
     "featured": true,
     "url": "projects/%D8%BA%D8%B1%D9%81%D8%A9-%D9%86%D9%88%D9%85-%D9%88%D9%85%D8%B9%D9%8A%D8%B4%D8%A9-%D8%A7%D9%84%D8%AA%D8%AC%D9%85%D8%B9-e3362dcb0f/",
     "imageMeta": {
-      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/غرفة نوم ومعيشة التجمع (5).webp": {
+      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/1.webp": {
+        "width": 1600,
+        "height": 900
+      },
+      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/2.webp": {
+        "width": 1600,
+        "height": 900
+      },
+      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/3.webp": {
+        "width": 1600,
+        "height": 900
+      },
+      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/4.webp": {
+        "width": 1600,
+        "height": 900
+      },
+      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/5.webp": {
         "width": 1535,
         "height": 1024
-      },
-      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/غرفة نوم ومعيشة التجمع (6).webp": {
-        "width": 1600,
-        "height": 900
-      },
-      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/غرفة نوم ومعيشة التجمع (7).webp": {
-        "width": 1600,
-        "height": 900
-      },
-      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/غرفة نوم ومعيشة التجمع (8).webp": {
-        "width": 1600,
-        "height": 900
-      },
-      "images/projects-by-name/interior/غرفة نوم ومعيشة التجمع/غرفة نوم ومعيشة التجمع (9).webp": {
-        "width": 1600,
-        "height": 900
       }
     },
     "coverSources": [
       {
-        "src": "images/responsive/fde6007492d6fbe5-480.webp",
+        "src": "images/responsive/ece2d4bb48986890-480.webp",
         "width": 480
       },
       {
-        "src": "images/responsive/fde6007492d6fbe5-800.webp",
+        "src": "images/responsive/ece2d4bb48986890-800.webp",
         "width": 800
       }
     ]
@@ -4135,11 +4268,12 @@ const PROJECTS_FALLBACK = [
     "cover": "images/projects-by-name/interior/معرض ميلانو للاحذية الرياضية/01-cover.webp",
     "before": null,
     "gallery": [
+      "images/projects-by-name/interior/معرض ميلانو للاحذية الرياضية/1.mp4",
       "images/projects-by-name/interior/معرض ميلانو للاحذية الرياضية/1.webp",
       "images/projects-by-name/interior/معرض ميلانو للاحذية الرياضية/new-1789301821790-0.webp",
       "images/projects-by-name/interior/معرض ميلانو للاحذية الرياضية/new-1789301824211-1.webp"
     ],
-    "video": null,
+    "video": "images/projects-by-name/interior/معرض ميلانو للاحذية الرياضية/1.mp4",
     "excerpt": "مشروع معرض ميلانو للاحذية الرياضية",
     "description": "مشروع معرض ميلانو للاحذية الرياضية.",
     "idea": "",
