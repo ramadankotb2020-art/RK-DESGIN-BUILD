@@ -596,6 +596,12 @@ body.ready .hero-foot{ opacity:1; }
 }
 .disc-row:last-of-type{ border-bottom:1px solid var(--line); }
 .disc-row:hover{ padding-inline-start:1.2vw; }
+/* نسخة المجالين: صفين كبار بصور أوضح */
+.disc-row-lg{ padding-block:clamp(44px,7vh,76px); }
+.disc-row-lg .disc-title{ font-size:clamp(2rem,4.4vw,4.2rem); }
+.disc-row-lg .disc-line{ max-width:46ch; font-size:.95rem; }
+.disc-row-lg .disc-img{ width:clamp(180px,20vw,300px); opacity:.55; transform:scale(.97); }
+.disc-row-lg:hover .disc-img{ opacity:1; transform:scale(1); }
 .disc-num{ font-size:.8rem; font-weight:600; letter-spacing:.2em; color:var(--faint); font-variant-numeric:tabular-nums; }
 .disc-title{
   font-size:clamp(1.7rem,3.6vw,3.4rem); font-weight:200; line-height:1.2;
