@@ -1151,6 +1151,25 @@ img { -webkit-backface-visibility: hidden; backface-visibility: hidden; }
   }
 }
 
+/* ─── فيديو البانر: لازم يغطّي البانر بالكامل (مفيش صورة تبان جنبه) ───
+   الكلاس ده بيتولّد من js/parallax.js — من غيره الفيديو بيتعرض بمقاسه
+   الأصلي (١٦:٩) وبيسيب باقي عرض البانر بصورة، فبيبان "فيديو + صورة جنبه". */
+.rk-parallax-video {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  object-fit: cover;
+  object-position: center center;
+  opacity: 0;
+  transition: opacity 1s ease-in-out;
+  z-index: 0;
+  pointer-events: none;
+}
+
 .parallax-overlay {
   position: absolute;
   inset: 0;
