@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="clay">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مشروع — RK Design Studio | رمضان قطب</title>
+  <meta name="description" content="مشروع من أعمال RK Design Studio — رمضان قطب.">
+  <meta name="theme-color" content="#f4efe7">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/studio.css?v=4">
+
+  <script src="../js/projects-data.js" defer></script>
+  <script src="js/pages.js?v=4" defer></script>
+</head>
+<body data-page="project">
+  <a class="skip-link" href="#content">تخطَّ إلى المحتوى</a>
+  <div id="grain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><span class="cursor-dot"></span><span class="cursor-label"></span></div>
+
+  <div id="loader" aria-hidden="true">
+    <div class="loader-mark">RK<b>.</b></div>
+    <div class="loader-sub">studio</div>
+    <div class="loader-bar"><i></i></div>
+  </div>
+
+  <header class="site-header header-min" id="site-header">
+    <div class="container">
+      <a class="brand" href="./">
+        <strong>RK Design Studio</strong>
+        <small>studio</small>
+      </a>
+      <div class="nav-actions">
+        <a class="pill pill-ink page-back" id="headBack" href="works.html?f=space">كل الأعمال</a>
+        <div class="themes" role="group" aria-label="اختيار مظهر الموقع">
+          <button type="button" class="theme-dot" data-set-theme="clay" style="--dot:#a84b21" title="طين (فاتح)" aria-label="مظهر طين — كريمي فاتح"></button>
+          <button type="button" class="theme-dot" data-set-theme="forest" style="--dot:#a3b18a" title="غابة" aria-label="مظهر غابة — أخضر غامق"></button>
+          <button type="button" class="theme-dot" data-set-theme="espresso" style="--dot:#d99a54" title="إسبريسو" aria-label="مظهر إسبريسو — بني غامق"></button>
+          <button type="button" class="theme-dot" data-set-theme="midnight" style="--dot:#c9a25e" title="ليل" aria-label="مظهر ليل — أسود وذهبي"></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="content">
+    <section class="section project-hero">
+      <div class="container">
+        <a class="page-back-link reveal" id="backLink" href="works.html?f=space"><span class="arr">→</span> رجوع للأعمال</a>
+        <div class="work-cat reveal" style="--d:.05s"><span id="pDisc">—</span><span class="wcat-sep" aria-hidden="true">·</span><span id="pCat">—</span></div>
+        <h1 class="reveal" style="--d:.1s" id="pTitle">…</h1>
+        <p class="project-desc reveal" style="--d:.16s" id="pDesc"></p>
+        <p class="project-idea reveal" style="--d:.2s" id="pIdea"></p>
+        <dl class="work-meta project-meta reveal" style="--d:.24s" id="pMeta"></dl>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0;">
+      <div class="container">
+        <div class="gallery" id="gallery"></div>
+
+        <div class="project-cta reveal" id="projectCta">
+          <a class="pill pill-gold" target="_blank" rel="noopener"
+             href="https://wa.me/201112630681?text=مرحباً%20رمضان،%20أعجبتني%20أعمالك%20وأرغب%20في%20مشروع%20مشابه">اطلب مشروعاً مشابهاً</a>
+          <a class="pill" id="oldProjectLink" target="_blank" rel="noopener">نسخة المشروع بالموقع القديم ↗</a>
+        </div>
+
+        <div class="project-nav reveal" id="projectNav"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="foot-word" aria-hidden="true">RK</div>
+      <div class="foot-bottom">
+        <span>© <span id="year"></span> RK Design Studio — رمضان قطب</span>
+        <a href="../index.html">الموقع القديم ↗</a>
+        <a href="./">الاستوديو</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog" aria-modal="true" aria-label="عرض الصور">
+    <button class="lb-close" id="lbClose" aria-label="إغلاق">✕</button>
+    <button class="lb-arrow lb-prev" id="lbPrev" aria-label="الصورة السابقة">›</button>
+    <button class="lb-arrow lb-next" id="lbNext" aria-label="الصورة التالية">‹</button>
+    <div class="lb-stage" id="lbStage"></div>
+    <div class="lb-count" id="lbCount"></div>
+  </div>
+</body>
+</html>

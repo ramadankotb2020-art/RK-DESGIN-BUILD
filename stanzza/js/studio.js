@@ -311,9 +311,7 @@
     function makeCard(it) {
       var a = document.createElement("a");
       a.className = "pcard reveal";
-      a.href = it.url;
-      a.target = "_blank";
-      a.rel = "noopener";
+      a.href = "project.html?id=" + encodeURIComponent(it.hash);
       var tag = FIELD_TAG[it.disc] || "";
       var metaParts = [it.area, it.loc, it.year].filter(Boolean);
       var extra = "";

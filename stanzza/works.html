@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="clay">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>أعمال الاستوديو — RK Design Studio | رمضان قطب</title>
+  <meta name="description" content="كل أعمال RK Design Studio حسب المجال — التصميم الداخلي والخارجي، والجرافيك والهوية البصرية. مشاريع رمضان قطب في القاهرة ومصر وخارجها.">
+  <meta name="theme-color" content="#f4efe7">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/studio.css?v=4">
+
+  <script src="../js/projects-data.js" defer></script>
+  <script src="js/pages.js?v=4" defer></script>
+</head>
+<body data-page="works">
+  <a class="skip-link" href="#content">تخطَّ إلى المحتوى</a>
+  <div id="grain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><span class="cursor-dot"></span><span class="cursor-label"></span></div>
+
+  <div id="loader" aria-hidden="true">
+    <div class="loader-mark">RK<b>.</b></div>
+    <div class="loader-sub">studio</div>
+    <div class="loader-bar"><i></i></div>
+  </div>
+
+  <header class="site-header header-min" id="site-header">
+    <div class="container">
+      <a class="brand" href="./">
+        <strong>RK Design Studio</strong>
+        <small>studio</small>
+      </a>
+      <div class="nav-actions">
+        <a class="pill pill-ink page-back" href="./">الرئيسية</a>
+        <div class="themes" role="group" aria-label="اختيار مظهر الموقع">
+          <button type="button" class="theme-dot" data-set-theme="clay" style="--dot:#a84b21" title="طين (فاتح)" aria-label="مظهر طين — كريمي فاتح"></button>
+          <button type="button" class="theme-dot" data-set-theme="forest" style="--dot:#a3b18a" title="غابة" aria-label="مظهر غابة — أخضر غامق"></button>
+          <button type="button" class="theme-dot" data-set-theme="espresso" style="--dot:#d99a54" title="إسبريسو" aria-label="مظهر إسبريسو — بني غامق"></button>
+          <button type="button" class="theme-dot" data-set-theme="midnight" style="--dot:#c9a25e" title="ليل" aria-label="مظهر ليل — أسود وذهبي"></button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="content">
+    <section class="page-hero">
+      <div class="container">
+        <span class="kicker reveal" id="phKicker">أعمال الاستوديو</span>
+        <h1 class="page-title reveal" style="--d:.08s" id="phTitle">…</h1>
+        <p class="page-sub reveal" style="--d:.14s" id="phSub"></p>
+        <div class="chips reveal" style="--d:.2s" id="chips" role="group" aria-label="تصفية حسب النوع"></div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:clamp(40px,6vh,64px);">
+      <div class="container">
+        <div class="pcards" id="grid"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="foot-word" aria-hidden="true">RK</div>
+      <div class="foot-bottom">
+        <span>© <span id="year"></span> RK Design Studio — رمضان قطب</span>
+        <a href="../index.html">الموقع القديم ↗</a>
+        <a href="./">الاستوديو</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
