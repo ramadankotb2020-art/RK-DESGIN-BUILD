@@ -25,7 +25,7 @@
   <noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"></noscript>
 
   <link rel="preload" as="image" fetchpriority="high" type="image/webp" href="../images/homepage/hero-slide-1-interior.webp">
-  <link rel="stylesheet" href="css/studio.css">
+  <link rel="stylesheet" href="css/studio.css?v=2">
 </head>
 <body>
 
@@ -160,44 +160,30 @@
           <span class="kicker">أعمال مختارة</span>
           <h2>مشاريع منجزة<span class="en">selected works, 2023 — 2026</span></h2>
         </div>
-        <div class="work-ctl reveal" style="--d:.15s;">
-          <button class="wbtn" id="wPrev" aria-label="المشروع السابق">›</button>
-          <button class="wbtn" id="wNext" aria-label="المشروع التالي">‹</button>
-        </div>
       </div>
 
-      <div class="work-filters reveal" style="--d:.12s;" role="group" aria-label="تصفية الأعمال حسب المجال">
-        <button type="button" class="wfilter active" data-filter="all">الكل <span>0</span></button>
-        <button type="button" class="wfilter" data-filter="space">داخلي وخارجي <span>0</span></button>
-        <button type="button" class="wfilter" data-filter="brand">جرافيك وهوية <span>0</span></button>
-      </div>
-
-      <div class="work-stage reveal" style="--d:.2s;">
-        <div class="work-media" id="workMedia">
-          <span class="w-badge" id="wBadge">مشروع مُنجز</span>
-        </div>
-        <div class="work-info" id="workInfo">
-          <div class="work-cat"><span id="wDisc">—</span><span class="wcat-sep" aria-hidden="true">·</span><span id="wCat">—</span></div>
-          <h3 class="work-title" id="wTitle">—</h3>
-          <p class="work-desc" id="wDesc"></p>
-          <dl class="work-meta">
-            <div class="row"><dt>المساحة</dt><dd id="wArea">—</dd></div>
-            <div class="row"><dt>الموقع</dt><dd id="wLoc">—</dd></div>
-            <div class="row"><dt>السنة</dt><dd id="wYear">—</dd></div>
-          </dl>
-          <div class="work-btns">
-            <a href="#" class="pill pill-gold" id="wLink" target="_blank" rel="noopener">عرض المشروع <span class="arr">↗</span></a>
-            <a href="../index.html" class="pill">كل الأعمال</a>
+      <!-- ═══ المجال 01 — التصميم الداخلي والخارجي ═══ -->
+      <div class="field-block">
+        <div class="field-head reveal">
+          <div class="field-id">
+            <span class="field-num">01</span>
+            <span class="field-name">التصميم الداخلي والخارجي</span>
           </div>
+          <a class="field-all" href="../interior-design.html">شاهد كل الأعمال بالموقع الأساسي <span class="arr">←</span></a>
         </div>
+        <div class="pcards" id="spaceCards"></div>
       </div>
 
-      <div class="work-foot reveal" style="--d:.25s;">
-        <div class="work-count" aria-live="polite">
-          <b id="wNum">01</b><span class="slash">/</span><span id="wTotal">08</span>
+      <!-- ═══ المجال 02 — الجرافيك والهوية البصرية ═══ -->
+      <div class="field-block">
+        <div class="field-head reveal">
+          <div class="field-id">
+            <span class="field-num">02</span>
+            <span class="field-name">الجرافيك والهوية البصرية</span>
+          </div>
+          <a class="field-all" href="../graphic-design.html">شاهد كل الأعمال بالموقع الأساسي <span class="arr">←</span></a>
         </div>
-        <div class="work-progress" aria-hidden="true"><i id="wProg"></i></div>
-        <div class="work-hint">اسحب أو استخدم الأسهم ← →</div>
+        <div class="pcards" id="brandCards"></div>
       </div>
     </div>
   </section>
@@ -393,6 +379,6 @@
 
   <!-- Project data (from the main site — read-only) -->
   <script src="../js/projects-data.js" defer></script>
-  <script src="js/studio.js" defer></script>
+  <script src="js/studio.js?v=2" defer></script>
 </body>
 </html>

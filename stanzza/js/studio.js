@@ -256,28 +256,16 @@
     }, HERO_MS);
   })();
 
-  /* ── شريط الأعمال ───────────────────────────────────── */
+  /* ── الأعمال المختارة — المجالين ────────────────────── */
   (function () {
-    var wrap = $("#workMedia");
-    var info = $("#workInfo");
-    if (!wrap || !info || !DATA.work.length) return;
+    var spaceWrap = $("#spaceCards");
+    var brandWrap = $("#brandCards");
+    if (!spaceWrap || !brandWrap || !DATA.work.length) return;
 
-    var items = DATA.work;
-    var imgs = items.map(function (it) {
-      var img = document.createElement("img");
-      img.alt = it.title;
-      img.loading = "lazy";
-      img.decoding = "async";
-      wrap.appendChild(img);
-      return img;
-    });
-    var num = $("#wNum"), total = $("#wTotal"),
-        wDisc = $("#wDisc"), wCat = $("#wCat"), wTitle = $("#wTitle"),
-        wDesc = $("#wDesc"),
-        wArea = $("#wArea"), wLoc = $("#wLoc"), wYear = $("#wYear"),
-        wLink = $("#wLink"), prog = $("#wProg");
-
-    var FIELD_LABELS = { space: "التصميم الداخلي والخارجي", brand: "الجرافيك والهوية البصرية" };
+    var esc = function (str) {
+      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;")
+                        .replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    };
 
     // نصوص مضبوطة على المساحات الفعلية (الأصلية فيها أخطاء نسخ)
     var DESC_OVERRIDES = {
@@ -288,137 +276,58 @@
 
     function descOf(it) {
       var d = (DESC_OVERRIDES[it.hash] || it.desc || "").replace(/\s+/g, " ").trim();
-      if (!d || d.indexOf("مشروع " + it.title) === 0) d = "مشروع " + (it.cat || "من أعمال الاستوديو") + " — من تنفيذ رمضان قطب.";
-      if (d.length > 170) d = d.slice(0, 167).replace(/\s+\S*$/, "") + "…";
+      if (!d || d.indexOf("مشروع " + it.title) === 0) d = (it.cat || "مشروع من أعمال الاستوديو") + " — رمضان قطب.";
+      if (d.length > 180) d = d.slice(0, 177).replace(/\s+\S*$/, "") + "…";
       return d;
     }
 
-    var view = items.map(function (_, i) { return i; });
-    var cur = -1;
-    var timer = null;
-    var WORK_MS = 6800;
+    var FIELD_TAG = { interior: "داخلي", exterior: "خارجي", graphic: "جرافيك" };
 
-    function fillMeta(el, v) {
-      if (el === null) return;
-      if (v) { el.textContent = v; el.classList.remove("none"); }
-      else { el.textContent = "—"; el.classList.add("none"); }
+    function makeCard(it) {
+      var a = document.createElement("a");
+      a.className = "pcard reveal";
+      a.href = it.url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      var tag = FIELD_TAG[it.disc] || "";
+      var metaParts = [it.area, it.loc, it.year].filter(Boolean);
+      a.innerHTML =
+        '<div class="pcard-media">' +
+          '<img alt="' + esc(it.title) + '" loading="lazy" width="800" height="600">' +
+          (it.cat ? '<span class="pcard-badge">' + esc(it.cat) + "</span>" : "") +
+          (tag ? '<span class="pcard-field">' + tag + "</span>" : "") +
+          '<span class="pcard-cta">عرض المشروع <span class="arr">←</span></span>' +
+        "</div>" +
+        '<div class="pcard-info">' +
+          "<h3>" + esc(it.title) + "</h3>" +
+          "<p>" + esc(descOf(it)) + "</p>" +
+          '<div class="pcard-meta">' + (metaParts.length ? metaParts.map(esc).join(" · ") : "—") + "</div>" +
+        "</div>";
+      var img = a.querySelector("img");
+      var ci = 0;
+      img.onerror = function () {
+        ci++;
+        if (ci < it.candidates.length) { img.src = it.candidates[ci]; }
+        else { img.src = R + "images/homepage/hero-slide-1-interior.webp"; img.onerror = null; }
+      };
+      img.src = it.candidates[0];
+      return a;
     }
 
-    function loadNear(vi) {
-      [0, 1, -1].forEach(function (o) {
-        var k = ((vi + o) % view.length + view.length) % view.length;
-        var gi = view[k];
-        var img = imgs[gi];
-        if (img.dataset.loaded) return;
-        var it = items[gi];
-        var ci = 0;
-        img.dataset.fail = "0";
-        img.onload = null;
-        img.onerror = function () {
-          ci = (+img.dataset.fail || 0) + 1;
-          if (ci < it.candidates.length) {
-            img.dataset.fail = String(ci);
-            img.src = it.candidates[ci];
-          }
-        };
-        img.dataset.loaded = "1";
-        img.src = it.candidates[0];
-      });
-    }
-
-    function show(vi, manual) {
-      cur = ((vi % view.length) + view.length) % view.length;
-      var gi = view[cur];
-      var it = items[gi];
-      loadNear(cur);
-      imgs.forEach(function (img, k) { img.classList.toggle("on", k === gi); });
-      if (num) num.textContent = pad2(cur + 1);
-      if (total) total.textContent = pad2(view.length);
-
-      info.classList.add("swap");
-      setTimeout(function () {
-        if (wDisc) wDisc.textContent = FIELD_LABELS[it.field] || "مشروع";
-        wCat.textContent = it.cat || "";
-        wTitle.textContent = it.title;
-        if (wDesc) wDesc.textContent = descOf(it);
-        fillMeta(wArea, it.area);
-        fillMeta(wLoc, it.loc);
-        fillMeta(wYear, it.year);
-        if (wLink) wLink.href = it.url;
-        info.classList.remove("swap");
-      }, 320);
-
-      if (prog && !reduced) {
-        prog.classList.remove("run");
-        void prog.offsetWidth;
-        prog.classList.add("run");
-        prog.style.setProperty("--dur", WORK_MS + "ms");
+    var si = 0, bi = 0;
+    DATA.work.forEach(function (it) {
+      if (it.field === "brand") {
+        var c = makeCard(it);
+        c.style.setProperty("--d", (bi++ % 3) * 0.08 + "s");
+        brandWrap.appendChild(c);
+      } else {
+        var c2 = makeCard(it);
+        c2.style.setProperty("--d", (si++ % 3) * 0.08 + "s");
+        spaceWrap.appendChild(c2);
       }
-      if (manual) restart();
-    }
-
-    function restart() {
-      if (reduced) return;
-      clearInterval(timer);
-      timer = setInterval(function () {
-        if (document.hidden || sectionHover) return;
-        show(cur + 1);
-      }, WORK_MS);
-    }
-
-    var section = $("#work");
-    var sectionHover = false;
-    if (section) {
-      section.addEventListener("mouseenter", function () { sectionHover = true; });
-      section.addEventListener("mouseleave", function () { sectionHover = false; });
-    }
-
-    var next = $("#wNext"), prev = $("#wPrev");
-    if (next) next.addEventListener("click", function () { show(cur + 1, true); });
-    if (prev) prev.addEventListener("click", function () { show(cur - 1, true); });
-
-    // فلاتر المجالين — نفس تقسيم الموقع الأساسي
-    var FILTERS = {
-      all:   function () { return true; },
-      space: function (it) { return it.field === "space"; },
-      brand: function (it) { return it.field === "brand"; }
-    };
-    $$(".wfilter").forEach(function (b) {
-      var f = b.getAttribute("data-filter");
-      if (!FILTERS[f]) return;
-      var cnt = b.querySelector("span");
-      if (cnt) cnt.textContent = String(items.filter(FILTERS[f]).length);
-      b.addEventListener("click", function () {
-        if (b.classList.contains("active")) return;
-        $$(".wfilter").forEach(function (x) { x.classList.remove("active"); });
-        b.classList.add("active");
-        view = [];
-        items.forEach(function (it, i) { if (FILTERS[f](it)) view.push(i); });
-        if (view.length) show(0, true);
-      });
     });
 
-    // سحب باللمس
-    var startX = null;
-    wrap.addEventListener("pointerdown", function (e) { startX = e.clientX; });
-    window.addEventListener("pointerup", function (e) {
-      if (startX === null) return;
-      var dx = e.clientX - startX;
-      startX = null;
-      if (Math.abs(dx) > 44) show(cur + (dx < 0 ? 1 : -1), true);
-    });
-
-    // الأسهم من الكيبورد (عندما يكون الشريط في الشاشة)
-    window.addEventListener("keydown", function (e) {
-      if (!section) return;
-      var r = section.getBoundingClientRect();
-      if (r.bottom < 120 || r.top > window.innerHeight - 120) return;
-      if (e.key === "ArrowLeft") show(cur + 1, true);
-      else if (e.key === "ArrowRight") show(cur - 1, true);
-    });
-
-    show(0);
-    restart();
+    $$(".pcard").forEach(function (el) { io.observe(el); });
   })();
 
   /* ── مصغرات قسم الفلسفة ────────────────────────────── */
