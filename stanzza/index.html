@@ -25,11 +25,12 @@
   <noscript><link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet"></noscript>
 
   <link rel="preload" as="image" fetchpriority="high" type="image/webp" href="../images/homepage/hero-slide-1-interior.webp">
-  <link rel="stylesheet" href="css/studio.css?v=2">
+  <link rel="stylesheet" href="css/studio.css?v=3">
 </head>
 <body>
 
   <div id="grain" aria-hidden="true"></div>
+  <div class="cursor" aria-hidden="true"><span class="cursor-dot"></span><span class="cursor-label"></span></div>
   <a class="skip-link" href="#main">انتقل إلى المحتوى الرئيسي</a>
 
   <!-- Loader -->
@@ -59,7 +60,7 @@
           <button type="button" class="theme-dot" data-set-theme="espresso" style="--dot:#d99a54" title="إسبريسو" aria-label="مظهر إسبريسو — بني غامق"></button>
           <button type="button" class="theme-dot" data-set-theme="midnight" style="--dot:#c9a25e" title="ليل" aria-label="مظهر ليل — أسود وذهبي"></button>
         </div>
-        <a class="nav-cta" href="https://wa.me/201112630681?text=مرحباً%20رمضان،%20أرغب%20في%20استشارة" target="_blank" rel="noopener">احجز استشارة</a>
+        <a class="nav-cta" data-cursor-label="تواصل" href="https://wa.me/201112630681?text=مرحباً%20رمضان،%20أرغب%20في%20استشارة" target="_blank" rel="noopener">احجز استشارة</a>
       </div>
       <button class="nav-toggle" id="navToggle" aria-label="فتح القائمة" aria-expanded="false" aria-controls="menuOverlay">
         <span></span><span></span><span></span>
@@ -93,7 +94,7 @@
 
   <!-- ═══════════════ HERO ═══════════════ -->
   <section class="hero" id="hero" aria-label="الشاشة الرئيسية">
-    <div class="hero-media" id="heroMedia" aria-hidden="true"></div>
+    <div class="hero-media" id="heroMedia" data-plx="0.08" aria-hidden="true"></div>
     <div class="hero-grad" aria-hidden="true"></div>
 
     <div class="vword" aria-hidden="true">
@@ -111,7 +112,7 @@
           من أول خط في مساحة بيتك لحد آخر لون في شعارك، كل قرار بتتابعه بنفسي حتى التسليم.
         </p>
         <div class="hero-btns">
-          <a href="#work" class="pill pill-ink">شاهد الأعمال <span class="arr">↓</span></a>
+          <a href="#work" class="pill pill-ink" data-cursor-label="شاهد">شاهد الأعمال <span class="arr">↓</span></a>
           <a href="https://wa.me/201112630681?text=مرحباً%20رمضان،%20أرغب%20في%20استشارة" target="_blank" rel="noopener" class="pill pill-gold">احجز مكالمة <span class="arr">←</span></a>
         </div>
       </div>
@@ -169,7 +170,7 @@
             <span class="field-num">01</span>
             <span class="field-name">التصميم الداخلي والخارجي</span>
           </div>
-          <a class="field-all" href="../interior-design.html">شاهد كل الأعمال بالموقع الأساسي <span class="arr">←</span></a>
+          <a class="field-all" data-cursor-label="شاهد" href="../interior-design.html">شاهد كل الأعمال بالموقع الأساسي <span class="arr">←</span></a>
         </div>
         <div class="pcards" id="spaceCards"></div>
       </div>
@@ -181,7 +182,7 @@
             <span class="field-num">02</span>
             <span class="field-name">الجرافيك والهوية البصرية</span>
           </div>
-          <a class="field-all" href="../graphic-design.html">شاهد كل الأعمال بالموقع الأساسي <span class="arr">←</span></a>
+          <a class="field-all" data-cursor-label="شاهد" href="../graphic-design.html">شاهد كل الأعمال بالموقع الأساسي <span class="arr">←</span></a>
         </div>
         <div class="pcards" id="brandCards"></div>
       </div>
@@ -207,7 +208,7 @@
               <h3>مسؤول واحد من الفكرة للتسليم</h3>
               <p>نقطة تواصل واحدة مع رمضان نفسه — مسؤولية كاملة، بدون وسائط أو تحاويل بينك وبين من يصمم مكانك.</p>
             </div>
-            <div class="p-img"><img src="../images/homepage/about-portrait.webp" alt="رمضان قطب أثناء العمل" loading="lazy" width="640" height="480"></div>
+            <div class="p-img" data-plx="0.06"><img src="../images/homepage/about-portrait.webp" alt="رمضان قطب أثناء العمل" loading="lazy" width="640" height="480"></div>
           </li>
           <li class="p-row reveal" style="--d:.08s;">
             <span class="p-num">02</span>
@@ -215,7 +216,7 @@
               <h3>منهجية واضحة ومراحل مُعتمدة</h3>
               <p>كل مرحلة لها مراحلها ومواعيدها ونقاط اعتمادها — لا شيء يتقدم للأمام قبل موافقتك على ما ستراه.</p>
             </div>
-            <div class="p-img"><img src="../images/homepage/service-01-interior-residential.webp" alt="تصميم داخلي سكني" loading="lazy" width="640" height="480"></div>
+            <div class="p-img" data-plx="0.06"><img src="../images/homepage/service-01-interior-residential.webp" alt="تصميم داخلي سكني" loading="lazy" width="640" height="480"></div>
           </li>
           <li class="p-row reveal" style="--d:.16s;">
             <span class="p-num">03</span>
@@ -223,7 +224,7 @@
               <h3>التعديلات والتكاليف — ظاهرة دائماً</h3>
               <p>كل تعديل موثَّق ومُسعَّر ومتفق عليه قبل التنفيذ. لا مفاجآت في الفاتورة، ولا كلام مبهَم في العرض.</p>
             </div>
-            <div class="p-img"><img src="../images/homepage/service-04-graphic-identity.webp" alt="هوية بصرية" loading="lazy" width="640" height="480"></div>
+            <div class="p-img" data-plx="0.06"><img src="../images/homepage/service-04-graphic-identity.webp" alt="هوية بصرية" loading="lazy" width="640" height="480"></div>
           </li>
           <li class="p-row reveal" style="--d:.24s;">
             <span class="p-num">04</span>
@@ -231,7 +232,7 @@
               <h3>جودة لحد التسليم</h3>
               <p>متابعة دقيقة في كل مرحلة — التنفيذ ما ينزاحش عن اللي اتوافق عليه، سواء كان المشروع مساحة أو هوية.</p>
             </div>
-            <div class="p-img"><img src="../images/homepage/service-03-exterior-landscape.webp" alt="واجهات معمارية" loading="lazy" width="640" height="480"></div>
+            <div class="p-img" data-plx="0.06"><img src="../images/homepage/service-03-exterior-landscape.webp" alt="واجهات معمارية" loading="lazy" width="640" height="480"></div>
           </li>
         </ol>
       </div>
@@ -268,7 +269,7 @@
     <div class="container">
       <div class="about-grid">
         <figure class="about-portrait reveal">
-          <img src="../images/homepage/about-portrait.webp" alt="رمضان قطب — المصمم والمؤسس" loading="lazy" width="420" height="525">
+          <img data-plx="0.05" src="../images/homepage/about-portrait.webp" alt="رمضان قطب — المصمم والمؤسس" loading="lazy" width="420" height="525">
           <figcaption><b>رمضان قطب</b><span>المصمم والمؤسس</span></figcaption>
         </figure>
         <div class="about-copy reveal" style="--d:.12s;">
@@ -379,6 +380,6 @@
 
   <!-- Project data (from the main site — read-only) -->
   <script src="../js/projects-data.js" defer></script>
-  <script src="js/studio.js?v=2" defer></script>
+  <script src="js/studio.js?v=3" defer></script>
 </body>
 </html>
