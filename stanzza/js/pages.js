@@ -31,6 +31,8 @@
         tags: p.tags || [],
         materials: p.materials || [],
         cover: p.cover || "",
+        coverSrcs: p.coverSources || [],
+        coverW: (p.imageMeta && p.imageMeta[p.cover] && p.imageMeta[p.cover].width) || 1600,
         gallery: (p.gallery || []).filter(function (g) { return typeof g === "string" && g; }),
         oldUrl: p.url ? R + p.url : ""
       };
@@ -193,9 +195,18 @@
       "</div>";
 
     var img = a.querySelector("img");
+    img.decoding = "async";
+    var cs = it.coverSrcs || [];
+    if (cs.length) {
+      var ss = cs.map(function (c) { return R + c.src + " " + c.width + "w"; }).join(", ");
+      ss += ", " + R + it.cover + " " + (it.coverW || 1600) + "w";
+      img.srcset = ss;
+      img.sizes = "(min-width:1100px) 30vw, (min-width:640px) 48vw, 94vw";
+    }
     var ci = 0;
     var imgs = galleryImages(it);
     img.onerror = function () {
+      img.removeAttribute("srcset");
       ci++;
       if (ci < imgs.length) img.src = R + imgs[ci];
       else { img.src = R + "images/homepage/hero-slide-1-interior.webp"; img.onerror = null; }
@@ -352,7 +363,7 @@
           d.addEventListener("mouseleave", function () { v.pause(); });
         }
       } else {
-        d.innerHTML = '<img src="' + esc(R + src) + '" alt="' + esc(it.title) + " — " + (i + 1) + '" loading="lazy" width="1200" height="900">';
+        d.innerHTML = '<img src="' + esc(R + src) + '" alt="' + esc(it.title) + " — " + (i + 1) + '" loading="lazy" decoding="async" width="1200" height="900">';
       }
       d.addEventListener("click", function () { openLB(i); });
       gallery.appendChild(d);

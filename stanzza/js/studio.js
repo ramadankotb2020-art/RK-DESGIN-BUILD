@@ -36,8 +36,8 @@
     if (!data || !data.length) {
       var fb = normalize(FALLBACK.slice());
       return { work: fb, thumbs: fb.slice(0, 5), hero: [
-        { video: R + "videos/hero-bg.mp4", alt: "فيلم سينمائي من الاستوديو" },
         { img: R + "images/homepage/hero-slide-1-interior.webp", alt: "تصميم داخلي" },
+        { video: R + "videos/hero-bg.mp4", alt: "فيلم سينمائي من الاستوديو" },
         { img: R + "images/homepage/hero-slide-2-graphic.webp", alt: "هوية بصرية" },
         { img: R + "images/homepage/hero-slide-3-exterior.webp", alt: "واجهة معمارية" }
       ] };
@@ -61,6 +61,8 @@
       return {
         title: p.title,
         cat: p.category,
+        coverSrcs: p.coverSources || [],
+        coverW: (p.imageMeta && p.imageMeta[p.cover] && p.imageMeta[p.cover].width) || 1600,
         video: VIDEO_OVERRIDES[hash] ? R + VIDEO_OVERRIDES[hash] : "",
         disc: p.discipline || "",
         field: (p.discipline === "graphic") ? "brand" : "space",
@@ -101,8 +103,8 @@
     if (!work.length) {
       var fb = normalize(FALLBACK.slice());
       return { work: fb, thumbs: fb.slice(0, 5), hero: [
-        { video: R + "videos/hero-bg.mp4", alt: "فيلم سينمائي من الاستوديو" },
         { img: R + "images/homepage/hero-slide-1-interior.webp", alt: "تصميم داخلي" },
+        { video: R + "videos/hero-bg.mp4", alt: "فيلم سينمائي من الاستوديو" },
         { img: R + "images/homepage/hero-slide-2-graphic.webp", alt: "هوية بصرية" },
         { img: R + "images/homepage/hero-slide-3-exterior.webp", alt: "واجهة معمارية" }
       ] };
@@ -112,10 +114,10 @@
     var THUMB_HASHES = ["1d92b09064", "2fe1f9c086", "914225e47c", "2e5cb5b159", "d9140e1865"];
     var thumbs = THUMB_HASHES.map(function (h) { return map(h, WORK_IMG_OVERRIDES[h]); }).filter(Boolean);
 
-    // شريط الهيرو: فيلم + 3 شرائح من الصفحة الرئيسية + 3 من الأعمال
+    // شريط الهيرو: الصورة الأولي سريعة أولًا (الأقل وزن)، والفيلم في التانية — بيتحمل لما يوصل دوره
     var hero = [
-      { video: R + "videos/hero-bg.mp4", alt: "فيلم سينمائي من الاستوديو" },
       { img: R + "images/homepage/hero-slide-1-interior.webp", alt: "تصميم داخلي" },
+      { video: R + "videos/hero-bg.mp4", alt: "فيلم سينمائي من الاستوديو" },
       (function () { var p = map("35b76057a9"); return p ? { img: p.candidates[0], alt: p.title } : null; })(),
       { img: R + "images/homepage/hero-slide-2-graphic.webp", alt: "هوية بصرية" },
       (function () { var p = map("1d92b09064"); return p ? { img: p.candidates[0], alt: p.title } : null; })(),
@@ -143,7 +145,7 @@
     document.body.classList.add("ready");
     flushPending();
   }
-  window.addEventListener("load", function () { setTimeout(markReady, 1400); });
+  window.addEventListener("load", function () { setTimeout(markReady, 900); });
   setTimeout(markReady, 3200); // حد أقصى أماناً
 
   /* ── تقسيم العناوين كلمات + كشف عند التمرير ───────── */
@@ -211,13 +213,13 @@
     track.innerHTML = html;
   })();
 
-  /* ── هيرو: صور + فيديو متقاطعة مع Ken Burns ────────── */
+  /* ── هيرو: صور + فيديو بتتحمّل خفة (السرعة الواحدة) ─────── */
   (function () {
     var media = $("#heroMedia");
     if (!media || !DATA.hero.length) return;
     var slides = DATA.hero;
 
-    var els = slides.map(function (sd, i) {
+    var els = slides.map(function (sd) {
       var el;
       if (sd.video) {
         el = document.createElement("video");
@@ -225,7 +227,7 @@
         el.loop = true;
         el.playsInline = true;
         el.setAttribute("playsinline", "");
-        el.preload = i === 0 ? "auto" : "metadata";
+        el.preload = "metadata"; // مش بننزّل الفيديو كله إلا لما يشتغل
         var src = document.createElement("source");
         src.src = sd.video;
         el.appendChild(src);
@@ -239,39 +241,64 @@
       return el;
     });
 
-    // تحميل مسبق للصور
-    slides.forEach(function (sd) {
-      if (sd.img) { var p = new Image(); p.src = sd.img; }
-    });
-
     var cur = -1;
+    var activeEl = null;
     var num = $("#heroNum"), total = $("#heroTotal"), prog = $("#heroProg");
     if (total) total.textContent = pad2(slides.length);
     var HERO_MS = 5200;
 
-    function show(i) {
-      cur = i;
-      els.forEach(function (el, k) {
-        if (k === i) {
-          el.classList.add("on");
-          if (el.tagName === "VIDEO") {
-            if (!reduced) el.play().catch(function () {});
-          } else {
-            void el.offsetWidth;
-            if (!reduced) el.classList.add("kb");
-          }
-        } else {
-          el.classList.remove("on", "kb");
-          if (el.tagName === "VIDEO") el.pause();
+    // بنحمّل الصورة الحالية + التالية فقط — مش كل الشرائح مرة واحدة
+    function preloadNear(i) {
+      [i, (i + 1) % slides.length].forEach(function (k) {
+        var sd = slides[k];
+        var el = els[k];
+        if (sd.img) {
+          if (el.tagName === "IMG" && el.getAttribute("src") !== sd.img) el.src = sd.img;
+        } else if (sd.video && el.readyState === 0) {
+          el.load();
         }
       });
-      if (num) num.textContent = pad2(i + 1);
-      if (prog && !reduced) {
-        prog.classList.remove("run");
-        void prog.offsetWidth;
-        prog.classList.add("run");
-        prog.style.setProperty("--dur", HERO_MS + "ms");
+    }
+
+    function activate(el) {
+      if (activeEl && activeEl !== el) {
+        activeEl.classList.remove("on", "kb");
+        if (activeEl.tagName === "VIDEO") activeEl.pause();
       }
+      el.classList.add("on");
+      if (el.tagName !== "VIDEO") {
+        void el.offsetWidth;
+        if (!reduced) el.classList.add("kb");
+      }
+      activeEl = el;
+    }
+
+    function show(i) {
+      cur = i;
+      var el = els[i];
+      var go = function () {
+        if (cur !== i) return;
+        activate(el);
+        if (el.tagName === "VIDEO" && !reduced) el.play().catch(function () {});
+        if (num) num.textContent = pad2(i + 1);
+        if (prog && !reduced) {
+          prog.classList.remove("run");
+          void prog.offsetWidth;
+          prog.classList.add("run");
+          prog.style.setProperty("--dur", HERO_MS + "ms");
+        }
+      };
+      if (el.tagName === "VIDEO" && el.readyState < 2) {
+        // الفيديو لسه غير جاهز: الشريحة القديمة تبقى ظاهرة لحد ما يخلص
+        el.addEventListener("canplay", go, { once: true });
+        // على أضعف سرعة: لو الفيديو ما قدرش يخلص، نقطع عليه ونكمل
+        setTimeout(function () {
+          if (cur === i && activeEl !== el) show((i + 1) % slides.length);
+        }, HERO_MS - 700);
+      } else {
+        go();
+      }
+      preloadNear(i);
     }
 
     show(0);
@@ -335,8 +362,18 @@
           '<div class="pcard-meta">' + (metaParts.length ? metaParts.map(esc).join(" · ") : "—") + "</div>" +
         "</div>";
       var img = a.querySelector("img");
+      img.decoding = "async";
+      // نسخ responsive: الموبايل ياخد 480w (~40KB) بدل الأصل (~150KB)
+      var cs = it.coverSrcs || [];
+      if (cs.length) {
+        var ss = cs.map(function (c) { return R + c.src + " " + c.width + "w"; }).join(", ");
+        ss += ", " + it.candidates[0] + " " + (it.coverW || 1600) + "w";
+        img.srcset = ss;
+        img.sizes = "(min-width:1100px) 30vw, (min-width:640px) 48vw, 94vw";
+      }
       var ci = 0;
       img.onerror = function () {
+        img.removeAttribute("srcset");
         ci++;
         if (ci < it.candidates.length) { img.src = it.candidates[ci]; }
         else { img.src = R + "images/homepage/hero-slide-1-interior.webp"; img.onerror = null; }
